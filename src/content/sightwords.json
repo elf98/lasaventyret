@@ -1,0 +1,21 @@
+[
+  { "id": "och",  "text": "och" },
+  { "id": "är",   "text": "är" },
+  { "id": "jag",  "text": "jag" },
+  { "id": "du",   "text": "du" },
+  { "id": "en",   "text": "en" },
+  { "id": "ett",  "text": "ett" },
+  { "id": "det",  "text": "det" },
+  { "id": "har",  "text": "har" },
+  { "id": "inte", "text": "inte" },
+  { "id": "på",   "text": "på" },
+  { "id": "vi",   "text": "vi" },
+  { "id": "hon",  "text": "hon" },
+  { "id": "han",  "text": "han" },
+  { "id": "kan",  "text": "kan" },
+  { "id": "ska",  "text": "ska" },
+  { "id": "till", "text": "till" },
+  { "id": "med",  "text": "med" },
+  { "id": "här",  "text": "här" },
+  { "id": "nu",   "text": "nu" }
+]

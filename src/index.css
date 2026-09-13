@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-rounded, "Segoe UI Rounded", "Nunito", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --color-space: #0b1026;
+  --color-space-2: #17204a;
+  --color-sun: #ffcc33;
+  --color-vowel: #ff5d73;
+  --color-consonant: #3b82f6;
+  --color-go: #22c55e;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-space);
+  color: #fff;
+  font-family: var(--font-sans);
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+.screen {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* Bokstavskort: versal + gemen, vokaler röda och konsonanter blå som i svensk skola. */
+.letter-card {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.08em;
+  border-radius: 24px;
+  background: #fff;
+  color: var(--color-space);
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.25), 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+.letter-card.vowel { color: var(--color-vowel); }
+.letter-card.consonant { color: var(--color-consonant); }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+.star-dot {
+  position: absolute;
+  border-radius: 9999px;
+  background: #fff;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes fly-right {
+  from { left: -22%; }
+  to { left: 108%; }
+}
+@keyframes fly-left {
+  from { left: 108%; }
+  to { left: -22%; }
+}
+.flyer {
+  position: absolute;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: left;
+}
+.flyer.right { animation-name: fly-right; }
+.flyer.left { animation-name: fly-left; }
+.flyer.paused { animation-play-state: paused; }
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 204, 51, 0.7), 0 0 30px 10px rgba(255, 204, 51, 0.35); }
+  50% { box-shadow: 0 0 0 18px rgba(255, 204, 51, 0), 0 0 50px 20px rgba(255, 204, 51, 0.55); }
+}
+.glow { animation: glow 1.8s ease-in-out infinite; border-radius: 9999px; }
+
+.big-emoji {
+  line-height: 1;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }

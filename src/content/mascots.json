@@ -1,0 +1,5 @@
+[
+  { "id": "robot", "emoji": "🤖", "intro": "Hej! Jag är en robot. Bip bop!" },
+  { "id": "alien", "emoji": "👾", "intro": "Hej! Jag kommer från yttre rymden!" },
+  { "id": "racer", "emoji": "🏎️", "intro": "Brumm brumm! Jag är en racerbil!" }
+]

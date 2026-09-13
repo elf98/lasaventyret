@@ -1,0 +1,17 @@
+[
+  { "id": "mus_bilen", "title": "Musen och bilen",
+    "sentences": ["Här är en mus.", "Musen har en bil.", "Bilen är gul.", "Musen åker till månen."],
+    "question": "Vart åker musen?", "options": ["🌙", "☀️", "🏠"], "answer": 0 },
+  { "id": "rav_fisken", "title": "Räven och fisken",
+    "sentences": ["Räven är på en båt.", "Räven ser en fisk.", "Fisken är stor.", "Räven får inte fisken."],
+    "question": "Vad ser räven?", "options": ["🐟", "🐍", "🐭"], "answer": 0 },
+  { "id": "kon_hatten", "title": "Kon och hatten",
+    "sentences": ["Kon har en hatt.", "Hatten är röd.", "Kon åker tåg.", "På tåget tappar kon hatten."],
+    "question": "Vad har kon på sig?", "options": ["👑", "🎩", "🧢"], "answer": 1 },
+  { "id": "apan_huset", "title": "Apan i huset",
+    "sentences": ["Apan är i ett hus.", "Apan ser en orm.", "Ormen sover.", "Apan går ut i solen."],
+    "question": "Vad ser apan?", "options": ["🐱", "🐶", "🐍"], "answer": 2 },
+  { "id": "dinon_elden", "title": "Dinon och elden",
+    "sentences": ["En dino är i en låda.", "Dinon har en yxa.", "Dinon ser eld.", "Dinon springer till havet."],
+    "question": "Vad har dinon?", "options": ["🪓", "📖", "🎈"], "answer": 0 }
+]

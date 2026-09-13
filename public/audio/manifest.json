@@ -1,0 +1,1976 @@
+{
+  "version": 1,
+  "voice": "sv-SE-SofieNeural",
+  "items": {
+    "letter.s": {
+      "file": "letter.s.mp3",
+      "hash": "9900a46d167c",
+      "text": "[ljud s] sːː"
+    },
+    "letter.o": {
+      "file": "letter.o.mp3",
+      "hash": "3743139e1356",
+      "text": "[ljud o] o"
+    },
+    "letter.l": {
+      "file": "letter.l.mp3",
+      "hash": "8611f3b70e8d",
+      "text": "[ljud l] lːː"
+    },
+    "letter.a": {
+      "file": "letter.a.mp3",
+      "hash": "a300c97a93bc",
+      "text": "[ljud a] a"
+    },
+    "letter.m": {
+      "file": "letter.m.mp3",
+      "hash": "fc4ac0b5d2c0",
+      "text": "[ljud m] mːː"
+    },
+    "letter.i": {
+      "file": "letter.i.mp3",
+      "hash": "4c114e718412",
+      "text": "[ljud i] i"
+    },
+    "letter.r": {
+      "file": "letter.r.mp3",
+      "hash": "bd33d0adfd73",
+      "text": "[ljud r] rːː"
+    },
+    "letter.e": {
+      "file": "letter.e.mp3",
+      "hash": "4036d3b0f172",
+      "text": "[ljud e] e"
+    },
+    "letter.n": {
+      "file": "letter.n.mp3",
+      "hash": "ec3286525832",
+      "text": "[ljud n] nːː"
+    },
+    "letter.v": {
+      "file": "letter.v.mp3",
+      "hash": "e37646033113",
+      "text": "[ljud v] vːː"
+    },
+    "letter.t": {
+      "file": "letter.t.mp3",
+      "hash": "ac80e158c0c7",
+      "text": "[ljud t] tʰ"
+    },
+    "letter.p": {
+      "file": "letter.p.mp3",
+      "hash": "4093f1619fad",
+      "text": "[ljud p] pʰ"
+    },
+    "letter.ä": {
+      "file": "letter.ae.mp3",
+      "hash": "04b7e7a80a5e",
+      "text": "[ljud ä] ä"
+    },
+    "letter.k": {
+      "file": "letter.k.mp3",
+      "hash": "008dabda8603",
+      "text": "[ljud k] kʰ"
+    },
+    "letter.u": {
+      "file": "letter.u.mp3",
+      "hash": "27dbc681bec3",
+      "text": "[ljud u] u"
+    },
+    "letter.f": {
+      "file": "letter.f.mp3",
+      "hash": "4f23c36f748d",
+      "text": "[ljud f] fːː"
+    },
+    "letter.d": {
+      "file": "letter.d.mp3",
+      "hash": "81c8991fb10a",
+      "text": "[ljud d] də"
+    },
+    "letter.ö": {
+      "file": "letter.oe.mp3",
+      "hash": "e1937bb6e7d5",
+      "text": "[ljud ö] ö"
+    },
+    "letter.g": {
+      "file": "letter.g.mp3",
+      "hash": "b16ca1d679ef",
+      "text": "[ljud g] ɡə"
+    },
+    "letter.å": {
+      "file": "letter.aa.mp3",
+      "hash": "ee1f28a484a6",
+      "text": "[ljud å] å"
+    },
+    "letter.y": {
+      "file": "letter.y.mp3",
+      "hash": "d17d4c0261d0",
+      "text": "[ljud y] y"
+    },
+    "letter.h": {
+      "file": "letter.h.mp3",
+      "hash": "c93ea83025f3",
+      "text": "[ljud h] hːː"
+    },
+    "letter.j": {
+      "file": "letter.j.mp3",
+      "hash": "7998df27977d",
+      "text": "[ljud j] jːː"
+    },
+    "letter.b": {
+      "file": "letter.b.mp3",
+      "hash": "8101edba28e3",
+      "text": "[ljud b] bə"
+    },
+    "letter.x": {
+      "file": "letter.x.mp3",
+      "hash": "8d93f4baa30f",
+      "text": "[ljud x] ks"
+    },
+    "letter.c": {
+      "file": "letter.c.mp3",
+      "hash": "366ea879c27e",
+      "text": "[ljud c] sːː"
+    },
+    "letter.z": {
+      "file": "letter.z.mp3",
+      "hash": "ec45ce2a5dc0",
+      "text": "[ljud z] sːː"
+    },
+    "letter.q": {
+      "file": "letter.q.mp3",
+      "hash": "5e236795249e",
+      "text": "[ljud q] kʰ"
+    },
+    "letter.w": {
+      "file": "letter.w.mp3",
+      "hash": "ad899cfbed08",
+      "text": "[ljud w] vːː"
+    },
+    "word.sol": {
+      "file": "word.sol.mp3",
+      "hash": "7fda47f6c5cd",
+      "text": "sol"
+    },
+    "word.orm": {
+      "file": "word.orm.mp3",
+      "hash": "dcc66c6d3ca8",
+      "text": "orm"
+    },
+    "word.lok": {
+      "file": "word.lok.mp3",
+      "hash": "dcc21faa2cfe",
+      "text": "lok"
+    },
+    "word.apa": {
+      "file": "word.apa.mp3",
+      "hash": "5878ee39ba13",
+      "text": "apa"
+    },
+    "word.mus": {
+      "file": "word.mus.mp3",
+      "hash": "ebc83d7ae317",
+      "text": "mus"
+    },
+    "word.is": {
+      "file": "word.is.mp3",
+      "hash": "2d563a5561b5",
+      "text": "is"
+    },
+    "word.ris": {
+      "file": "word.ris.mp3",
+      "hash": "031e91cd5644",
+      "text": "ris"
+    },
+    "word.eld": {
+      "file": "word.eld.mp3",
+      "hash": "b6b6fd049edd",
+      "text": "eld"
+    },
+    "word.nos": {
+      "file": "word.nos.mp3",
+      "hash": "9980b06dcc9b",
+      "text": "nos"
+    },
+    "word.vas": {
+      "file": "word.vas.mp3",
+      "hash": "f26401d9396f",
+      "text": "vas"
+    },
+    "word.tomat": {
+      "file": "word.tomat.mp3",
+      "hash": "a2338352f120",
+      "text": "tomat"
+    },
+    "word.pil": {
+      "file": "word.pil.mp3",
+      "hash": "759301b735b1",
+      "text": "pil"
+    },
+    "word.äpple": {
+      "file": "word.aepple.mp3",
+      "hash": "7dbfde5c3278",
+      "text": "äpple"
+    },
+    "word.katt": {
+      "file": "word.katt.mp3",
+      "hash": "d83099eb3fbd",
+      "text": "katt"
+    },
+    "word.uggla": {
+      "file": "word.uggla.mp3",
+      "hash": "4f7dcacb5421",
+      "text": "uggla"
+    },
+    "word.fisk": {
+      "file": "word.fisk.mp3",
+      "hash": "23b281981120",
+      "text": "fisk"
+    },
+    "word.dino": {
+      "file": "word.dino.mp3",
+      "hash": "c13d122bff69",
+      "text": "dino"
+    },
+    "word.öga": {
+      "file": "word.oega.mp3",
+      "hash": "a7c5eeddee6c",
+      "text": "öga"
+    },
+    "word.gris": {
+      "file": "word.gris.mp3",
+      "hash": "af160bf0cdb8",
+      "text": "gris"
+    },
+    "word.åska": {
+      "file": "word.aaska.mp3",
+      "hash": "9ce5146b9605",
+      "text": "åska"
+    },
+    "word.yxa": {
+      "file": "word.yxa.mp3",
+      "hash": "cebb0c66c157",
+      "text": "yxa"
+    },
+    "word.hus": {
+      "file": "word.hus.mp3",
+      "hash": "188f98c6dfd1",
+      "text": "hus"
+    },
+    "word.jul": {
+      "file": "word.jul.mp3",
+      "hash": "c3ba380d94a0",
+      "text": "jul"
+    },
+    "word.bil": {
+      "file": "word.bil.mp3",
+      "hash": "ff85aa7c6e93",
+      "text": "bil"
+    },
+    "word.box": {
+      "file": "word.box.mp3",
+      "hash": "ca02ebe6b8f0",
+      "text": "box"
+    },
+    "word.cykel": {
+      "file": "word.cykel.mp3",
+      "hash": "5d44843acace",
+      "text": "cykel"
+    },
+    "word.zebra": {
+      "file": "word.zebra.mp3",
+      "hash": "524284f6426d",
+      "text": "zebra"
+    },
+    "word.quiz": {
+      "file": "word.quiz.mp3",
+      "hash": "a2c32d278880",
+      "text": "quiz"
+    },
+    "word.wok": {
+      "file": "word.wok.mp3",
+      "hash": "78d563085586",
+      "text": "wok"
+    },
+    "phrase.welcome": {
+      "file": "phrase.welcome.mp3",
+      "hash": "c2c90d941e11",
+      "text": "Hej Oscar! Välkommen till Läsäventyret!"
+    },
+    "phrase.tap_to_start": {
+      "file": "phrase.tap_to_start.mp3",
+      "hash": "2e52a163b59a",
+      "text": "Tryck på raketen för att starta!"
+    },
+    "phrase.choose_mascot": {
+      "file": "phrase.choose_mascot.mp3",
+      "hash": "699dc179e402",
+      "text": "Vem vill du ha som kompis? Tryck på en!"
+    },
+    "phrase.choose_name": {
+      "file": "phrase.choose_name.mp3",
+      "hash": "f97f139f0256",
+      "text": "Vad ska din kompis heta? Tryck på ett namn!"
+    },
+    "phrase.map_intro": {
+      "file": "phrase.map_intro.mp3",
+      "hash": "57eac689e054",
+      "text": "Här är rymdkartan! Tryck på den lysande planeten för att åka dit."
+    },
+    "phrase.level_locked": {
+      "file": "phrase.level_locked.mp3",
+      "hash": "d08ed7b2f681",
+      "text": "Den planeten är låst än. Klara den lysande planeten först!"
+    },
+    "phrase.lets_go_to": {
+      "file": "phrase.lets_go_to.mp3",
+      "hash": "149638de1cb8",
+      "text": "Nu åker vi till"
+    },
+    "phrase.lets_go": {
+      "file": "phrase.lets_go.mp3",
+      "hash": "5d06a48681d0",
+      "text": "Håll i dig, nu åker vi!"
+    },
+    "phrase.catch_intro": {
+      "file": "phrase.catch_intro.mp3",
+      "hash": "3a9493895a9d",
+      "text": "Tryck på bokstaven som säger"
+    },
+    "phrase.listen_again": {
+      "file": "phrase.listen_again.mp3",
+      "hash": "8b62e8bd8770",
+      "text": "Lyssna igen."
+    },
+    "phrase.almost": {
+      "file": "phrase.almost.mp3",
+      "hash": "2241c4657246",
+      "text": "Nästan! Den där säger"
+    },
+    "phrase.we_look_for": {
+      "file": "phrase.we_look_for.mp3",
+      "hash": "34c665ad4671",
+      "text": "Vi letar efter"
+    },
+    "phrase.scaffold": {
+      "file": "phrase.scaffold.mp3",
+      "hash": "2dc5c3a31ea4",
+      "text": "Vi tar det lugnt. Här är bokstaven som säger"
+    },
+    "phrase.tap_it": {
+      "file": "phrase.tap_it.mp3",
+      "hash": "75945808106c",
+      "text": "Tryck på den!"
+    },
+    "phrase.as_in": {
+      "file": "phrase.as_in.mp3",
+      "hash": "9e370284eaa4",
+      "text": "som i"
+    },
+    "phrase.praise_1": {
+      "file": "phrase.praise_1.mp3",
+      "hash": "14e25be5a14e",
+      "text": "Bra!"
+    },
+    "phrase.praise_2": {
+      "file": "phrase.praise_2.mp3",
+      "hash": "50009e55562c",
+      "text": "Snyggt!"
+    },
+    "phrase.praise_3": {
+      "file": "phrase.praise_3.mp3",
+      "hash": "2e6aab53d79b",
+      "text": "Oj, vilken hjälte du är!"
+    },
+    "phrase.praise_4": {
+      "file": "phrase.praise_4.mp3",
+      "hash": "ef0f2e277a0a",
+      "text": "Du är grym!"
+    },
+    "phrase.praise_5": {
+      "file": "phrase.praise_5.mp3",
+      "hash": "f9029405a378",
+      "text": "Precis!"
+    },
+    "phrase.praise_6": {
+      "file": "phrase.praise_6.mp3",
+      "hash": "b640e33fb71b",
+      "text": "Ja! Helt rätt!"
+    },
+    "phrase.praise_7": {
+      "file": "phrase.praise_7.mp3",
+      "hash": "e7d402cc2640",
+      "text": "Toppen!"
+    },
+    "phrase.praise_8": {
+      "file": "phrase.praise_8.mp3",
+      "hash": "e83058fe7539",
+      "text": "Kanon!"
+    },
+    "phrase.praise_9": {
+      "file": "phrase.praise_9.mp3",
+      "hash": "d85ed25b9cd3",
+      "text": "Superbra!"
+    },
+    "phrase.praise_10": {
+      "file": "phrase.praise_10.mp3",
+      "hash": "70608ea7949c",
+      "text": "Det var rätt!"
+    },
+    "phrase.session_done": {
+      "file": "phrase.session_done.mp3",
+      "hash": "1cb0df7d6809",
+      "text": "Hurra! Du klarade hela passet!"
+    },
+    "phrase.stars_earned": {
+      "file": "phrase.stars_earned.mp3",
+      "hash": "35d3e011c76d",
+      "text": "Titta så många stjärnor du fick!"
+    },
+    "phrase.sticker_earned": {
+      "file": "phrase.sticker_earned.mp3",
+      "hash": "14b667a798a3",
+      "text": "Och ett klistermärke! Det får du för att du är så duktig."
+    },
+    "phrase.level_complete": {
+      "file": "phrase.level_complete.mp3",
+      "hash": "42750dd91b03",
+      "text": "Hurra! Du har klarat planeten! Nu låses en ny planet upp!"
+    },
+    "phrase.new_outfit": {
+      "file": "phrase.new_outfit.mp3",
+      "hash": "b483b95100f7",
+      "text": "Titta! Jag fick något nytt att ha på mig!"
+    },
+    "phrase.chest_here": {
+      "file": "phrase.chest_here.mp3",
+      "hash": "4bdec81dc931",
+      "text": "En skattkista! Tryck på den!"
+    },
+    "phrase.chest_open": {
+      "file": "phrase.chest_open.mp3",
+      "hash": "f30b567ca3ec",
+      "text": "Titta vad du hittade!"
+    },
+    "phrase.chest_tomorrow": {
+      "file": "phrase.chest_tomorrow.mp3",
+      "hash": "002434c92aff",
+      "text": "Kistan är tom. Kom tillbaka i morgon!"
+    },
+    "phrase.pause": {
+      "file": "phrase.pause.mp3",
+      "hash": "b091d00bea4f",
+      "text": "Oj, nu har vi lekt länge. Dags för en liten paus! Vi ses snart igen."
+    },
+    "phrase.pause_more": {
+      "file": "phrase.pause_more.mp3",
+      "hash": "f29179b66c5f",
+      "text": "Okej, en liten stund till!"
+    },
+    "phrase.poke_1": {
+      "file": "phrase.poke_1.mp3",
+      "hash": "a4efc83ad7e7",
+      "text": "Hihi, det killas!"
+    },
+    "phrase.poke_2": {
+      "file": "phrase.poke_2.mp3",
+      "hash": "bf56cf7da592",
+      "text": "Atjoo!"
+    },
+    "phrase.poke_3": {
+      "file": "phrase.poke_3.mp3",
+      "hash": "91df39324fa0",
+      "text": "Jippi!"
+    },
+    "phrase.poke_4": {
+      "file": "phrase.poke_4.mp3",
+      "hash": "260cd67cdb6c",
+      "text": "Oj, jag blev alldeles snurrig!"
+    },
+    "phrase.poke_5": {
+      "file": "phrase.poke_5.mp3",
+      "hash": "5f8345cbe61f",
+      "text": "Hallå där!"
+    },
+    "phrase.poke_6": {
+      "file": "phrase.poke_6.mp3",
+      "hash": "1b0b79f42a65",
+      "text": "Bip bop bip!"
+    },
+    "phrase.parent_only": {
+      "file": "phrase.parent_only.mp3",
+      "hash": "2078dafc7c65",
+      "text": "Här får bara vuxna vara. Håll in knappen länge om du är vuxen."
+    },
+    "phrase.btn_play": {
+      "file": "phrase.btn_play.mp3",
+      "hash": "8d9f8a5654e6",
+      "text": "Spela"
+    },
+    "phrase.btn_back": {
+      "file": "phrase.btn_back.mp3",
+      "hash": "72f2761dcf75",
+      "text": "Tillbaka"
+    },
+    "phrase.btn_listen": {
+      "file": "phrase.btn_listen.mp3",
+      "hash": "de9ca4548e9c",
+      "text": "Lyssna"
+    },
+    "phrase.btn_continue": {
+      "file": "phrase.btn_continue.mp3",
+      "hash": "7ba048501b39",
+      "text": "Fortsätt"
+    },
+    "phrase.btn_home": {
+      "file": "phrase.btn_home.mp3",
+      "hash": "71ebd3370344",
+      "text": "Till kartan"
+    },
+    "phrase.btn_stickers": {
+      "file": "phrase.btn_stickers.mp3",
+      "hash": "39fa912c33af",
+      "text": "Klistermärken"
+    },
+    "phrase.btn_yes": {
+      "file": "phrase.btn_yes.mp3",
+      "hash": "dd49a00541f5",
+      "text": "Ja"
+    },
+    "phrase.well_done_planet": {
+      "file": "phrase.well_done_planet.mp3",
+      "hash": "e2da9f51a167",
+      "text": "Du är en riktig rymdhjälte!"
+    },
+    "level.solplaneten": {
+      "file": "level.solplaneten.mp3",
+      "hash": "81c82bf9a5bb",
+      "text": "Solplaneten"
+    },
+    "level.manen": {
+      "file": "level.manen.mp3",
+      "hash": "e195000470c1",
+      "text": "Månen"
+    },
+    "level.marsverkstan": {
+      "file": "level.marsverkstan.mp3",
+      "hash": "3ec76d26f90c",
+      "text": "Marsverkstan"
+    },
+    "level.kometen": {
+      "file": "level.kometen.mp3",
+      "hash": "d0577cbd253d",
+      "text": "Kometen"
+    },
+    "level.ringplaneten": {
+      "file": "level.ringplaneten.mp3",
+      "hash": "ecf011fc61cb",
+      "text": "Ringplaneten"
+    },
+    "level.racerbanan": {
+      "file": "level.racerbanan.mp3",
+      "hash": "b40408e88816",
+      "text": "Rymdracerbanan"
+    },
+    "level.robotplaneten": {
+      "file": "level.robotplaneten.mp3",
+      "hash": "0b9f718143d3",
+      "text": "Robotplaneten"
+    },
+    "mascot.robot.intro": {
+      "file": "mascot.robot.intro.mp3",
+      "hash": "58bfc342dcef",
+      "text": "Hej! Jag är en robot. Bip bop!"
+    },
+    "mascot.alien.intro": {
+      "file": "mascot.alien.intro.mp3",
+      "hash": "dd2e0b10b465",
+      "text": "Hej! Jag kommer från yttre rymden!"
+    },
+    "mascot.racer.intro": {
+      "file": "mascot.racer.intro.mp3",
+      "hash": "fdbb2535a86d",
+      "text": "Brumm brumm! Jag är en racerbil!"
+    },
+    "name.turbo": {
+      "file": "name.turbo.mp3",
+      "hash": "35d421b67bf1",
+      "text": "Turbo"
+    },
+    "name.turbo.hello": {
+      "file": "name.turbo.hello.mp3",
+      "hash": "107d6f5a3e37",
+      "text": "Hej! Jag heter Turbo!"
+    },
+    "name.zippo": {
+      "file": "name.zippo.mp3",
+      "hash": "861276cd1378",
+      "text": "Zippo"
+    },
+    "name.zippo.hello": {
+      "file": "name.zippo.hello.mp3",
+      "hash": "26f28788409c",
+      "text": "Hej! Jag heter Zippo!"
+    },
+    "name.nova": {
+      "file": "name.nova.mp3",
+      "hash": "69d777f07711",
+      "text": "Nova"
+    },
+    "name.nova.hello": {
+      "file": "name.nova.hello.mp3",
+      "hash": "868826f3e5de",
+      "text": "Hej! Jag heter Nova!"
+    },
+    "name.robban": {
+      "file": "name.robban.mp3",
+      "hash": "1609aabcdee4",
+      "text": "Robban"
+    },
+    "name.robban.hello": {
+      "file": "name.robban.hello.mp3",
+      "hash": "89d5edcc1929",
+      "text": "Hej! Jag heter Robban!"
+    },
+    "name.stjarna": {
+      "file": "name.stjarna.mp3",
+      "hash": "20b1b5ec7a69",
+      "text": "Stjärna"
+    },
+    "name.stjarna.hello": {
+      "file": "name.stjarna.hello.mp3",
+      "hash": "21b34bb65e7a",
+      "text": "Hej! Jag heter Stjärna!"
+    },
+    "name.bumling": {
+      "file": "name.bumling.mp3",
+      "hash": "d24f83619690",
+      "text": "Bumling"
+    },
+    "name.bumling.hello": {
+      "file": "name.bumling.hello.mp3",
+      "hash": "a708e54ffb37",
+      "text": "Hej! Jag heter Bumling!"
+    },
+    "word.sa": {
+      "file": "word.sa.mp3",
+      "hash": "3b21144843ac",
+      "text": "sa"
+    },
+    "word.la": {
+      "file": "word.la.mp3",
+      "hash": "8856c4087744",
+      "text": "la"
+    },
+    "word.os": {
+      "file": "word.os.mp3",
+      "hash": "a98643ef3193",
+      "text": "os"
+    },
+    "word.so": {
+      "file": "word.so.mp3",
+      "hash": "2b5bc4b03a81",
+      "text": "so"
+    },
+    "word.al": {
+      "file": "word.al.mp3",
+      "hash": "272a5fd0005d",
+      "text": "al"
+    },
+    "word.ros": {
+      "file": "word.ros.mp3",
+      "hash": "2759d8f6eb9e",
+      "text": "ros"
+    },
+    "word.arm": {
+      "file": "word.arm.mp3",
+      "hash": "659b9e51ed66",
+      "text": "arm"
+    },
+    "word.ram": {
+      "file": "word.ram.mp3",
+      "hash": "7c43a8c17249",
+      "text": "ram"
+    },
+    "word.mos": {
+      "file": "word.mos.mp3",
+      "hash": "1d15674f6d9e",
+      "text": "mos"
+    },
+    "word.mor": {
+      "file": "word.mor.mp3",
+      "hash": "e0c068835646",
+      "text": "mor"
+    },
+    "word.mi": {
+      "file": "word.mi.mp3",
+      "hash": "c247c50cf676",
+      "text": "mi"
+    },
+    "word.ri": {
+      "file": "word.ri.mp3",
+      "hash": "e5482b307d0d",
+      "text": "ri"
+    },
+    "word.se": {
+      "file": "word.se.mp3",
+      "hash": "c9282c1cd646",
+      "text": "se"
+    },
+    "word.me": {
+      "file": "word.me.mp3",
+      "hash": "44790f9f54ef",
+      "text": "me"
+    },
+    "word.ren": {
+      "file": "word.ren.mp3",
+      "hash": "edb3d2015d4e",
+      "text": "ren"
+    },
+    "word.rep": {
+      "file": "word.rep.mp3",
+      "hash": "6dc864e52b9c",
+      "text": "rep"
+    },
+    "word.mat": {
+      "file": "word.mat.mp3",
+      "hash": "f25094ebc858",
+      "text": "mat"
+    },
+    "word.potatis": {
+      "file": "word.potatis.mp3",
+      "hash": "b59a4a2aa5d4",
+      "text": "potatis"
+    },
+    "word.ost": {
+      "file": "word.ost.mp3",
+      "hash": "658280f09630",
+      "text": "ost"
+    },
+    "word.tio": {
+      "file": "word.tio.mp3",
+      "hash": "088fd9f6ac3a",
+      "text": "tio"
+    },
+    "word.nio": {
+      "file": "word.nio.mp3",
+      "hash": "8e03ab85c7e0",
+      "text": "nio"
+    },
+    "word.ko": {
+      "file": "word.ko.mp3",
+      "hash": "70327fa7eac5",
+      "text": "ko"
+    },
+    "word.räv": {
+      "file": "word.raev.mp3",
+      "hash": "77be8ee0b828",
+      "text": "räv"
+    },
+    "word.kaka": {
+      "file": "word.kaka.mp3",
+      "hash": "c6d1b4f86fbd",
+      "text": "kaka"
+    },
+    "word.fot": {
+      "file": "word.fot.mp3",
+      "hash": "801006446308",
+      "text": "fot"
+    },
+    "word.fem": {
+      "file": "word.fem.mp3",
+      "hash": "5936dbcbeede",
+      "text": "fem"
+    },
+    "word.uv": {
+      "file": "word.uv.mp3",
+      "hash": "1030b41540e9",
+      "text": "uv"
+    },
+    "word.fika": {
+      "file": "word.fika.mp3",
+      "hash": "87977862e053",
+      "text": "fika"
+    },
+    "word.kanin": {
+      "file": "word.kanin.mp3",
+      "hash": "71f617a3e990",
+      "text": "kanin"
+    },
+    "word.säl": {
+      "file": "word.sael.mp3",
+      "hash": "2d3fa374ddf0",
+      "text": "säl"
+    },
+    "word.räka": {
+      "file": "word.raeka.mp3",
+      "hash": "2faa3792ce0b",
+      "text": "räka"
+    },
+    "word.mask": {
+      "file": "word.mask.mp3",
+      "hash": "589f6741c3ae",
+      "text": "mask"
+    },
+    "word.kamel": {
+      "file": "word.kamel.mp3",
+      "hash": "5eef463dc934",
+      "text": "kamel"
+    },
+    "word.mun": {
+      "file": "word.mun.mp3",
+      "hash": "5f7742f6e23a",
+      "text": "mun"
+    },
+    "word.tåg": {
+      "file": "word.taag.mp3",
+      "hash": "5365cc7dd6a1",
+      "text": "tåg"
+    },
+    "word.får": {
+      "file": "word.faar.mp3",
+      "hash": "74815e1a7b7d",
+      "text": "får"
+    },
+    "word.gul": {
+      "file": "word.gul.mp3",
+      "hash": "03e601846b97",
+      "text": "gul"
+    },
+    "word.måne": {
+      "file": "word.maane.mp3",
+      "hash": "2f307e7f589e",
+      "text": "måne"
+    },
+    "word.låda": {
+      "file": "word.laada.mp3",
+      "hash": "10cd848c76ac",
+      "text": "låda"
+    },
+    "word.lök": {
+      "file": "word.loek.mp3",
+      "hash": "b0aacc23abc9",
+      "text": "lök"
+    },
+    "word.dam": {
+      "file": "word.dam.mp3",
+      "hash": "a8111c3e1f6a",
+      "text": "dam"
+    },
+    "word.öra": {
+      "file": "word.oera.mp3",
+      "hash": "841f74fd532e",
+      "text": "öra"
+    },
+    "word.moln": {
+      "file": "word.moln.mp3",
+      "hash": "d26f4134a375",
+      "text": "moln"
+    },
+    "word.ödla": {
+      "file": "word.oedla.mp3",
+      "hash": "f0ebfeb30bbf",
+      "text": "ödla"
+    },
+    "word.hav": {
+      "file": "word.hav.mp3",
+      "hash": "f480bf662526",
+      "text": "hav"
+    },
+    "word.bok": {
+      "file": "word.bok.mp3",
+      "hash": "1853683dd9ea",
+      "text": "bok"
+    },
+    "word.bi": {
+      "file": "word.bi.mp3",
+      "hash": "7877171f74ea",
+      "text": "bi"
+    },
+    "word.hej": {
+      "file": "word.hej.mp3",
+      "hash": "ff31c1d1eb13",
+      "text": "hej"
+    },
+    "word.bär": {
+      "file": "word.baer.mp3",
+      "hash": "25abaecaa74f",
+      "text": "bär"
+    },
+    "word.hål": {
+      "file": "word.haal.mp3",
+      "hash": "79bfb7198518",
+      "text": "hål"
+    },
+    "word.bad": {
+      "file": "word.bad.mp3",
+      "hash": "2ad8b2f54d49",
+      "text": "bad"
+    },
+    "word.båt": {
+      "file": "word.baat.mp3",
+      "hash": "9e63403ea123",
+      "text": "båt"
+    },
+    "word.haj": {
+      "file": "word.haj.mp3",
+      "hash": "0a2ab35e7839",
+      "text": "haj"
+    },
+    "word.hund": {
+      "file": "word.hund.mp3",
+      "hash": "6337b70ef551",
+      "text": "hund"
+    },
+    "word.häst": {
+      "file": "word.haest.mp3",
+      "hash": "a96930c0793b",
+      "text": "häst"
+    },
+    "word.juvel": {
+      "file": "word.juvel.mp3",
+      "hash": "dc1acb176ee7",
+      "text": "juvel"
+    },
+    "word.bebis": {
+      "file": "word.bebis.mp3",
+      "hash": "2befc6c11a55",
+      "text": "bebis"
+    },
+    "word.jojo": {
+      "file": "word.jojo.mp3",
+      "hash": "a51a3fd81667",
+      "text": "jojo"
+    },
+    "word.sax": {
+      "file": "word.sax.mp3",
+      "hash": "7f2a86361669",
+      "text": "sax"
+    },
+    "word.sex": {
+      "file": "word.sex.mp3",
+      "hash": "6d484b546cfc",
+      "text": "sex"
+    },
+    "word.taxi": {
+      "file": "word.taxi.mp3",
+      "hash": "7cb3b0a07b99",
+      "text": "taxi"
+    },
+    "word.citron": {
+      "file": "word.citron.mp3",
+      "hash": "e01082dab582",
+      "text": "citron"
+    },
+    "phrase.train_intro": {
+      "file": "phrase.train_intro.mp3",
+      "hash": "add9affdabe2",
+      "text": "Här kommer ljudtåget! Tryck på vagnarna i tur och ordning, börja närmast loket."
+    },
+    "phrase.train_next": {
+      "file": "phrase.train_next.mp3",
+      "hash": "74a22cff458b",
+      "text": "Nästa vagn!"
+    },
+    "phrase.train_start": {
+      "file": "phrase.train_start.mp3",
+      "hash": "977646879dd1",
+      "text": "Börja med vagnen närmast loket!"
+    },
+    "phrase.train_go": {
+      "file": "phrase.train_go.mp3",
+      "hash": "0516ec95562a",
+      "text": "Nu åker tåget! Lyssna på hela ordet:"
+    },
+    "phrase.which_picture": {
+      "file": "phrase.which_picture.mp3",
+      "hash": "81fa86f8293d",
+      "text": "Vilket ord blev det? Tryck på rätt bild!"
+    },
+    "phrase.not_that_picture": {
+      "file": "phrase.not_that_picture.mp3",
+      "hash": "6b9ddef04e5a",
+      "text": "Inte den. Lyssna igen:"
+    },
+    "phrase.it_became": {
+      "file": "phrase.it_became.mp3",
+      "hash": "3c374d918292",
+      "text": "Det blev:"
+    },
+    "phrase.build_intro": {
+      "file": "phrase.build_intro.mp3",
+      "hash": "daf60df87b06",
+      "text": "Bygg ordet! Dra bokstäverna till rutorna. Första ljudet är"
+    },
+    "phrase.build_next": {
+      "file": "phrase.build_next.mp3",
+      "hash": "34afd6a21b27",
+      "text": "Nästa ljud är"
+    },
+    "phrase.build_blend": {
+      "file": "phrase.build_blend.mp3",
+      "hash": "26489fc82b00",
+      "text": "Nu ljudar vi ihop!"
+    },
+    "phrase.sticker_book": {
+      "file": "phrase.sticker_book.mp3",
+      "hash": "f47463f92027",
+      "text": "Här är dina klistermärken!"
+    },
+    "phrase.sticker_book_empty": {
+      "file": "phrase.sticker_book_empty.mp3",
+      "hash": "82981f3e044c",
+      "text": "Boken är tom än. Spela så får du klistermärken!"
+    },
+    "phrase.btn_replay": {
+      "file": "phrase.btn_replay.mp3",
+      "hash": "2bca16beafff",
+      "text": "Lyssna igen"
+    },
+    "phrase.cue_catch": {
+      "file": "phrase.cue_catch.mp3",
+      "hash": "ccc4dd54f50a",
+      "text": "Vilken säger"
+    },
+    "phrase.cue_train": {
+      "file": "phrase.cue_train.mp3",
+      "hash": "c2088a17e5dd",
+      "text": "Ljudtåget! Tryck i ordning."
+    },
+    "phrase.build_first": {
+      "file": "phrase.build_first.mp3",
+      "hash": "3de19c6b580c",
+      "text": "Första ljudet är"
+    },
+    "word.hatt": {
+      "file": "word.hatt.mp3",
+      "hash": "6bdeb46acd5f",
+      "text": "hatt"
+    },
+    "word.sko": {
+      "file": "word.sko.mp3",
+      "hash": "573ceb7928f9",
+      "text": "sko"
+    },
+    "word.stol": {
+      "file": "word.stol.mp3",
+      "hash": "be57ba0ca72b",
+      "text": "stol"
+    },
+    "word.träd": {
+      "file": "word.traed.mp3",
+      "hash": "68f8a4b45b25",
+      "text": "träd"
+    },
+    "word.snö": {
+      "file": "word.snoe.mp3",
+      "hash": "8bf34bb8d860",
+      "text": "snö"
+    },
+    "word.ö": {
+      "file": "word.oe.mp3",
+      "hash": "ad526c53fac6",
+      "text": "ö"
+    },
+    "word.boll": {
+      "file": "word.boll.mp3",
+      "hash": "71d2ab499b77",
+      "text": "boll"
+    },
+    "word.glas": {
+      "file": "word.glas.mp3",
+      "hash": "de46b30ccdf0",
+      "text": "glas"
+    },
+    "word.plan": {
+      "file": "word.plan.mp3",
+      "hash": "8d819abe27bf",
+      "text": "plan"
+    },
+    "word.krona": {
+      "file": "word.krona.mp3",
+      "hash": "edfb9225bb69",
+      "text": "krona"
+    },
+    "word.brev": {
+      "file": "word.brev.mp3",
+      "hash": "196c70a3abb6",
+      "text": "brev"
+    },
+    "word.blomma": {
+      "file": "word.blomma.mp3",
+      "hash": "c1592a3d5670",
+      "text": "blomma"
+    },
+    "word.skog": {
+      "file": "word.skog.mp3",
+      "hash": "0adba6a903e8",
+      "text": "skog"
+    },
+    "word.tröja": {
+      "file": "word.troeja.mp3",
+      "hash": "b949e3be3a95",
+      "text": "tröja"
+    },
+    "word.glass": {
+      "file": "word.glass.mp3",
+      "hash": "14f241f7c668",
+      "text": "glass"
+    },
+    "word.kloss": {
+      "file": "word.kloss.mp3",
+      "hash": "d445f039f65d",
+      "text": "kloss"
+    },
+    "word.stjärna": {
+      "file": "word.stjaerna.mp3",
+      "hash": "ffad3c0fe243",
+      "text": "stjärna"
+    },
+    "word.bro": {
+      "file": "word.bro.mp3",
+      "hash": "103b4ecd8020",
+      "text": "bro"
+    },
+    "phrase.which_word_intro": {
+      "file": "phrase.which_word_intro.mp3",
+      "hash": "1d4c61422a58",
+      "text": "Vilket ord hör du? Tryck på ordet som jag säger."
+    },
+    "phrase.cue_which": {
+      "file": "phrase.cue_which.mp3",
+      "hash": "f53cc16fe692",
+      "text": "Tryck på ordet"
+    },
+    "phrase.memory_intro": {
+      "file": "phrase.memory_intro.mp3",
+      "hash": "c0de0d4393fa",
+      "text": "Memory! Vänd två kort och hitta två lika ord."
+    },
+    "phrase.cue_memory": {
+      "file": "phrase.cue_memory.mp3",
+      "hash": "4f4877969240",
+      "text": "Memory! Hitta två lika."
+    },
+    "phrase.memory_match": {
+      "file": "phrase.memory_match.mp3",
+      "hash": "ddf3778b0ab8",
+      "text": "Ett par!"
+    },
+    "phrase.memory_all": {
+      "file": "phrase.memory_all.mp3",
+      "hash": "bc7343dbb1e6",
+      "text": "Alla par hittade!"
+    },
+    "phrase.rhyme_intro": {
+      "file": "phrase.rhyme_intro.mp3",
+      "hash": "bf62d7738137",
+      "text": "Rimjakt! Vilken bild rimmar på"
+    },
+    "phrase.cue_rhyme": {
+      "file": "phrase.cue_rhyme.mp3",
+      "hash": "47e7f8b19905",
+      "text": "Vad rimmar på"
+    },
+    "phrase.rhyme_yes": {
+      "file": "phrase.rhyme_yes.mp3",
+      "hash": "ac5a948948a5",
+      "text": "Det rimmar!"
+    },
+    "phrase.rhyme_no": {
+      "file": "phrase.rhyme_no.mp3",
+      "hash": "82ba4d372c69",
+      "text": "Det rimmar inte. Lyssna:"
+    },
+    "phrase.read_intro": {
+      "file": "phrase.read_intro.mp3",
+      "hash": "ce95b52c05d2",
+      "text": "Läs meningen och tryck på bilden som passar. Tryck på högtalaren om du vill ha hjälp."
+    },
+    "phrase.cue_read": {
+      "file": "phrase.cue_read.mp3",
+      "hash": "3d62a82ed864",
+      "text": "Läs, och tryck på rätt bild!"
+    },
+    "phrase.read_again": {
+      "file": "phrase.read_again.mp3",
+      "hash": "524a9a4dc4f7",
+      "text": "Nästan. Läs meningen en gång till."
+    },
+    "phrase.read_slowly": {
+      "file": "phrase.read_slowly.mp3",
+      "hash": "0a57aa9abe39",
+      "text": "Vi läser tillsammans, ett ord i taget."
+    },
+    "phrase.story_intro": {
+      "file": "phrase.story_intro.mp3",
+      "hash": "319a31f2f226",
+      "text": "En liten berättelse! Läs varje mening och tryck på pilen när du är klar."
+    },
+    "phrase.cue_story": {
+      "file": "phrase.cue_story.mp3",
+      "hash": "53abbe12fbb1",
+      "text": "En ny berättelse!"
+    },
+    "phrase.story_question": {
+      "file": "phrase.story_question.mp3",
+      "hash": "452508c3342c",
+      "text": "Nu kommer en fråga."
+    },
+    "phrase.btn_next": {
+      "file": "phrase.btn_next.mp3",
+      "hash": "a6ad1a375592",
+      "text": "Nästa"
+    },
+    "phrase.level_bonus": {
+      "file": "phrase.level_bonus.mp3",
+      "hash": "7021331965b9",
+      "text": "Det här är en bonusplanet, den är alltid öppen."
+    },
+    "level.startrampen": {
+      "file": "level.startrampen.mp3",
+      "hash": "4f95f0af503b",
+      "text": "Startrampen"
+    },
+    "level.ordplaneten": {
+      "file": "level.ordplaneten.mp3",
+      "hash": "6be24a28960e",
+      "text": "Ordplaneten"
+    },
+    "level.verkstan": {
+      "file": "level.verkstan.mp3",
+      "hash": "18fc5539d034",
+      "text": "Turboverkstan"
+    },
+    "level.tokplaneten": {
+      "file": "level.tokplaneten.mp3",
+      "hash": "99039a200665",
+      "text": "Tokplaneten"
+    },
+    "level.sagoplaneten": {
+      "file": "level.sagoplaneten.mp3",
+      "hash": "b94569e3db9f",
+      "text": "Sagoplaneten"
+    },
+    "sight.och": {
+      "file": "sight.och.mp3",
+      "hash": "b402a1ea2f46",
+      "text": "och"
+    },
+    "sight.är": {
+      "file": "sight.aer.mp3",
+      "hash": "5db939e17616",
+      "text": "är"
+    },
+    "sight.jag": {
+      "file": "sight.jag.mp3",
+      "hash": "6abad44046e2",
+      "text": "jag"
+    },
+    "sight.du": {
+      "file": "sight.du.mp3",
+      "hash": "ef21b76dca06",
+      "text": "du"
+    },
+    "sight.en": {
+      "file": "sight.en.mp3",
+      "hash": "074dd21751ec",
+      "text": "en"
+    },
+    "sight.ett": {
+      "file": "sight.ett.mp3",
+      "hash": "8bea4e2182d2",
+      "text": "ett"
+    },
+    "sight.det": {
+      "file": "sight.det.mp3",
+      "hash": "8b0f52fc8e63",
+      "text": "det"
+    },
+    "sight.har": {
+      "file": "sight.har.mp3",
+      "hash": "a1561ce38ab2",
+      "text": "har"
+    },
+    "sight.inte": {
+      "file": "sight.inte.mp3",
+      "hash": "d2a36fafc170",
+      "text": "inte"
+    },
+    "sight.på": {
+      "file": "sight.paa.mp3",
+      "hash": "822ae41293fd",
+      "text": "på"
+    },
+    "sight.vi": {
+      "file": "sight.vi.mp3",
+      "hash": "042275d4fa7c",
+      "text": "vi"
+    },
+    "sight.hon": {
+      "file": "sight.hon.mp3",
+      "hash": "977affa08899",
+      "text": "hon"
+    },
+    "sight.han": {
+      "file": "sight.han.mp3",
+      "hash": "8b42057e95a6",
+      "text": "han"
+    },
+    "sight.kan": {
+      "file": "sight.kan.mp3",
+      "hash": "e510bd837c93",
+      "text": "kan"
+    },
+    "sight.ska": {
+      "file": "sight.ska.mp3",
+      "hash": "d850857acf87",
+      "text": "ska"
+    },
+    "sight.till": {
+      "file": "sight.till.mp3",
+      "hash": "100e9075be3a",
+      "text": "till"
+    },
+    "sight.med": {
+      "file": "sight.med.mp3",
+      "hash": "adecb43d1972",
+      "text": "med"
+    },
+    "sight.här": {
+      "file": "sight.haer.mp3",
+      "hash": "2dff241a4f67",
+      "text": "här"
+    },
+    "sight.nu": {
+      "file": "sight.nu.mp3",
+      "hash": "2aab6df13079",
+      "text": "nu"
+    },
+    "sentence.kon_hatt": {
+      "file": "sentence.kon_hatt.mp3",
+      "hash": "452c0c74f86d",
+      "text": "Kon har hatt."
+    },
+    "sentence.mus_bil": {
+      "file": "sentence.mus_bil.mp3",
+      "hash": "77796a07bf2e",
+      "text": "En mus åker bil."
+    },
+    "sentence.rav_bok": {
+      "file": "sentence.rav_bok.mp3",
+      "hash": "ff0b51610d4c",
+      "text": "Räven har en bok."
+    },
+    "sentence.apa_hus": {
+      "file": "sentence.apa_hus.mp3",
+      "hash": "2b243b63015a",
+      "text": "Apan är i ett hus."
+    },
+    "sentence.hund_fisk": {
+      "file": "sentence.hund_fisk.mp3",
+      "hash": "ecc3b8ea8f77",
+      "text": "Hunden har en fisk."
+    },
+    "sentence.orm_bil": {
+      "file": "sentence.orm_bil.mp3",
+      "hash": "33c78289f411",
+      "text": "Jag ser en orm på en bil."
+    },
+    "sentence.sal_tag": {
+      "file": "sentence.sal_tag.mp3",
+      "hash": "c1ced228892a",
+      "text": "Sälen är på ett tåg."
+    },
+    "sentence.fem_katter": {
+      "file": "sentence.fem_katter.mp3",
+      "hash": "a3a310f7ef63",
+      "text": "Du har fem katter."
+    },
+    "sentence.gul_bil": {
+      "file": "sentence.gul_bil.mp3",
+      "hash": "504ecff76a01",
+      "text": "Vi ser en gul bil."
+    },
+    "sentence.is_nasan": {
+      "file": "sentence.is_nasan.mp3",
+      "hash": "93b3e839f148",
+      "text": "Hon har is på näsan."
+    },
+    "sentence.ko_lada": {
+      "file": "sentence.ko_lada.mp3",
+      "hash": "4d4c082d428b",
+      "text": "Han har en ko i en låda."
+    },
+    "sentence.sol_sno": {
+      "file": "sentence.sol_sno.mp3",
+      "hash": "3871edd78db3",
+      "text": "Det är sol och snö."
+    },
+    "sentence.mus_manen": {
+      "file": "sentence.mus_manen.mp3",
+      "hash": "02d9d68933b0",
+      "text": "Musen ska åka till månen."
+    },
+    "sentence.rav_tag": {
+      "file": "sentence.rav_tag.mp3",
+      "hash": "4d2ac9bfd5d2",
+      "text": "En räv är i ett tåg."
+    },
+    "sentence.gris_yxa": {
+      "file": "sentence.gris_yxa.mp3",
+      "hash": "3cee4aa49a08",
+      "text": "Grisen har en yxa."
+    },
+    "sentence.hund_katt": {
+      "file": "sentence.hund_katt.mp3",
+      "hash": "34059e24a745",
+      "text": "Hunden och katten har en boll."
+    },
+    "sentence.bebis_dino": {
+      "file": "sentence.bebis_dino.mp3",
+      "hash": "99c4b4b02e05",
+      "text": "Bebisen har en dino."
+    },
+    "sentence.eld_manen": {
+      "file": "sentence.eld_manen.mp3",
+      "hash": "e4428546bbb3",
+      "text": "Elden är på månen."
+    },
+    "sentence.haj_hatt": {
+      "file": "sentence.haj_hatt.mp3",
+      "hash": "2d803e08ac14",
+      "text": "En haj med hatt."
+    },
+    "sentence.uv_taxi": {
+      "file": "sentence.uv_taxi.mp3",
+      "hash": "972327e6d824",
+      "text": "En uv kan inte åka taxi."
+    },
+    "story.mus_bilen.title": {
+      "file": "story.mus_bilen.title.mp3",
+      "hash": "158f085eb14d",
+      "text": "Musen och bilen"
+    },
+    "story.mus_bilen.0": {
+      "file": "story.mus_bilen.0.mp3",
+      "hash": "0b8d69c65d6b",
+      "text": "Här är en mus."
+    },
+    "story.mus_bilen.1": {
+      "file": "story.mus_bilen.1.mp3",
+      "hash": "878d3a50b987",
+      "text": "Musen har en bil."
+    },
+    "story.mus_bilen.2": {
+      "file": "story.mus_bilen.2.mp3",
+      "hash": "d89ee04e0789",
+      "text": "Bilen är gul."
+    },
+    "story.mus_bilen.3": {
+      "file": "story.mus_bilen.3.mp3",
+      "hash": "60c514333899",
+      "text": "Musen åker till månen."
+    },
+    "story.mus_bilen.q": {
+      "file": "story.mus_bilen.q.mp3",
+      "hash": "ccc7fda1c3a2",
+      "text": "Vart åker musen?"
+    },
+    "story.rav_fisken.title": {
+      "file": "story.rav_fisken.title.mp3",
+      "hash": "b7f853a2938e",
+      "text": "Räven och fisken"
+    },
+    "story.rav_fisken.0": {
+      "file": "story.rav_fisken.0.mp3",
+      "hash": "6ba61adb51e0",
+      "text": "Räven är på en båt."
+    },
+    "story.rav_fisken.1": {
+      "file": "story.rav_fisken.1.mp3",
+      "hash": "9d63a65993a8",
+      "text": "Räven ser en fisk."
+    },
+    "story.rav_fisken.2": {
+      "file": "story.rav_fisken.2.mp3",
+      "hash": "a848b9075a20",
+      "text": "Fisken är stor."
+    },
+    "story.rav_fisken.3": {
+      "file": "story.rav_fisken.3.mp3",
+      "hash": "bf129ca7d054",
+      "text": "Räven får inte fisken."
+    },
+    "story.rav_fisken.q": {
+      "file": "story.rav_fisken.q.mp3",
+      "hash": "50496a057528",
+      "text": "Vad ser räven?"
+    },
+    "story.kon_hatten.title": {
+      "file": "story.kon_hatten.title.mp3",
+      "hash": "cb0461fba168",
+      "text": "Kon och hatten"
+    },
+    "story.kon_hatten.0": {
+      "file": "story.kon_hatten.0.mp3",
+      "hash": "48ebae99ad86",
+      "text": "Kon har en hatt."
+    },
+    "story.kon_hatten.1": {
+      "file": "story.kon_hatten.1.mp3",
+      "hash": "bf66b6e31024",
+      "text": "Hatten är röd."
+    },
+    "story.kon_hatten.2": {
+      "file": "story.kon_hatten.2.mp3",
+      "hash": "55bbc95b0b0a",
+      "text": "Kon åker tåg."
+    },
+    "story.kon_hatten.3": {
+      "file": "story.kon_hatten.3.mp3",
+      "hash": "1cde2e5a4915",
+      "text": "På tåget tappar kon hatten."
+    },
+    "story.kon_hatten.q": {
+      "file": "story.kon_hatten.q.mp3",
+      "hash": "61fcf75b2ece",
+      "text": "Vad har kon på sig?"
+    },
+    "story.apan_huset.title": {
+      "file": "story.apan_huset.title.mp3",
+      "hash": "c8262d7326e6",
+      "text": "Apan i huset"
+    },
+    "story.apan_huset.0": {
+      "file": "story.apan_huset.0.mp3",
+      "hash": "2b243b63015a",
+      "text": "Apan är i ett hus."
+    },
+    "story.apan_huset.1": {
+      "file": "story.apan_huset.1.mp3",
+      "hash": "d0443277ce50",
+      "text": "Apan ser en orm."
+    },
+    "story.apan_huset.2": {
+      "file": "story.apan_huset.2.mp3",
+      "hash": "335ff4e0a08f",
+      "text": "Ormen sover."
+    },
+    "story.apan_huset.3": {
+      "file": "story.apan_huset.3.mp3",
+      "hash": "f8ac58c435e0",
+      "text": "Apan går ut i solen."
+    },
+    "story.apan_huset.q": {
+      "file": "story.apan_huset.q.mp3",
+      "hash": "25231c3004cd",
+      "text": "Vad ser apan?"
+    },
+    "story.dinon_elden.title": {
+      "file": "story.dinon_elden.title.mp3",
+      "hash": "fd9e53b339fa",
+      "text": "Dinon och elden"
+    },
+    "story.dinon_elden.0": {
+      "file": "story.dinon_elden.0.mp3",
+      "hash": "1f7e4bbb791e",
+      "text": "En dino är i en låda."
+    },
+    "story.dinon_elden.1": {
+      "file": "story.dinon_elden.1.mp3",
+      "hash": "93eb628a68f5",
+      "text": "Dinon har en yxa."
+    },
+    "story.dinon_elden.2": {
+      "file": "story.dinon_elden.2.mp3",
+      "hash": "80617637b88a",
+      "text": "Dinon ser eld."
+    },
+    "story.dinon_elden.3": {
+      "file": "story.dinon_elden.3.mp3",
+      "hash": "8e7926219cf5",
+      "text": "Dinon springer till havet."
+    },
+    "story.dinon_elden.q": {
+      "file": "story.dinon_elden.q.mp3",
+      "hash": "aa111dff24de",
+      "text": "Vad har dinon?"
+    },
+    "token.apan": {
+      "file": "token.apan.mp3",
+      "hash": "0ede39773e0f",
+      "text": "apan"
+    },
+    "token.bebisen": {
+      "file": "token.bebisen.mp3",
+      "hash": "8f984d2784bd",
+      "text": "bebisen"
+    },
+    "token.bil": {
+      "file": "token.bil.mp3",
+      "hash": "e9dd06d955c0",
+      "text": "bil"
+    },
+    "token.bilen": {
+      "file": "token.bilen.mp3",
+      "hash": "0308d72ab74e",
+      "text": "bilen"
+    },
+    "token.bok": {
+      "file": "token.bok.mp3",
+      "hash": "e15e7a89232b",
+      "text": "bok"
+    },
+    "token.boll": {
+      "file": "token.boll.mp3",
+      "hash": "ea48cf683e3e",
+      "text": "boll"
+    },
+    "token.båt": {
+      "file": "token.baat.mp3",
+      "hash": "bd43b368af58",
+      "text": "båt"
+    },
+    "token.det": {
+      "file": "token.det.mp3",
+      "hash": "2f211584da82",
+      "text": "det"
+    },
+    "token.dino": {
+      "file": "token.dino.mp3",
+      "hash": "fe5faa5c9277",
+      "text": "dino"
+    },
+    "token.dinon": {
+      "file": "token.dinon.mp3",
+      "hash": "024f5ce3ca7a",
+      "text": "dinon"
+    },
+    "token.du": {
+      "file": "token.du.mp3",
+      "hash": "4a821a358091",
+      "text": "du"
+    },
+    "token.eld": {
+      "file": "token.eld.mp3",
+      "hash": "0e2aa4d7e51f",
+      "text": "eld"
+    },
+    "token.elden": {
+      "file": "token.elden.mp3",
+      "hash": "3be36266bcaf",
+      "text": "elden"
+    },
+    "token.en": {
+      "file": "token.en.mp3",
+      "hash": "074178272b54",
+      "text": "en"
+    },
+    "token.ett": {
+      "file": "token.ett.mp3",
+      "hash": "5932e5d6a5a9",
+      "text": "ett"
+    },
+    "token.fem": {
+      "file": "token.fem.mp3",
+      "hash": "f639f370bfd3",
+      "text": "fem"
+    },
+    "token.fisk": {
+      "file": "token.fisk.mp3",
+      "hash": "abd5ed6dd0c1",
+      "text": "fisk"
+    },
+    "token.fisken": {
+      "file": "token.fisken.mp3",
+      "hash": "45fc4ee18603",
+      "text": "fisken"
+    },
+    "token.får": {
+      "file": "token.faar.mp3",
+      "hash": "72e9fbe62810",
+      "text": "får"
+    },
+    "token.grisen": {
+      "file": "token.grisen.mp3",
+      "hash": "1514fe86b324",
+      "text": "grisen"
+    },
+    "token.gul": {
+      "file": "token.gul.mp3",
+      "hash": "86909348e359",
+      "text": "gul"
+    },
+    "token.går": {
+      "file": "token.gaar.mp3",
+      "hash": "9b332ecfcad2",
+      "text": "går"
+    },
+    "token.haj": {
+      "file": "token.haj.mp3",
+      "hash": "cb274358248b",
+      "text": "haj"
+    },
+    "token.han": {
+      "file": "token.han.mp3",
+      "hash": "aa5a78080ae1",
+      "text": "han"
+    },
+    "token.har": {
+      "file": "token.har.mp3",
+      "hash": "e0f2016ba6b5",
+      "text": "har"
+    },
+    "token.hatt": {
+      "file": "token.hatt.mp3",
+      "hash": "7938d1019550",
+      "text": "hatt"
+    },
+    "token.hatten": {
+      "file": "token.hatten.mp3",
+      "hash": "c9e1742933f7",
+      "text": "hatten"
+    },
+    "token.havet": {
+      "file": "token.havet.mp3",
+      "hash": "3cb55fa2826b",
+      "text": "havet"
+    },
+    "token.hon": {
+      "file": "token.hon.mp3",
+      "hash": "3b7b13e70f9f",
+      "text": "hon"
+    },
+    "token.hunden": {
+      "file": "token.hunden.mp3",
+      "hash": "704ef4d16522",
+      "text": "hunden"
+    },
+    "token.hus": {
+      "file": "token.hus.mp3",
+      "hash": "2d7a372b791c",
+      "text": "hus"
+    },
+    "token.här": {
+      "file": "token.haer.mp3",
+      "hash": "f91d2e980cee",
+      "text": "här"
+    },
+    "token.i": {
+      "file": "token.i.mp3",
+      "hash": "d458d6b637c9",
+      "text": "i"
+    },
+    "token.inte": {
+      "file": "token.inte.mp3",
+      "hash": "e4b16245ed6a",
+      "text": "inte"
+    },
+    "token.is": {
+      "file": "token.is.mp3",
+      "hash": "a18599e72f5e",
+      "text": "is"
+    },
+    "token.jag": {
+      "file": "token.jag.mp3",
+      "hash": "6a76ce2ea801",
+      "text": "jag"
+    },
+    "token.kan": {
+      "file": "token.kan.mp3",
+      "hash": "dffac9ca18c7",
+      "text": "kan"
+    },
+    "token.katten": {
+      "file": "token.katten.mp3",
+      "hash": "38fdfc1867c4",
+      "text": "katten"
+    },
+    "token.katter": {
+      "file": "token.katter.mp3",
+      "hash": "cbff699a24a7",
+      "text": "katter"
+    },
+    "token.ko": {
+      "file": "token.ko.mp3",
+      "hash": "6b949f50201b",
+      "text": "ko"
+    },
+    "token.kon": {
+      "file": "token.kon.mp3",
+      "hash": "d17e45b80871",
+      "text": "kon"
+    },
+    "token.låda": {
+      "file": "token.laada.mp3",
+      "hash": "a7b8ab30df0c",
+      "text": "låda"
+    },
+    "token.med": {
+      "file": "token.med.mp3",
+      "hash": "84bb058a77f7",
+      "text": "med"
+    },
+    "token.mus": {
+      "file": "token.mus.mp3",
+      "hash": "c62ec8941e6b",
+      "text": "mus"
+    },
+    "token.musen": {
+      "file": "token.musen.mp3",
+      "hash": "407167f1b807",
+      "text": "musen"
+    },
+    "token.månen": {
+      "file": "token.maanen.mp3",
+      "hash": "4fae079561f1",
+      "text": "månen"
+    },
+    "token.näsan": {
+      "file": "token.naesan.mp3",
+      "hash": "211e203ac10f",
+      "text": "näsan"
+    },
+    "token.och": {
+      "file": "token.och.mp3",
+      "hash": "82e5acad7961",
+      "text": "och"
+    },
+    "token.orm": {
+      "file": "token.orm.mp3",
+      "hash": "1edc883e7ae3",
+      "text": "orm"
+    },
+    "token.ormen": {
+      "file": "token.ormen.mp3",
+      "hash": "fae92d8f4d11",
+      "text": "ormen"
+    },
+    "token.på": {
+      "file": "token.paa.mp3",
+      "hash": "6092df5e0934",
+      "text": "på"
+    },
+    "token.räv": {
+      "file": "token.raev.mp3",
+      "hash": "d2ce2c7e2aa2",
+      "text": "räv"
+    },
+    "token.räven": {
+      "file": "token.raeven.mp3",
+      "hash": "1a868c6dffd9",
+      "text": "räven"
+    },
+    "token.röd": {
+      "file": "token.roed.mp3",
+      "hash": "5e296962dd75",
+      "text": "röd"
+    },
+    "token.ser": {
+      "file": "token.ser.mp3",
+      "hash": "69d62d3890dc",
+      "text": "ser"
+    },
+    "token.ska": {
+      "file": "token.ska.mp3",
+      "hash": "28844e9e0b47",
+      "text": "ska"
+    },
+    "token.snö": {
+      "file": "token.snoe.mp3",
+      "hash": "7a82958b7c92",
+      "text": "snö"
+    },
+    "token.sol": {
+      "file": "token.sol.mp3",
+      "hash": "1be0413f8eac",
+      "text": "sol"
+    },
+    "token.solen": {
+      "file": "token.solen.mp3",
+      "hash": "9c704f69eb5e",
+      "text": "solen"
+    },
+    "token.sover": {
+      "file": "token.sover.mp3",
+      "hash": "a16a97d4a7c2",
+      "text": "sover"
+    },
+    "token.springer": {
+      "file": "token.springer.mp3",
+      "hash": "47c04954db30",
+      "text": "springer"
+    },
+    "token.stor": {
+      "file": "token.stor.mp3",
+      "hash": "24f857b8c0f0",
+      "text": "stor"
+    },
+    "token.sälen": {
+      "file": "token.saelen.mp3",
+      "hash": "276780cfac10",
+      "text": "sälen"
+    },
+    "token.tappar": {
+      "file": "token.tappar.mp3",
+      "hash": "00795f63c954",
+      "text": "tappar"
+    },
+    "token.taxi": {
+      "file": "token.taxi.mp3",
+      "hash": "b874ab6de93b",
+      "text": "taxi"
+    },
+    "token.till": {
+      "file": "token.till.mp3",
+      "hash": "55ac7d6b75e0",
+      "text": "till"
+    },
+    "token.tåg": {
+      "file": "token.taag.mp3",
+      "hash": "c344ed656cfc",
+      "text": "tåg"
+    },
+    "token.tåget": {
+      "file": "token.taaget.mp3",
+      "hash": "776f58310f48",
+      "text": "tåget"
+    },
+    "token.ut": {
+      "file": "token.ut.mp3",
+      "hash": "c7adaa995b11",
+      "text": "ut"
+    },
+    "token.uv": {
+      "file": "token.uv.mp3",
+      "hash": "ecc5f084d3d1",
+      "text": "uv"
+    },
+    "token.vi": {
+      "file": "token.vi.mp3",
+      "hash": "f6738247bcfb",
+      "text": "vi"
+    },
+    "token.yxa": {
+      "file": "token.yxa.mp3",
+      "hash": "3d1e95f373cb",
+      "text": "yxa"
+    },
+    "token.är": {
+      "file": "token.aer.mp3",
+      "hash": "5a6e8ebf74e7",
+      "text": "är"
+    },
+    "token.åka": {
+      "file": "token.aaka.mp3",
+      "hash": "3e8317a75053",
+      "text": "åka"
+    },
+    "token.åker": {
+      "file": "token.aaker.mp3",
+      "hash": "c08d0945130f",
+      "text": "åker"
+    }
+  }
+}

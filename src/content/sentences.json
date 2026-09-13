@@ -1,0 +1,22 @@
+[
+  { "id": "kon_hatt",    "text": "Kon har hatt.",                "picture": "🐄🎩", "distractors": ["🐷🎩", "🐄👑"] },
+  { "id": "mus_bil",     "text": "En mus åker bil.",             "picture": "🐭🚗", "distractors": ["🐭🚲", "🐱🚗"] },
+  { "id": "rav_bok",     "text": "Räven har en bok.",            "picture": "🦊📖", "distractors": ["🦊🎈", "🐶📖"] },
+  { "id": "apa_hus",     "text": "Apan är i ett hus.",           "picture": "🐒🏠", "distractors": ["🐒🌳", "🐶🏠"] },
+  { "id": "hund_fisk",   "text": "Hunden har en fisk.",          "picture": "🐶🐟", "distractors": ["🐱🐟", "🐶🍎"] },
+  { "id": "orm_bil",     "text": "Jag ser en orm på en bil.",    "picture": "🐍🚗", "distractors": ["🐍🚲", "🐭🚗"] },
+  { "id": "sal_tag",     "text": "Sälen är på ett tåg.",         "picture": "🦭🚆", "distractors": ["🦭⛵", "🐧🚆"] },
+  { "id": "fem_katter",  "text": "Du har fem katter.",           "picture": "5️⃣🐱", "distractors": ["5️⃣🐶", "2️⃣🐱"] },
+  { "id": "gul_bil",     "text": "Vi ser en gul bil.",           "picture": "🟡🚗", "distractors": ["🔴🚗", "🟡🚲"] },
+  { "id": "is_nasan",    "text": "Hon har is på näsan.",         "picture": "🧊👃", "distractors": ["🧊👄", "🍎👃"] },
+  { "id": "ko_lada",     "text": "Han har en ko i en låda.",     "picture": "🐄📦", "distractors": ["🐄🛁", "🐭📦"] },
+  { "id": "sol_sno",     "text": "Det är sol och snö.",          "picture": "☀️❄️", "distractors": ["☀️🌧️", "🌙❄️"] },
+  { "id": "mus_manen",   "text": "Musen ska åka till månen.",    "picture": "🐭🌙", "distractors": ["🐭☀️", "🐱🌙"] },
+  { "id": "rav_tag",     "text": "En räv är i ett tåg.",         "picture": "🦊🚆", "distractors": ["🦊🚗", "🐷🚆"] },
+  { "id": "gris_yxa",    "text": "Grisen har en yxa.",           "picture": "🐷🪓", "distractors": ["🐷🎸", "🐶🪓"] },
+  { "id": "hund_katt",   "text": "Hunden och katten har en boll.", "picture": "🐶🐱⚽", "distractors": ["🐶🐱🍎", "🐶🐭⚽"] },
+  { "id": "bebis_dino",  "text": "Bebisen har en dino.",         "picture": "👶🦖", "distractors": ["👶🧸", "🧑🦖"] },
+  { "id": "eld_manen",   "text": "Elden är på månen.",           "picture": "🔥🌙", "distractors": ["🔥🏠", "💧🌙"] },
+  { "id": "haj_hatt",    "text": "En haj med hatt.",             "picture": "🦈🎩", "distractors": ["🦈🧢", "🐬🎩"] },
+  { "id": "uv_taxi",     "text": "En uv kan inte åka taxi.",     "picture": "🦉🚕", "distractors": ["🦉🚌", "🐔🚕"] }
+]

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="110" fill="#0b1026"/>
+  <circle cx="90" cy="100" r="6" fill="#fff" opacity=".8"/>
+  <circle cx="420" cy="80" r="5" fill="#fff" opacity=".7"/>
+  <circle cx="440" cy="400" r="7" fill="#fff" opacity=".8"/>
+  <circle cx="70" cy="380" r="4" fill="#fff" opacity=".6"/>
+  <circle cx="380" cy="200" r="4" fill="#fff" opacity=".6"/>
+  <g transform="rotate(-35 256 256)">
+    <path d="M256 70 C 200 130 190 260 200 330 L 312 330 C 322 260 312 130 256 70 Z" fill="#f4f4f8"/>
+    <path d="M256 70 C 230 96 215 130 208 165 L 304 165 C 297 130 282 96 256 70 Z" fill="#ff5d73"/>
+    <circle cx="256" cy="215" r="30" fill="#3b82f6" stroke="#0b1026" stroke-width="10"/>
+    <path d="M200 260 L 150 330 L 200 330 Z" fill="#ff5d73"/>
+    <path d="M312 260 L 362 330 L 312 330 Z" fill="#ff5d73"/>
+    <path d="M222 335 L 290 335 L 256 420 Z" fill="#ffcc33"/>
+    <path d="M238 335 L 274 335 L 256 385 Z" fill="#ff8c1a"/>
+  </g>
+  <polygon points="410,300 422,330 454,332 429,352 437,384 410,366 383,384 391,352 366,332 398,330" fill="#ffcc33"/>
+</svg>

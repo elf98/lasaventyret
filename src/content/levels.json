@@ -1,0 +1,238 @@
+[
+  {
+    "id": "startrampen",
+    "name": "Startrampen",
+    "emoji": "🚀",
+    "x": 8,
+    "y": 38,
+    "kind": "phonology",
+    "letters": [],
+    "games": [
+      "rhyme-hunt"
+    ],
+    "requires": [],
+    "note": "Bonusplanet: rim. Öppen från början."
+  },
+  {
+    "id": "solplaneten",
+    "name": "Solplaneten",
+    "emoji": "☀️",
+    "x": 22,
+    "y": 70,
+    "kind": "letters",
+    "letters": [
+      "s",
+      "o",
+      "l",
+      "a"
+    ],
+    "games": [
+      "catch-sound",
+      "sound-train",
+      "build-word"
+    ],
+    "requires": []
+  },
+  {
+    "id": "manen",
+    "name": "Månen",
+    "emoji": "🌙",
+    "x": 36,
+    "y": 36,
+    "kind": "letters",
+    "letters": [
+      "m",
+      "i",
+      "r",
+      "e"
+    ],
+    "games": [
+      "catch-sound",
+      "sound-train",
+      "build-word"
+    ],
+    "requires": [
+      "solplaneten"
+    ]
+  },
+  {
+    "id": "marsverkstan",
+    "name": "Marsverkstan",
+    "emoji": "🔴",
+    "x": 50,
+    "y": 70,
+    "kind": "letters",
+    "letters": [
+      "n",
+      "v",
+      "t",
+      "p"
+    ],
+    "games": [
+      "catch-sound",
+      "sound-train",
+      "build-word",
+      "which-word"
+    ],
+    "requires": [
+      "manen"
+    ]
+  },
+  {
+    "id": "kometen",
+    "name": "Kometen",
+    "emoji": "☄️",
+    "x": 64,
+    "y": 36,
+    "kind": "letters",
+    "letters": [
+      "ä",
+      "k",
+      "u",
+      "f"
+    ],
+    "games": [
+      "catch-sound",
+      "sound-train",
+      "build-word",
+      "which-word"
+    ],
+    "requires": [
+      "marsverkstan"
+    ]
+  },
+  {
+    "id": "ordplaneten",
+    "name": "Ordplaneten",
+    "emoji": "🛸",
+    "x": 78,
+    "y": 70,
+    "kind": "sightwords",
+    "letters": [],
+    "games": [
+      "which-word",
+      "sight-memory"
+    ],
+    "requires": [
+      "kometen"
+    ]
+  },
+  {
+    "id": "ringplaneten",
+    "name": "Ringplaneten",
+    "emoji": "🪐",
+    "x": 92,
+    "y": 36,
+    "kind": "letters",
+    "letters": [
+      "d",
+      "ö",
+      "g",
+      "å"
+    ],
+    "games": [
+      "catch-sound",
+      "sound-train",
+      "build-word",
+      "which-word"
+    ],
+    "requires": [
+      "ordplaneten"
+    ]
+  },
+  {
+    "id": "racerbanan",
+    "name": "Rymdracerbanan",
+    "emoji": "🏁",
+    "x": 106,
+    "y": 70,
+    "kind": "letters",
+    "letters": [
+      "y",
+      "h",
+      "j",
+      "b"
+    ],
+    "games": [
+      "catch-sound",
+      "sound-train",
+      "build-word",
+      "which-word"
+    ],
+    "requires": [
+      "ringplaneten"
+    ]
+  },
+  {
+    "id": "robotplaneten",
+    "name": "Robotplaneten",
+    "emoji": "🤖",
+    "x": 120,
+    "y": 36,
+    "kind": "letters",
+    "letters": [
+      "x",
+      "c",
+      "z",
+      "q",
+      "w"
+    ],
+    "games": [
+      "catch-sound",
+      "sound-train",
+      "build-word",
+      "which-word"
+    ],
+    "requires": [
+      "racerbanan"
+    ]
+  },
+  {
+    "id": "verkstan",
+    "name": "Turboverkstan",
+    "emoji": "🔧",
+    "x": 134,
+    "y": 70,
+    "kind": "cluster",
+    "letters": [],
+    "games": [
+      "sound-train",
+      "build-word",
+      "which-word"
+    ],
+    "requires": [
+      "robotplaneten"
+    ]
+  },
+  {
+    "id": "tokplaneten",
+    "name": "Tokplaneten",
+    "emoji": "🤪",
+    "x": 148,
+    "y": 36,
+    "kind": "sentences",
+    "letters": [],
+    "games": [
+      "silly-sentences"
+    ],
+    "requires": [
+      "verkstan"
+    ]
+  },
+  {
+    "id": "sagoplaneten",
+    "name": "Sagoplaneten",
+    "emoji": "📖",
+    "x": 162,
+    "y": 70,
+    "kind": "stories",
+    "letters": [],
+    "games": [
+      "story",
+      "silly-sentences"
+    ],
+    "requires": [
+      "tokplaneten"
+    ]
+  }
+]
