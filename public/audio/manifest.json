@@ -4,83 +4,83 @@
   "items": {
     "letter.s": {
       "file": "letter.s.mp3",
-      "hash": "9900a46d167c",
-      "text": "[ljud s] sːː"
+      "hash": "61b91cded95c",
+      "text": "[ljud s] ss"
     },
     "letter.o": {
       "file": "letter.o.mp3",
-      "hash": "3743139e1356",
-      "text": "[ljud o] o"
+      "hash": "a2620e503f32",
+      "text": "[ljud o] ʊ -10%"
     },
     "letter.l": {
       "file": "letter.l.mp3",
-      "hash": "8611f3b70e8d",
-      "text": "[ljud l] lːː"
+      "hash": "c55c3cdf1c01",
+      "text": "[ljud l] ll"
     },
     "letter.a": {
       "file": "letter.a.mp3",
-      "hash": "a300c97a93bc",
-      "text": "[ljud a] a"
+      "hash": "288c6fad0b8b",
+      "text": "[ljud a] a -10%"
     },
     "letter.m": {
       "file": "letter.m.mp3",
-      "hash": "fc4ac0b5d2c0",
-      "text": "[ljud m] mːː"
+      "hash": "5fbaf4828c70",
+      "text": "[ljud m] mm"
     },
     "letter.i": {
       "file": "letter.i.mp3",
-      "hash": "4c114e718412",
-      "text": "[ljud i] i"
+      "hash": "13f3568bc428",
+      "text": "[ljud i] ɪ -10%"
     },
     "letter.r": {
       "file": "letter.r.mp3",
-      "hash": "bd33d0adfd73",
-      "text": "[ljud r] rːː"
+      "hash": "0a90baa0916a",
+      "text": "[ljud r] rr"
     },
     "letter.e": {
       "file": "letter.e.mp3",
       "hash": "4036d3b0f172",
-      "text": "[ljud e] e"
+      "text": "[ljud e] \"e\" -40%"
     },
     "letter.n": {
       "file": "letter.n.mp3",
-      "hash": "ec3286525832",
-      "text": "[ljud n] nːː"
+      "hash": "715b3c196755",
+      "text": "[ljud n] nn"
     },
     "letter.v": {
       "file": "letter.v.mp3",
-      "hash": "e37646033113",
-      "text": "[ljud v] vːː"
+      "hash": "9050df4b0c02",
+      "text": "[ljud v] vv"
     },
     "letter.t": {
       "file": "letter.t.mp3",
-      "hash": "ac80e158c0c7",
-      "text": "[ljud t] tʰ"
+      "hash": "0abfb6fb4e60",
+      "text": "[ljud t] th"
     },
     "letter.p": {
       "file": "letter.p.mp3",
-      "hash": "4093f1619fad",
-      "text": "[ljud p] pʰ"
+      "hash": "ca8adb302723",
+      "text": "[ljud p] ph"
     },
     "letter.ä": {
       "file": "letter.ae.mp3",
-      "hash": "04b7e7a80a5e",
-      "text": "[ljud ä] ä"
+      "hash": "3d754a64b36c",
+      "text": "[ljud ä] ɛ"
     },
     "letter.k": {
       "file": "letter.k.mp3",
-      "hash": "008dabda8603",
-      "text": "[ljud k] kʰ"
+      "hash": "ae1e9c370389",
+      "text": "[ljud k] kh"
     },
     "letter.u": {
       "file": "letter.u.mp3",
-      "hash": "27dbc681bec3",
-      "text": "[ljud u] u"
+      "hash": "ae6f045c4dae",
+      "text": "[ljud u] ɵ"
     },
     "letter.f": {
       "file": "letter.f.mp3",
-      "hash": "4f23c36f748d",
-      "text": "[ljud f] fːː"
+      "hash": "e263f9c852a6",
+      "text": "[ljud f] fff"
     },
     "letter.d": {
       "file": "letter.d.mp3",
@@ -89,33 +89,33 @@
     },
     "letter.ö": {
       "file": "letter.oe.mp3",
-      "hash": "e1937bb6e7d5",
-      "text": "[ljud ö] ö"
+      "hash": "5e9d01ef1c1c",
+      "text": "[ljud ö] øː"
     },
     "letter.g": {
       "file": "letter.g.mp3",
-      "hash": "b16ca1d679ef",
-      "text": "[ljud g] ɡə"
+      "hash": "dec608a44700",
+      "text": "[ljud g] gə"
     },
     "letter.å": {
       "file": "letter.aa.mp3",
-      "hash": "ee1f28a484a6",
-      "text": "[ljud å] å"
+      "hash": "7f16d29b234a",
+      "text": "[ljud å] ɔ -10%"
     },
     "letter.y": {
       "file": "letter.y.mp3",
-      "hash": "d17d4c0261d0",
-      "text": "[ljud y] y"
+      "hash": "e04cc9bc9050",
+      "text": "[ljud y] ssml"
     },
     "letter.h": {
       "file": "letter.h.mp3",
-      "hash": "c93ea83025f3",
-      "text": "[ljud h] hːː"
+      "hash": "6ed91ec91807",
+      "text": "[ljud h] hh"
     },
     "letter.j": {
       "file": "letter.j.mp3",
-      "hash": "7998df27977d",
-      "text": "[ljud j] jːː"
+      "hash": "8055120bfc82",
+      "text": "[ljud j] jjj"
     },
     "letter.b": {
       "file": "letter.b.mp3",
@@ -129,23 +129,23 @@
     },
     "letter.c": {
       "file": "letter.c.mp3",
-      "hash": "366ea879c27e",
-      "text": "[ljud c] sːː"
+      "hash": "5aef1db2d973",
+      "text": "[ljud c] ss"
     },
     "letter.z": {
       "file": "letter.z.mp3",
-      "hash": "ec45ce2a5dc0",
-      "text": "[ljud z] sːː"
+      "hash": "8cec4e138573",
+      "text": "[ljud z] ss"
     },
     "letter.q": {
       "file": "letter.q.mp3",
-      "hash": "5e236795249e",
-      "text": "[ljud q] kʰ"
+      "hash": "d87575015fe5",
+      "text": "[ljud q] kh"
     },
     "letter.w": {
       "file": "letter.w.mp3",
-      "hash": "ad899cfbed08",
-      "text": "[ljud w] vːː"
+      "hash": "c29e1d3f3ac9",
+      "text": "[ljud w] vv"
     },
     "word.sol": {
       "file": "word.sol.mp3",
@@ -419,7 +419,7 @@
     },
     "phrase.session_done": {
       "file": "phrase.session_done.mp3",
-      "hash": "1cb0df7d6809",
+      "hash": "0d07c806ae6e",
       "text": "Hurra! Du klarade hela passet!"
     },
     "phrase.stars_earned": {
@@ -434,7 +434,7 @@
     },
     "phrase.level_complete": {
       "file": "phrase.level_complete.mp3",
-      "hash": "42750dd91b03",
+      "hash": "7495ba4864fc",
       "text": "Hurra! Du har klarat planeten! Nu låses en ny planet upp!"
     },
     "phrase.new_outfit": {
@@ -1229,7 +1229,7 @@
     },
     "level.startrampen": {
       "file": "level.startrampen.mp3",
-      "hash": "4f95f0af503b",
+      "hash": "f8b8e4ad4d43",
       "text": "Startrampen"
     },
     "level.ordplaneten": {
@@ -1971,6 +1971,101 @@
       "file": "token.aaker.mp3",
       "hash": "c08d0945130f",
       "text": "åker"
+    },
+    "phrase.praise_11": {
+      "file": "phrase.praise_11.mp3",
+      "hash": "704439588765",
+      "text": "Bra jobbat!"
+    },
+    "phrase.praise_12": {
+      "file": "phrase.praise_12.mp3",
+      "hash": "dc915073cde4",
+      "text": "Där satt den!"
+    },
+    "phrase.praise_13": {
+      "file": "phrase.praise_13.mp3",
+      "hash": "b2547a36cf7f",
+      "text": "Du kan det här!"
+    },
+    "phrase.praise_14": {
+      "file": "phrase.praise_14.mp3",
+      "hash": "ac2e2f8441f0",
+      "text": "Fantastiskt!"
+    },
+    "phrase.praise_15": {
+      "file": "phrase.praise_15.mp3",
+      "hash": "d9a2683c6d8d",
+      "text": "Strålande!"
+    },
+    "phrase.praise_16": {
+      "file": "phrase.praise_16.mp3",
+      "hash": "3bced4358a08",
+      "text": "Bravo!"
+    },
+    "phrase.praise_17": {
+      "file": "phrase.praise_17.mp3",
+      "hash": "d47b9b2db0ae",
+      "text": "Du är en stjärna!"
+    },
+    "phrase.praise_18": {
+      "file": "phrase.praise_18.mp3",
+      "hash": "acdca82158ef",
+      "text": "Rätt igen!"
+    },
+    "phrase.praise_19": {
+      "file": "phrase.praise_19.mp3",
+      "hash": "aeb0ba07197e",
+      "text": "Snyggt jobbat!"
+    },
+    "phrase.praise_20": {
+      "file": "phrase.praise_20.mp3",
+      "hash": "0e5cf38015eb",
+      "text": "Du fixade det!"
+    },
+    "phrase.praise_21": {
+      "file": "phrase.praise_21.mp3",
+      "hash": "431deb1de268",
+      "text": "Oj, vad du kan!"
+    },
+    "phrase.praise_22": {
+      "file": "phrase.praise_22.mp3",
+      "hash": "1e7f2c726a21",
+      "text": "Perfekt!"
+    },
+    "phrase.praise_23": {
+      "file": "phrase.praise_23.mp3",
+      "hash": "a0ca543a3d49",
+      "text": "Klockrent!"
+    },
+    "phrase.praise_24": {
+      "file": "phrase.praise_24.mp3",
+      "hash": "28802f3fe64f",
+      "text": "Suveränt!"
+    },
+    "phrase.praise_25": {
+      "file": "phrase.praise_25.mp3",
+      "hash": "9035e0522cec",
+      "text": "Jättebra!"
+    },
+    "phrase.praise_26": {
+      "file": "phrase.praise_26.mp3",
+      "hash": "ac35562fc27d",
+      "text": "Japp, det stämmer!"
+    },
+    "phrase.praise_27": {
+      "file": "phrase.praise_27.mp3",
+      "hash": "bdbfea821101",
+      "text": "Vilken raket du är!"
+    },
+    "phrase.praise_28": {
+      "file": "phrase.praise_28.mp3",
+      "hash": "710a08636ccf",
+      "text": "Ja, så är det!"
+    },
+    "phrase.praise_29": {
+      "file": "phrase.praise_29.mp3",
+      "hash": "828b3a3914bf",
+      "text": "Det gick ju jättebra!"
     }
   }
 }

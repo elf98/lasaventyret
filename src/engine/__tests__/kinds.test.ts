@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { levels, rhymes, sentences, sightwords, stories, words } from '../../content'
+import { rhymeKey } from '../kindBuilders'
 import { seeded } from '../random'
 import { buildSession, type BuildInput } from '../sessionBuilder'
 
@@ -48,6 +49,9 @@ describe('planeter med andra slag', () => {
       expect(t.options).toContain(t.answer)
       expect(t.options).toHaveLength(3)
       expect(rhymes.some((p) => p.includes(t.targetId) && p.includes(t.answer!))).toBe(true)
+      // fel bilder rimmar inte med målordet
+      const target = words.find((w) => w.id === t.targetId)!
+      for (const o of t.options.filter((x) => x !== t.answer)) expect(rhymeKey(words.find((w) => w.id === o)!.text)).not.toBe(rhymeKey(target.text))
     }
   })
 
@@ -64,5 +68,15 @@ describe('planeter med andra slag', () => {
     const easy = build('kometen', { difficulty: 'easy' }).filter((t) => t.kind === 'word').length
     const hard = build('kometen', { difficulty: 'hard' }).filter((t) => t.kind === 'word').length
     expect(hard).toBeGreaterThan(easy)
+  })
+})
+
+describe('rimpar', () => {
+  it('alla par i rhymes.json rimmar (samma slut från sista vokalen)', () => {
+    for (const [a, b] of rhymes) {
+      const wa = words.find((w) => w.id === a)!
+      const wb = words.find((w) => w.id === b)!
+      expect(rhymeKey(wa.text), `${a}/${b}`).toBe(rhymeKey(wb.text))
+    }
   })
 })

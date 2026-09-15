@@ -89,7 +89,7 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
         </p>
       )}
       <p className="text-gray-600">
-        Säg <b>ljudet</b>, inte bokstavens namn: "sss" inte "ess", "mmm" inte "emm". Stopp-ljud (p, t, k, b, d, g) sägs kort och utan vokal efter.
+        Säg <b>ljudet</b>, inte bokstavens namn: "sss" inte "ess", "mmm" inte "emm". Vokaler sägs som det korta ljudet ("a" som i katt, "o" som i ost). Stopp-ljud (p, t, k, b, d, g) sägs kort och utan vokal efter.
         Grön = inspelad. Inspelningen används i alla spel i stället för TTS-rösten.
       </p>
 
@@ -118,7 +118,7 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
         <div className="flex flex-col gap-3">
           <div className="text-[24px]">
             Säg ljudet för <b>{letter.id.toUpperCase()}</b> som i <b>{letter.example}</b>
-            {letter.continuous ? ' (dra ut det: "' + letter.id + letter.id + letter.id + '")' : ' (kort, utan vokal)'}
+            {letter.type === 'vowel' ? ' (kort vokal, som i "' + letter.example + '")' : letter.continuous ? ' (dra ut det: "' + letter.id + letter.id + letter.id + '")' : ' (kort, utan vokal)'}
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <button type="button" onClick={() => void audio.speak(letterSoundId(current))} className="rounded-full bg-gray-200 px-5 py-3 text-[18px] font-bold">

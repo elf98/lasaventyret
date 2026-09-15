@@ -31,8 +31,18 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,mp3,json,woff2}'],
+        // Ljudet ligger inte i precachen: det hämtas med ?v=<hash> ur manifestet och cachas
+        // vid första uppspelningen, så omgenererade ljud når iPaden utan att cachen rensas.
+        globPatterns: ['**/*.{js,css,html,svg,png,json,woff2}'],
+        globIgnores: ['**/audio/manifest.json'],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.includes('/audio/') && url.pathname.endsWith('.mp3'),
+            handler: 'CacheFirst',
+            options: { cacheName: 'lasaventyret-audio', expiration: { maxEntries: 800, maxAgeSeconds: 365 * 24 * 3600 } },
+          },
+        ],
       },
     }),
   ],

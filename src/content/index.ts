@@ -19,6 +19,12 @@ export interface Letter {
   continuous: boolean
   ipa: string
   example: string
+  /** Läs detta som vanlig text i stället för IPA (t.ex. "e": bokstavsnamnet lät bäst). */
+  say?: string
+  /** Rå SSML i stället för IPA/text (t.ex. say-as characters för bokstavsnamnet). */
+  ssml?: string
+  /** Eget tempo för ljudet, t.ex. "-10%". Standard: vokal -35 %, hållbar konsonant -20 %, stopp +20 %. */
+  rate?: string
 }
 
 export interface Word {

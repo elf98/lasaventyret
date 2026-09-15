@@ -7,7 +7,7 @@ import StarCounter from '../components/StarCounter'
 import Starfield from '../components/Starfield'
 import { config, letterById, levelById, levels, outfits, praiseKeys, rhymes, sentenceById, sentences, sightwords, stickers, stories, storyById, words } from '../content'
 import { phraseId, wordId } from '../content/audioIds'
-import { newId, pick } from '../engine/random'
+import { bag, newId, pick } from '../engine/random'
 import { buildSession } from '../engine/sessionBuilder'
 import type { Task } from '../engine/types'
 import { diff } from '../engine/unlock'
@@ -23,6 +23,9 @@ import WhichWord from '../games/WhichWord'
 import { useApp } from '../store/app'
 import { selectCompleted, selectUnlocked, useProgress } from '../store/progress'
 import { useSettings } from '../store/settings'
+
+/** Beröm i slumpad ordning utan upprepning, hela leken innan någon fras återkommer. */
+const nextPraise = bag(praiseKeys)
 
 const GAMES = { 'catch-sound': CatchSound, 'sound-train': SoundTrain, 'build-word': BuildWord, 'which-word': WhichWord, 'sight-memory': SightMemory, 'rhyme-hunt': RhymeHunt, 'silly-sentences': SillySentences, story: StoryReader }
 
@@ -135,7 +138,8 @@ export default function SessionScreen() {
     setCelebrating(true)
     sfx.star()
     const example = task.kind === 'letter' ? letterById.get(task.targetId)?.example : undefined
-    await audio.speak(example ? [phraseId(pick(praiseKeys)), wordId(example)] : [phraseId(pick(praiseKeys))])
+    const praise = phraseId(nextPraise())
+    await audio.speak(example ? [praise, wordId(example)] : [praise])
     await wait(250)
     if (index + 1 < tasks.length) {
       setIndex(index + 1)

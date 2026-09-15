@@ -46,8 +46,10 @@ describe('buildSession', () => {
     for (const l of sol.letters) mastery[l] = mastered(l)
     const tasks = build({ mastery })
     const wordTasks = tasks.filter((t) => t.kind === 'word')
-    // Solplaneten har ett bildord (sol) + stavelser: 1 + max 2 stavelser = 3
-    expect(wordTasks.length).toBe(3)
+    // Solplaneten har ett bildord (sol) och inga stavelser utan bild (os/so togs bort som obegripliga)
+    const pool = words.filter((w) => w.decodable && w.sounds.every((s) => sol.letters.includes(s)))
+    const expected = Math.min(pool.filter((w) => w.emoji !== '').length + Math.min(2, pool.filter((w) => w.emoji === '').length), 6)
+    expect(wordTasks.length).toBe(expected)
     expect(new Set(wordTasks.map((t) => t.targetId)).size).toBe(wordTasks.length)
     const syllables = wordTasks.filter((t) => words.find((w) => w.id === t.targetId)!.emoji === '')
     expect(syllables.length).toBeLessThanOrEqual(2)

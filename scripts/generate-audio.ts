@@ -40,24 +40,44 @@ interface Manifest {
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
-/** Vanligt tal, lite långsammare än standard för att passa en sexåring. */
-const say = (text: string, rate = '-8%') => `<prosody rate="${rate}">${esc(text)}</prosody>`
+/**
+ * Ord som rösten annars uttalar fel. Nyckel = ordet som det står i innehållet (skiftlägesokänsligt).
+ * Värde: IPA, eller en omstavning med "=" först ("=Start-rampen" läses som två ord).
+ * "Hurra" ska ha betoning och långt a på slutet ("hurraa"); "Startrampen" blev "star-trampen".
+ */
+const PRONOUNCE: Record<string, string> = {
+  hurra: 'hɵˈrɑː',
+  startrampen: '=Start-rampen',
+}
+const PRONOUNCE_RE = new RegExp(`\\b(${Object.keys(PRONOUNCE).join('|')})\\b`, 'gi')
+
+/** Vanligt tal, lite långsammare än standard för att passa en sexåring. Byter ut orden i PRONOUNCE. */
+const say = (text: string, rate = '-8%') => {
+  const inner = esc(text).replace(PRONOUNCE_RE, (w) => {
+    const fix = PRONOUNCE[w.toLowerCase()]
+    return fix.startsWith('=') ? esc(fix.slice(1)) : `<phoneme alphabet="ipa" ph="${fix}">${w}</phoneme>`
+  })
+  return `<prosody rate="${rate}">${inner}</prosody>`
+}
 
 /**
- * Bokstavsljud (inte bokstavsnamn).
- * Vokaler: svenska vokalnamn ÄR det långa ljudet (a, e, i, o, u, y, å, ä, ö), så rösten får
- * säga bokstaven själv, långsamt. Konsonanter: IPA-fonem, utdraget för hållbara ljud,
- * aspirerat/kort för stopp-ljud. Egen inspelning i föräldravyn går alltid före.
+ * Bokstavsljud (inte bokstavsnamn), alltid via IPA-fonem ur letters.json.
+ * Vokaler: det korta ljudet (a som i "katt", o = "ʊ" som i "ost"). Att låta rösten läsa
+ * bokstaven som text gav långa vokaler ("aa") och o blev identiskt med å.
+ * Konsonanter: Azure ignorerar längdmarkering (ː) och aspiration (ʰ), så hållbara ljud skrivs som
+ * upprepade fonem ("ss", "rr", "fff") och p/t/k som "ph"/"th"/"kh" (pust utan vokal), b/d/g med kort
+ * schwa. Per bokstav kan `say` (text), `ssml` (rå SSML, t.ex. bokstavsnamnet för y) och `rate`
+ * ersätta standarden. Egen inspelning i föräldravyn går alltid före.
  */
-const sound = (letter: { id: string; ipa: string; type: string; continuous: boolean }) => {
-  if (letter.type === 'vowel') return `<prosody rate="-40%">${esc(letter.id)}</prosody>`
-  const rate = letter.continuous ? '-20%' : '+20%'
-  return `<prosody rate="${rate}"><phoneme alphabet="ipa" ph="${esc(letter.ipa)}">${esc(letter.id)}</phoneme></prosody>`
+const sound = (letter: { id: string; ipa: string; type: string; continuous: boolean; say?: string; ssml?: string; rate?: string }) => {
+  const rate = letter.rate ?? (letter.type === 'vowel' ? '-35%' : letter.continuous ? '-20%' : '+20%')
+  const inner = letter.ssml !== undefined ? letter.ssml : letter.say !== undefined ? esc(letter.say) : `<phoneme alphabet="ipa" ph="${esc(letter.ipa)}">${esc(letter.id)}</phoneme>`
+  return `<prosody rate="${rate}">${inner}</prosody>`
 }
 
 function collect(): Item[] {
   const items: Item[] = []
-  for (const l of letters) items.push({ id: letterSoundId(l.id), text: `[ljud ${l.id}] ${l.type === 'vowel' ? l.id : l.ipa}`, inner: sound(l) })
+  for (const l of letters) items.push({ id: letterSoundId(l.id), text: `[ljud ${l.id}] ${l.ssml !== undefined ? 'ssml' : l.say !== undefined ? `"${l.say}"` : l.ipa}${l.rate ? ' ' + l.rate : ''}`, inner: sound(l) })
   for (const w of words)
     items.push({
       id: wordId(w.id),

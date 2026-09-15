@@ -94,11 +94,18 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   const newCount = Math.max(0, input.count - reviewCount)
   const pictureAvail = wordPool.filter((w) => w.emoji !== '').length
   const syllableAvail = Math.min(diff.maxSyllables, wordPool.filter((w) => w.emoji === '').length)
-  const wordCount = Math.min(Math.round(newCount * wordShare), pictureAvail + syllableAvail)
-  const letterCount = letterGames.length === 0 ? 0 : newCount - wordCount
+  const wantedWords = Math.min(Math.round(newCount * wordShare), pictureAvail + syllableAvail)
+  // Planetens egna bokstäver får aldrig trängas ut av ord så länge någon av dem är obehärskad:
+  // annars kan sista bokstaven bli utan uppgift pass efter pass och planeten blir aldrig klar.
+  const unmastered = poolIds.filter((id) => !mastery[id]?.mastered)
+  const letterCount = letterGames.length === 0 ? 0 : Math.max(newCount - wantedWords, Math.min(unmastered.length, newCount))
+  const wordCount = letterGames.length === 0 ? wantedWords : newCount - letterCount
 
+  // Obehärskade och svaga bokstäver först, resten i slumpad ordning.
+  const isMastered = (id: string) => (mastery[id]?.mastered ? 1 : 0)
+  const prioritized = shuffle(poolIds, rng).sort((a, b) => isMastered(a) - isMastered(b) || weakness(mastery[b]) - weakness(mastery[a]))
   const letterTargets: { id: string; review: boolean }[] = []
-  shuffle(poolIds, rng).slice(0, letterCount).forEach((id) => letterTargets.push({ id, review: false }))
+  prioritized.slice(0, letterCount).forEach((id) => letterTargets.push({ id, review: false }))
   while (letterTargets.length < letterCount) {
     letterTargets.push({ id: weightedPick(poolIds, poolIds.map((id) => weakness(mastery[id])), rng), review: false })
   }

@@ -56,6 +56,12 @@ export function buildStories(input: BuildInput, games: GameId[], rng: Rng): Task
   return tasks
 }
 
+/** Grov rimnyckel: ordets slut från och med sista vokalen ("gris" -> "is", "bro" -> "o"). */
+export function rhymeKey(text: string): string {
+  const m = text.toLowerCase().match(/[aeiouyåäö][^aeiouyåäö]*$/)
+  return m ? m[0] : text.toLowerCase()
+}
+
 /** Startrampen: Rimjakt. Hör ett ord, välj bilden som rimmar. */
 export function buildPhonology(input: BuildInput, _games: GameId[], rng: Rng): Task[] {
   const byId = new Map(input.words.map((w) => [w.id, w]))
@@ -69,7 +75,8 @@ export function buildPhonology(input: BuildInput, _games: GameId[], rng: Rng): T
     const pair = order[i]
     const [target, partner] = rng() < 0.5 ? pair : [pair[1], pair[0]]
     const w = byId.get(target) as Word
-    const distract = shuffle(fillers.filter((f) => f.emoji !== w.emoji && f.emoji !== byId.get(partner)?.emoji), rng)
+    // Fel bilder får inte råka rimma med målordet (gris/is, bro/ko): samma slut från sista vokalen = uteslut.
+    const distract = shuffle(fillers.filter((f) => f.emoji !== w.emoji && f.emoji !== byId.get(partner)?.emoji && rhymeKey(f.text) !== rhymeKey(w.text)), rng)
       .filter((f, k, arr) => arr.findIndex((x) => x.emoji === f.emoji) === k)
       .slice(0, 2)
     tasks.push({ id: `r${i}-${target}`, game: 'rhyme-hunt', targetId: target, kind: 'word', options: shuffle([partner, ...distract.map((d) => d.id)], rng), answer: partner, isReview: false })

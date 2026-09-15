@@ -41,8 +41,13 @@ Utan ljudfiler är appen tyst (kort paus i stället för tal). Den använder ald
 ### Bokstavsljud
 
 Bokstäverna sägs som ljud ("sss", inte "ess") via IPA-fonem i `src/content/letters.json`
-(`ipa`-fältet). TTS klarar hållbara ljud (s, m, l, vokaler) bra men stopp-ljud (p, t, k, b, d, g)
-blir svaga. Föräldravyn får i fas 4 en inspelningsfunktion; egen inspelning går alltid före TTS.
+(`ipa`-fältet). Vokalerna är de **korta** ljuden (a som i katt, o = ʊ som i ost): läses bokstaven som
+text blir det långa "aa", och o blir identiskt med å (undantag: e läses som text, det lät bäst).
+Azure ignorerar längdmarkering (ː) och aspiration (ʰ) på konsonanter; hållbara konsonanter skrivs
+därför som upprepade fonem ("ss", "mm", "rr", "fff") och p/t/k som "ph"/"th"/"kh" (pust utan vokal).
+b/d/g får en kort schwa ("bə"). Valfria fält per bokstav: `say` (läs som text/SSML i stället för IPA)
+och `rate` (eget tempo). Egen inspelning i föräldravyn går alltid före TTS. Ord som rösten uttalar fel (Hurra, Startrampen) rättas i
+`PRONOUNCE` i `scripts/generate-audio.ts` (IPA eller omstavning).
 
 ## Lägga till innehåll
 
@@ -51,8 +56,8 @@ Allt innehåll ligger i `src/content/*.json`. Ändra JSON, kör `npm run audio`,
 | Fil | Innehåll |
 |---|---|
 | `letters.json` | bokstäver i inlärningsordning, ljud (IPA), exempelord |
-| `words.json` | ord med emoji och ljudsekvens (`sounds`); `decodable: false` = kluster/dubbelteckning, väntar på Verkstan; tom `emoji` = stavelse utan bild |
-| `phrases.json` | alla instruktioner, beröm, knappetiketter (id → text) |
+| `words.json` | ord med emoji och ljudsekvens (`sounds`); `decodable: false` = kluster/dubbelteckning, väntar på Verkstan; tom `emoji` = stavelse utan bild (bara riktiga småord) |
+| `phrases.json` | alla instruktioner, beröm (`praise_*`, dras ur en blandad kortlek utan upprepning), knappetiketter (id → text) |
 | `levels.json` | planeter: bokstäver, spel, vad som krävs för upplåsning, position på kartan |
 | `mascots.json`, `names.json` | maskoter och namnförslag |
 | `outfits.json`, `stickers.json` | kläder (stjärntröskel) och klistermärken |
@@ -73,7 +78,9 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
   viktat mot det svaga, plus ~25 % repetition från tidigare planeter (förfallna först). Ordandelen
   (Ljudtåget/Bygg ordet) växer från 25 % till 60 % i takt med att planetens bokstäver behärskas.
   Ord väljs bara bland dem vars alla ljud barnet mött (`decodable: true`, kända bokstäver).
-  Stavelser utan bild (sa, os) körs bara i Ljudtåget; bildord varvar Bygg ordet och Ljudtåget.
+  Stavelser utan bild körs bara i Ljudtåget och är bara riktiga småord (sa, la, se); påhittade
+  stavelser som "mi" är borttagna. Bildord varvar Bygg ordet och Ljudtåget. Så länge någon av
+  planetens bokstäver är obehärskad prioriteras den i passet och trängs inte ut av ordandelen.
 - `src/engine/unlock.ts` – en planet är klar vid 80 % behärskade bokstäver; nästa låses upp.
 - Två fel i rad på samma uppgift ger scaffolding (bara rätt bokstav visas, pekare, långsamt ljud).
 
@@ -108,7 +115,7 @@ ordspelens ordning. Planeter kan bockas som klara där, så att nästa låses up
 
 ## Bokstavsljud
 
-Vokalerna sägs som bokstavsnamn (i svenska = det långa ljudet). Konsonanter via IPA-fonem; stopp-ljuden
+Alla bokstäver via IPA-fonem; vokalerna som korta ljud (se ovan). Stopp-ljuden
 (p, t, k, b, d, g) blir aldrig bra i TTS. Spela in dem själv i föräldravyn (🎙️): inspelningen sparas i
 IndexedDB, går alltid före TTS och följer med i Exportera/Importera (base64) så att den kan flyttas från
 datorn till iPaden. Inspelning kräver https eller localhost.

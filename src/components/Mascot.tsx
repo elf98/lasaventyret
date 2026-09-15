@@ -4,7 +4,7 @@ import { audio } from '../audio/AudioManager'
 import { sfx } from '../audio/sfx'
 import { mascots, outfits, phrases, pokeKeys } from '../content'
 import { phraseId } from '../content/audioIds'
-import { pick } from '../engine/random'
+import { bag, pick } from '../engine/random'
 import { useProgress } from '../store/progress'
 
 export type Mood = 'idle' | 'happy' | 'celebrate' | 'sleep' | 'think'
@@ -28,6 +28,8 @@ const moodAnim = {
  * Maskoten: emoji + upplåsta kläder. Växer lite för varje plagg.
  * Petar man på den gör den något fånigt och säger något.
  */
+const nextPoke = bag(pokeKeys.filter((k) => k !== 'poke_2'))
+
 export default function Mascot({ size = 140, mood = 'idle', pokeable = true, className = '' }: Props) {
   const type = useProgress((s) => s.mascotType)
   const owned = useProgress((s) => s.outfits)
@@ -46,7 +48,7 @@ export default function Mascot({ size = 140, mood = 'idle', pokeable = true, cla
     if (!pokeable || busy.current) return
     busy.current = true
     const kind = pick(['spin', 'jump', 'wiggle', 'sneeze'] as const)
-    const key = kind === 'sneeze' ? 'poke_2' : pick(pokeKeys.filter((k) => k !== 'poke_2'))
+    const key = kind === 'sneeze' ? 'poke_2' : nextPoke()
     if (kind === 'spin') sfx.spin()
     else if (kind === 'sneeze') sfx.sneeze()
     else sfx.boing()

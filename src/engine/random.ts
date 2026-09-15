@@ -24,6 +24,24 @@ export function weightedPick<T>(items: T[], weights: number[], rng: Rng = Math.r
   return items[items.length - 1]
 }
 
+/**
+ * Kortlek: drar varje element en gång i slumpad ordning innan leken blandas om,
+ * och samma element kommer aldrig två gånger i rad. För beröm och skämt som
+ * annars upprepar sig med rent slumpval.
+ */
+export function bag<T>(items: readonly T[], rng: Rng = Math.random): () => T {
+  let deck: T[] = []
+  let last: T | undefined
+  return () => {
+    if (deck.length === 0) {
+      deck = shuffle(items as T[], rng)
+      if (deck.length > 1 && deck[deck.length - 1] === last) deck.unshift(deck.pop() as T)
+    }
+    last = deck.pop() as T
+    return last
+  }
+}
+
 /** Deterministisk generator för tester (mulberry32). */
 export function seeded(seed: number): Rng {
   let a = seed >>> 0
