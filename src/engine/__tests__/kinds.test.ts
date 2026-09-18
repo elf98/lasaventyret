@@ -4,21 +4,55 @@ import { rhymeKey } from '../kindBuilders'
 import { seeded } from '../random'
 import { buildSession, type BuildInput } from '../sessionBuilder'
 
-const ALL: BuildInput['availableGames'] = ['catch-sound', 'sound-train', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story']
+const ALL: BuildInput['availableGames'] = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story']
 const lvl = (id: string) => levels.find((l) => l.id === id)!
+const lvl0 = lvl
 const build = (levelId: string, over: Partial<BuildInput> = {}) =>
   buildSession({ level: lvl(levelId), levels, mastery: {}, words, sightwords, sentences, stories, rhymes, now: 0, count: 8, reviewShare: 0.25, availableGames: ALL, difficulty: 'normal', rng: seeded(3), ...over })
 
 describe('planeter med andra slag', () => {
-  it('Ordplaneten varvar Vilket ord? och memory med tre ordbilder', () => {
+  it('Ordplaneten: mest Vilket ord? med fyra alternativ, ett memory med fyra par per pass', () => {
     const tasks = build('ordplaneten')
     expect(tasks).toHaveLength(8)
-    expect(tasks.some((t) => t.game === 'which-word')).toBe(true)
-    expect(tasks.some((t) => t.game === 'sight-memory')).toBe(true)
+    expect(tasks.filter((t) => t.game === 'which-word')).toHaveLength(7)
+    expect(tasks.filter((t) => t.game === 'sight-memory')).toHaveLength(1)
     for (const t of tasks) {
       expect(t.kind).toBe('sightword')
-      expect(t.options).toHaveLength(3)
+      expect(t.options).toHaveLength(4)
+      expect(new Set(t.options).size).toBe(4)
       expect(t.options).toContain(t.targetId)
+    }
+    // lätt nivå: tre alternativ och två memory
+    const easy = build('ordplaneten', { difficulty: 'easy' })
+    expect(easy.filter((t) => t.game === 'sight-memory')).toHaveLength(2)
+    for (const t of easy.filter((t) => t.game === 'which-word')) expect(t.options).toHaveLength(3)
+  })
+
+  it('Tvillingplaneten blandar Fånga ljudet (bara m/n), ljudsortering åt båda håll och läsuppgifter med m-/n-ord', () => {
+    const tasks = build('tvillingplaneten')
+    expect(tasks).toHaveLength(8)
+    expect(tasks[0].game).toBe('catch-sound')
+    expect([...tasks[0].options].sort()).toEqual(['m', 'n'])
+    const kinds = new Set(tasks.map((t) => t.game))
+    expect(kinds.size).toBeGreaterThanOrEqual(4)
+    const sorts = tasks.filter((t) => t.game === 'sound-sort')
+    expect(sorts.length).toBeGreaterThanOrEqual(3)
+    for (const t of sorts) {
+      expect(t.kind).toBe('contrast')
+      const w = words.find((x) => x.id === t.targetId)!
+      expect(w.emoji).not.toBe('')
+      expect(w.sounds.includes('m')).not.toBe(w.sounds.includes('n'))
+      if (t.options.includes('m')) expect(t.answer).toBe(w.sounds.includes('m') ? 'm' : 'n')
+      else {
+        // omvänd: tre bilder, rätt svar är målordet, de andra har den andra bokstaven
+        expect(t.options).toHaveLength(3)
+        expect(t.answer).toBe(t.targetId)
+        for (const id of t.options.filter((x) => x !== t.targetId)) expect(words.find((x) => x.id === id)!.sounds.includes(w.sounds.includes('m') ? 'n' : 'm')).toBe(true)
+      }
+    }
+    for (const t of tasks.filter((x) => x.game === 'build-word')) {
+      const w = words.find((x) => x.id === t.targetId)!
+      expect(t.options).toContain(w.sounds.includes('m') ? 'n' : 'm')
     }
   })
 
@@ -41,17 +75,29 @@ describe('planeter med andra slag', () => {
     expect(Number(st.answer)).toBeLessThan(st.options.length)
   })
 
-  it('Startrampen ger rim med partnern bland tre bilder', () => {
+  it('Startrampen blandar fyra ljudlekar, alla räknas som hörövning', () => {
     const tasks = build('startrampen')
     expect(tasks.length).toBeGreaterThanOrEqual(6)
+    expect(new Set(tasks.map((t) => t.game)).size).toBeGreaterThanOrEqual(3)
     for (const t of tasks) {
-      expect(t.game).toBe('rhyme-hunt')
+      expect(t.kind).toBe('phoneme')
       expect(t.options).toContain(t.answer)
-      expect(t.options).toHaveLength(3)
-      expect(rhymes.some((p) => p.includes(t.targetId) && p.includes(t.answer!))).toBe(true)
-      // fel bilder rimmar inte med målordet
-      const target = words.find((w) => w.id === t.targetId)!
-      for (const o of t.options.filter((x) => x !== t.answer)) expect(rhymeKey(words.find((w) => w.id === o)!.text)).not.toBe(rhymeKey(target.text))
+      const w = words.find((x) => x.id === t.targetId)!
+      expect(w.emoji).not.toBe('')
+      if (t.game === 'rhyme-hunt') {
+        expect(rhymes.some((p) => p.includes(t.targetId) && p.includes(t.answer!))).toBe(true)
+        for (const o of t.options.filter((x) => x !== t.answer)) expect(rhymeKey(words.find((x) => x.id === o)!.text)).not.toBe(rhymeKey(w.text))
+      } else if (t.game === 'first-sound' || t.game === 'last-sound') {
+        expect(t.options).toHaveLength(3)
+        expect(t.answer).toBe(t.game === 'first-sound' ? w.sounds[0] : w.sounds[w.sounds.length - 1])
+        // fel bokstäver får inte finnas i ordet alls
+        for (const o of t.options.filter((x) => x !== t.answer)) expect(w.sounds).not.toContain(o)
+      } else {
+        expect(t.game).toBe('count-sounds')
+        expect(Number(t.answer)).toBe(w.sounds.length)
+        expect(w.decodable).toBe(true)
+        for (const o of t.options) expect(Number(o)).toBeGreaterThanOrEqual(2)
+      }
     }
   })
 
@@ -77,6 +123,43 @@ describe('rimpar', () => {
       const wa = words.find((w) => w.id === a)!
       const wb = words.find((w) => w.id === b)!
       expect(rhymeKey(wa.text), `${a}/${b}`).toBe(rhymeKey(wb.text))
+    }
+  })
+})
+
+describe('nivådata', () => {
+  it('ordplaneter pekar på ord som finns och har bild, meningsurval finns, krav-kedjan är hel', () => {
+    for (const l of levels) {
+      for (const id of l.words ?? []) {
+        const w = words.find((x) => x.id === id)
+        expect(w, `${l.id}: ${id}`).toBeDefined()
+        // Bild krävs bara där ett bildspel används; vardagsord som "har" har ingen bild.
+        if (l.games.includes('read-word')) expect(w!.emoji, `${l.id}: ${id} saknar bild`).not.toBe('')
+      }
+      for (const id of l.sentences ?? []) expect(sentences.some((s) => s.id === id), `${l.id}: ${id}`).toBe(true)
+      for (const r of l.requires) expect(levels.findIndex((x) => x.id === r), `${l.id} kräver ${r}`).toBeLessThan(levels.findIndex((x) => x.id === l.id))
+    }
+    const listed = new Set(levels.flatMap((l) => l.sentences ?? []))
+    for (const s of sentences) expect(listed.has(s.id), `meningen ${s.id} finns inte på någon planet`).toBe(true)
+  })
+})
+
+describe('ordbilder och vardagsord', () => {
+  it('ordbildslistan innehåller bara ord som inte låter som de stavas', () => {
+    // Ljudenliga ord ska avkodas (Vardagsplaneten), inte memoreras som helhetsbilder.
+    const decodableLooking = ['du', 'en', 'ett', 'har', 'inte', 'på', 'vi', 'hon', 'han', 'kan', 'ska', 'till', 'med', 'här', 'nu']
+    for (const w of sightwords) expect(decodableLooking, `${w.text} är ljudenligt och hör hemma bland orden`).not.toContain(w.text)
+  })
+
+  it('Vardagsplaneten kör ord utan bild i flera spel, aldrig i Läs och välj', () => {
+    const lvl = lvl0('vardagsplaneten')
+    expect(lvl.games).not.toContain('read-word')
+    const tasks = build('vardagsplaneten')
+    expect(tasks).toHaveLength(8)
+    expect(new Set(tasks.map((t) => t.game)).size).toBeGreaterThan(1)
+    for (const t of tasks) {
+      expect(lvl.words).toContain(t.targetId)
+      expect(['sound-train', 'build-word', 'which-word']).toContain(t.game)
     }
   })
 })

@@ -12,6 +12,8 @@ import type { Task } from '../engine/types'
 interface Props {
   task: Task
   scaffold: boolean
+  /** Alternativ som strukits som hjälp efter två fel: nedtonade och otryckbara. */
+  eliminated?: string[]
   celebrating: boolean
   brief?: boolean
   onWrong: () => void
@@ -19,7 +21,7 @@ interface Props {
 }
 
 /** Rimjakt: hör och se ett ord, tryck på bilden som rimmar. */
-export default function RhymeHunt({ task, scaffold, celebrating, brief, onWrong, onSolved }: Props) {
+export default function RhymeHunt({ task, scaffold, eliminated = [], celebrating, brief, onWrong, onSolved }: Props) {
   const target = wordById.get(task.targetId)
   const answer = task.answer ?? ''
   const [solved, setSolved] = useState(false)
@@ -38,6 +40,7 @@ export default function RhymeHunt({ task, scaffold, celebrating, brief, onWrong,
   }, [scaffold])
 
   const tap = async (id: string, e: React.PointerEvent) => {
+    if (eliminated.includes(id)) return
     if (solved) return
     if (id === answer) {
       setSolved(true)
@@ -79,7 +82,7 @@ export default function RhymeHunt({ task, scaffold, celebrating, brief, onWrong,
               whileTap={{ scale: 0.92 }}
               animate={wobble === id ? { rotate: [0, -8, 8, -5, 5, 0] } : solved && isAnswer ? { scale: [1, 1.25, 1.15] } : scaffold && isAnswer && !solved ? { scale: [1, 1.08, 1] } : { rotate: 0, scale: 1 }}
               transition={{ duration: 0.5, repeat: scaffold && isAnswer && !solved ? Infinity : 0 }}
-              className={`relative flex h-48 w-48 flex-col items-center justify-center rounded-[36px] ${solved && isAnswer ? 'bg-sun' : 'bg-white/15'} ${(scaffold || solved) && !isAnswer ? 'opacity-30' : ''} ${scaffold && isAnswer && !solved ? 'glow' : ''}`}
+              className={`relative flex h-48 w-48 flex-col items-center justify-center rounded-[36px] ${solved && isAnswer ? 'bg-sun' : 'bg-white/15'} ${(scaffold || solved) && !isAnswer ? 'opacity-30' : ''} ${scaffold && isAnswer && !solved ? 'glow' : ''} ${eliminated.includes(id) ? 'pointer-events-none opacity-20' : ''}`}
             >
               <span className="big-emoji text-[100px]">{w.emoji}</span>
               <span className="text-[26px] font-bold">{w.text}</span>

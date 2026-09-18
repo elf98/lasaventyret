@@ -25,6 +25,14 @@ export interface Letter {
   ssml?: string
   /** Eget tempo för ljudet, t.ex. "-10%". Standard: vokal -35 %, hållbar konsonant -20 %, stopp +20 %. */
   rate?: string
+  /**
+   * Klipp i det genererade ljudet (sparas då som WAV): `start` = "voiced" klipper bort allt
+   * före röstens start (t.ex. f i "fy" så bara y blir kvar) eller ett antal ms; `keep` = andel
+   * av resten som behålls (0.5 = första halvan). Slutet tonas ut.
+   */
+  cut?: { start?: 'voiced' | 'tail' | number; end?: 'unvoiced' | 'voiced'; after?: number; keep?: number; hold?: number; eq?: { f: number; gain: number; q?: number }[] }
+  /** Egen röst: Hillevi skiljer m och n åt tydligare än standardrösten (mätt på andra formanten). */
+  voice?: string
 }
 
 export interface Word {
@@ -75,6 +83,11 @@ export interface MascotName {
 
 export type GameId =
   | 'catch-sound'
+  | 'sound-sort'
+  | 'read-word'
+  | 'first-sound'
+  | 'last-sound'
+  | 'count-sounds'
   | 'build-word'
   | 'which-word'
   | 'sound-train'
@@ -89,11 +102,17 @@ export interface Level {
   emoji: string
   x: number
   y: number
-  kind: 'letters' | 'sightwords' | 'cluster' | 'sentences' | 'stories' | 'phonology'
+  kind: 'letters' | 'sightwords' | 'cluster' | 'words' | 'contrast' | 'sentences' | 'stories' | 'phonology'
   letters: string[]
+  /** kind 'words': exakt dessa ord-id (t.ex. korta ord, långa ord, dubbeltecknade, kluster). */
+  words?: string[]
+  /** kind 'sentences': bara dessa menings-id (annars alla). */
+  sentences?: string[]
   games: GameId[]
   requires: string[]
   note?: string
+  /** Planetens mål i en mening, läses upp och visas i planetrutan. */
+  goal?: string
 }
 
 export interface Outfit {

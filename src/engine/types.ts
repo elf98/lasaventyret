@@ -1,6 +1,8 @@
 import type { GameId } from '../content'
 
-export type ItemKind = 'letter' | 'word' | 'sightword' | 'sentence' | 'story'
+/** contrast = ordet i ljudsorteringen (m eller n?), egen räkning skild från ordets läsbehärskning. */
+/** phoneme = ljudlekarna på Startrampen (rim, första/sista ljud, antal ljud) – hörförmåga, inte läsning. */
+export type ItemKind = 'letter' | 'word' | 'sightword' | 'sentence' | 'story' | 'contrast' | 'phoneme'
 
 export interface MasteryItem {
   id: string

@@ -14,6 +14,8 @@ interface Props {
   task: Task
   /** Efter två fel: stanna allt, visa bara rätt bokstav och peka på den. */
   scaffold: boolean
+  /** Alternativ som strukits som hjälp efter två fel: nedtonade och otryckbara. */
+  eliminated?: string[]
   /** Värden (SessionScreen) berömmer; vi visar bara resultatet under tiden. */
   celebrating: boolean
   /** Kort instruktion (spelet har redan förklarats en gång i passet). */
@@ -29,7 +31,7 @@ const LANES = [20, 40, 60, 78]
  * Fånga ljudet: bokstäver flyger förbi i farkoster, tryck på den som säger [ljud].
  * Fel svar ger en mjuk hint och nytt försök. Aldrig något straffande.
  */
-export default function CatchSound({ task, scaffold, celebrating, brief, onWrong, onSolved }: Props) {
+export default function CatchSound({ task, scaffold, eliminated = [], celebrating, brief, onWrong, onSolved }: Props) {
   const [ready, setReady] = useState(false)
   const [solved, setSolved] = useState(false)
   const [wobble, setWobble] = useState<string | null>(null)
@@ -53,7 +55,12 @@ export default function CatchSound({ task, scaffold, celebrating, brief, onWrong
   useEffect(() => {
     let alive = true
     audio.preload([...task.options.map(letterSoundId), phraseId('almost'), phraseId('we_look_for')])
-    void audio.speak([phraseId(brief ? 'cue_catch' : 'catch_intro'), letterSoundId(task.targetId)]).then(() => alive && setReady(true))
+    // Tryck tillåts så fort själva ljudet börjar spelas, inte först när det tystnat.
+    void audio.speak(phraseId(brief ? 'cue_catch' : 'catch_intro')).then(() => {
+      if (!alive) return
+      setReady(true)
+      void audio.speak(letterSoundId(task.targetId))
+    })
     return () => {
       alive = false
     }
@@ -68,6 +75,7 @@ export default function CatchSound({ task, scaffold, celebrating, brief, onWrong
   const replay = () => void audio.speak(letterSoundId(task.targetId))
 
   const tap = async (id: string, e: React.PointerEvent) => {
+    if (eliminated.includes(id)) return
     if (!ready || solved) return
     if (id === task.targetId) {
       busy.current = false
@@ -106,7 +114,7 @@ export default function CatchSound({ task, scaffold, celebrating, brief, onWrong
               whileTap={{ scale: 0.9 }}
               animate={wobble === f.id ? { rotate: [0, -12, 12, -8, 8, 0] } : solved && f.id === task.targetId ? { scale: [1, 1.5, 1.3] } : { rotate: 0 }}
               transition={{ duration: 0.5 }}
-              className={`flex flex-col items-center gap-1 ${solved && f.id !== task.targetId ? 'opacity-30' : ''}`}
+              className={`flex flex-col items-center gap-1 ${solved && f.id !== task.targetId ? 'opacity-30' : ''} ${eliminated.includes(f.id) ? 'pointer-events-none opacity-20' : ''}`}
             >
               <LetterCard letterId={f.id} size={110} />
               <span className="big-emoji text-[48px]" style={{ transform: f.dir === 'left' ? 'scaleX(-1)' : undefined }}>

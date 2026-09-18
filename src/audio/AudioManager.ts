@@ -79,7 +79,10 @@ class AudioManager {
     const item = this.manifest?.items[id]
     // Versionstagg ur manifestet: ljudfilerna cachas i ett år (Apache + service worker), så ett
     // omgenererat ljud måste få en ny URL för att nå iPaden utan att rensa cachen.
-    if (item) return { url: `${import.meta.env.BASE_URL}audio/${item.file || audioFileName(id)}${item.hash ? `?v=${item.hash}` : ''}`, format: 'mp3' }
+    if (item) {
+      const file = item.file || audioFileName(id)
+      return { url: `${import.meta.env.BASE_URL}audio/${file}${item.hash ? `?v=${item.hash}` : ''}`, format: file.endsWith('.wav') ? 'wav' : 'mp3' }
+    }
     return null
   }
 

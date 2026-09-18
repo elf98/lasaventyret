@@ -6,7 +6,7 @@ const DAY = 86_400_000
  * Nyckel i mastery-tabellen. Bokstäver lagras som sitt id ("s"), andra
  * slag får prefix ("w:sol") så att ordet "ö" inte krockar med bokstaven ö.
  */
-const PREFIX: Record<ItemKind, string> = { letter: '', word: 'w:', sightword: 'sw:', sentence: 'se:', story: 'st:' }
+const PREFIX: Record<ItemKind, string> = { letter: '', word: 'w:', sightword: 'sw:', sentence: 'se:', story: 'st:', contrast: 'c:', phoneme: 'ph:' }
 
 export function masteryKey(kind: ItemKind, id: string): string {
   return PREFIX[kind] + id
@@ -30,12 +30,15 @@ export function newItem(id: string, kind: ItemKind, now: number): MasteryItem {
   }
 }
 
+/** Rätt i rad som krävs per slag. Bokstäver och ljudade ord tre; ordbilder, meningar och berättelser två. */
+export const STREAK_NEEDED: Record<ItemKind, number> = { letter: 3, word: 3, sightword: 2, sentence: 2, story: 2, contrast: 2, phoneme: 2 }
+
 /**
- * Behärskat = minst tre rätt i rad, och de rätt svaren är spridda
+ * Behärskat = tillräckligt många rätt i rad (STREAK_NEEDED), och de rätta svaren är spridda
  * över minst två olika pass. Ett fel nollställer raden.
  */
 export function meetsMastery(item: MasteryItem): boolean {
-  return item.streak >= 3 && new Set(item.sessionsCorrect).size >= 2
+  return item.streak >= STREAK_NEEDED[item.kind] && new Set(item.sessionsCorrect).size >= 2
 }
 
 export function applyResult(item: MasteryItem, clean: boolean, sessionId: string, now: number): MasteryItem {
@@ -50,10 +53,12 @@ export function applyResult(item: MasteryItem, clean: boolean, sessionId: string
       next.intervalDays = INTERVALS[Math.min(next.streak, INTERVALS.length - 1)]
     }
   } else {
-    next.streak = 0
-    next.sessionsCorrect = []
+    // Ett fel backar ETT steg, inte till noll: ett slarvfel ska inte radera flera dagars arbete.
+    // Behärskning tappas först när raden är helt borta (tre fel i rad på en bokstav).
+    next.streak = Math.max(0, item.streak - 1)
+    next.sessionsCorrect = item.sessionsCorrect.slice(0, -1)
     next.errors = item.errors + 1
-    next.mastered = false
+    next.mastered = item.mastered && next.streak > 0
     next.intervalDays = 0
   }
   next.dueAt = now + next.intervalDays * DAY

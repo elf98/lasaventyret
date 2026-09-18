@@ -1,13 +1,15 @@
-import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { audio } from '../audio/AudioManager'
 import { sfx } from '../audio/sfx'
 import { wait } from '../audio/useSpeech'
 import BigButton from '../components/BigButton'
-import StarCounter from '../components/StarCounter'
+import StarRating from '../components/StarRating'
 import Starfield from '../components/Starfield'
 import { config, letterById, levelById, levels, outfits, praiseKeys, rhymes, sentenceById, sentences, sightwords, stickers, stories, storyById, words } from '../content'
 import { phraseId, wordId } from '../content/audioIds'
 import { bag, newId, pick } from '../engine/random'
+import { sessionRating } from '../engine/rating'
 import { buildSession } from '../engine/sessionBuilder'
 import type { Task } from '../engine/types'
 import { diff } from '../engine/unlock'
@@ -17,6 +19,10 @@ import CatchSound from '../games/CatchSound'
 import RhymeHunt from '../games/RhymeHunt'
 import SightMemory from '../games/SightMemory'
 import SillySentences from '../games/SillySentences'
+import CountSounds from '../games/CountSounds'
+import ReadWord from '../games/ReadWord'
+import SoundHunt from '../games/SoundHunt'
+import SoundSort from '../games/SoundSort'
 import SoundTrain from '../games/SoundTrain'
 import StoryReader from '../games/StoryReader'
 import WhichWord from '../games/WhichWord'
@@ -27,7 +33,7 @@ import { useSettings } from '../store/settings'
 /** Beröm i slumpad ordning utan upprepning, hela leken innan någon fras återkommer. */
 const nextPraise = bag(praiseKeys)
 
-const GAMES = { 'catch-sound': CatchSound, 'sound-train': SoundTrain, 'build-word': BuildWord, 'which-word': WhichWord, 'sight-memory': SightMemory, 'rhyme-hunt': RhymeHunt, 'silly-sentences': SillySentences, story: StoryReader }
+const GAMES = { 'catch-sound': CatchSound, 'sound-sort': SoundSort, 'read-word': ReadWord, 'first-sound': SoundHunt, 'last-sound': SoundHunt, 'count-sounds': CountSounds, 'sound-train': SoundTrain, 'build-word': BuildWord, 'which-word': WhichWord, 'sight-memory': SightMemory, 'rhyme-hunt': RhymeHunt, 'silly-sentences': SillySentences, story: StoryReader }
 
 /** Dev-genväg: ?task=<spel>:<mål> ger ett pass med exakt en uppgift. */
 function devTask(): Task[] | null {
@@ -88,7 +94,7 @@ export default function SessionScreen() {
   )
   const [index, setIndex] = useState(0)
   const [wrong, setWrong] = useState(0)
-  const [stars, setStars] = useState(0)
+  const [done, setDone] = useState(0)
   const [correct, setCorrect] = useState(0)
   const [celebrating, setCelebrating] = useState(false)
   const task = tasks[index]
@@ -105,10 +111,11 @@ export default function SessionScreen() {
   }, [tasks.length, go])
 
   useEffect(() => {
-    if (import.meta.env.DEV) (window as unknown as { __session?: unknown }).__session = { tasks, index, wrong, stars }
-  }, [tasks, index, wrong, stars])
+    if (import.meta.env.DEV) (window as unknown as { __session?: unknown }).__session = { tasks, index, wrong, correct }
+  }, [tasks, index, wrong, correct])
 
-  const finish = (totalStars: number, totalCorrect: number) => {
+  const finish = (totalCorrect: number) => {
+    const rating = sessionRating(totalCorrect, tasks.length)
     const p = useProgress.getState()
     const newlyCompleted = diff(meta.current.completedBefore, selectCompleted(p))
     if (newlyCompleted.length) p.markCompleted(newlyCompleted)
@@ -118,23 +125,21 @@ export default function SessionScreen() {
       sticker = pick(stickers)
       p.addSticker(sticker)
     }
-    p.addStars(totalStars)
+    p.addStars(rating)
     const starsNow = useProgress.getState().stars
     const newOutfit = outfits.find((o) => o.stars <= starsNow && !p.outfits.includes(o.id)) ?? null
     if (newOutfit) p.addOutfit(newOutfit.id)
-    p.addSession({ id: meta.current.id, levelId: level.id, startedAt: meta.current.startedAt, endedAt: Date.now(), tasks: tasks.length, correct: totalCorrect, stars: totalStars, practiced: Array.from(new Set(tasks.map((t) => t.targetId))) })
-    finishSession({ levelId: level.id, stars: totalStars, correct: totalCorrect, tasks: tasks.length, sticker, newlyCompleted, newlyUnlocked, newOutfit: newOutfit?.id ?? null })
+    p.addSession({ id: meta.current.id, levelId: level.id, startedAt: meta.current.startedAt, endedAt: Date.now(), tasks: tasks.length, correct: totalCorrect, stars: rating, practiced: Array.from(new Set(tasks.map((t) => t.targetId))) })
+    finishSession({ levelId: level.id, stars: rating, correct: totalCorrect, tasks: tasks.length, sticker, newlyCompleted, newlyUnlocked, newOutfit: newOutfit?.id ?? null })
   }
 
   const onSolved = async () => {
     if (celebrating || !task) return
     const clean = wrong === 0
-    useProgress.getState().recordResult({ taskId: task.id, targetId: task.targetId, kind: task.kind, clean, wrongTaps: wrong, scaffolded: wrong >= 2 }, meta.current.id)
-    const gained = clean ? 2 : 1
-    const totalStars = stars + gained
+    useProgress.getState().recordResult({ taskId: task.id, targetId: task.targetId, kind: task.kind, clean, wrongTaps: wrong, scaffolded: wrong >= 3 }, meta.current.id)
     const totalCorrect = correct + (clean ? 1 : 0)
-    setStars(totalStars)
     setCorrect(totalCorrect)
+    setDone(done + 1)
     setCelebrating(true)
     sfx.star()
     const example = task.kind === 'letter' ? letterById.get(task.targetId)?.example : undefined
@@ -145,8 +150,35 @@ export default function SessionScreen() {
       setIndex(index + 1)
       setWrong(0)
       setCelebrating(false)
-    } else finish(totalStars, totalCorrect)
+    } else finish(totalCorrect)
   }
+
+  // Frenetiskt tryckande (tre tryck på 1,2 sekunder) ger en kort paus där inga tryck når spelet.
+  const taps = useRef<number[]>([])
+  const [calm, setCalm] = useState(false)
+  const onTap = () => {
+    const now = Date.now()
+    taps.current = [...taps.current.filter((t) => now - t < 1200), now]
+    if (taps.current.length >= 3 && !calm) {
+      setCalm(true)
+      taps.current = []
+      void audio.speak(phraseId('calm_down'))
+      window.setTimeout(() => setCalm(false), 4500)
+    }
+  }
+
+  /**
+   * Hjälpen trappas i stället för att peka ut svaret direkt: första felet ger ljudet igen (spelen gör
+   * det själva), andra felet stryker ett felaktigt alternativ, tredje felet pekar ut rätt svar.
+   * Strykningen gäller bara spel där alternativen är hela svar (inte brickor, vagnar eller memorykort).
+   */
+  const eliminated = useMemo(() => {
+    const pickable: Task['game'][] = ['catch-sound', 'which-word', 'read-word', 'sound-sort', 'first-sound', 'last-sound', 'count-sounds', 'rhyme-hunt', 'silly-sentences']
+    if (!task || wrong !== 2 || !pickable.includes(task.game)) return []
+    const answer = task.answer ?? task.targetId
+    const wrongOptions = task.options.filter((o) => o !== answer)
+    return wrongOptions.length >= 2 ? [wrongOptions[0]] : []
+  }, [task, wrong])
 
   const Game = task ? GAMES[task.game] : null
 
@@ -156,9 +188,20 @@ export default function SessionScreen() {
       <div className="absolute top-3 right-4 left-4 z-20 flex items-center justify-between">
         <BigButton size="md" icon="🗺️" color="bg-black/40" speakId={phraseId('btn_home')} onPress={() => go('map')} label="Till kartan" />
         <ProgressTrack total={tasks.length} index={index} />
-        <StarCounter value={stars} />
+        <StarRating value={sessionRating(correct + (tasks.length - done), tasks.length)} />
       </div>
-      {task && Game && <Game key={task.id} task={task} scaffold={wrong >= 2} celebrating={celebrating} brief={brief} onWrong={() => setWrong((w) => w + 1)} onSolved={() => void onSolved()} />}
+      <div className="absolute inset-0" onPointerDownCapture={onTap}>
+        {task && Game && <Game key={task.id} task={task} scaffold={wrong >= 3} eliminated={eliminated} celebrating={celebrating} brief={brief} onWrong={() => setWrong((w) => w + 1)} onSolved={() => void onSolved()} />}
+      </div>
+      {calm && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/60" aria-live="polite">
+          <motion.div initial={{ scale: 0.6 }} animate={{ scale: [0.6, 1.1, 1] }} transition={{ duration: 0.4 }} className="flex flex-col items-center gap-3 rounded-[40px] bg-white px-14 py-10 text-space shadow-2xl">
+            <span className="text-[110px] leading-none">✋</span>
+            <span className="text-[44px] font-extrabold">Lugn!</span>
+            <span className="text-[28px] font-bold text-gray-600">Lyssna först, tryck sedan</span>
+          </motion.div>
+        </div>
+      )}
     </div>
   )
 }

@@ -2,20 +2,47 @@
   {
     "id": "startrampen",
     "name": "Startrampen",
+    "goal": "Här leker vi med ljud: rim, första ljudet, sista ljudet och hur många ljud ett ord har. Inget att läsa, bara lyssna. Bonusplanet som alltid är öppen.",
     "emoji": "🚀",
     "x": 8,
     "y": 38,
     "kind": "phonology",
     "letters": [],
     "games": [
-      "rhyme-hunt"
+      "rhyme-hunt",
+      "first-sound",
+      "last-sound",
+      "count-sounds"
     ],
     "requires": [],
-    "note": "Bonusplanet: rim. Öppen från början."
+    "note": "Bonusplanet: rim. Öppen från början.",
+    "words": [
+      "mus",
+      "hus",
+      "bil",
+      "pil",
+      "ros",
+      "nos",
+      "bok",
+      "lok",
+      "katt",
+      "hatt",
+      "ko",
+      "sko",
+      "sol",
+      "stol",
+      "is",
+      "ris",
+      "snö",
+      "ö",
+      "dam",
+      "ram"
+    ]
   },
   {
     "id": "solplaneten",
     "name": "Solplaneten",
+    "goal": "Här lär vi oss ljuden för S, O, L och A, och ljudar ihop de första orden.",
     "emoji": "☀️",
     "x": 22,
     "y": 70,
@@ -29,16 +56,18 @@
     "games": [
       "catch-sound",
       "sound-train",
-      "build-word"
+      "build-word",
+      "read-word"
     ],
     "requires": []
   },
   {
     "id": "manen",
     "name": "Månen",
+    "goal": "Här lär vi oss ljuden för M, I, R och E.",
     "emoji": "🌙",
     "x": 36,
-    "y": 36,
+    "y": 38,
     "kind": "letters",
     "letters": [
       "m",
@@ -49,7 +78,8 @@
     "games": [
       "catch-sound",
       "sound-train",
-      "build-word"
+      "build-word",
+      "read-word"
     ],
     "requires": [
       "solplaneten"
@@ -58,6 +88,7 @@
   {
     "id": "marsverkstan",
     "name": "Marsverkstan",
+    "goal": "Här lär vi oss ljuden för N, V, T och P.",
     "emoji": "🔴",
     "x": 50,
     "y": 70,
@@ -72,6 +103,7 @@
       "catch-sound",
       "sound-train",
       "build-word",
+      "read-word",
       "which-word"
     ],
     "requires": [
@@ -79,11 +111,35 @@
     ]
   },
   {
+    "id": "tvillingplaneten",
+    "name": "Tvillingplaneten",
+    "goal": "Här övar vi skillnaden mellan m och n. M gör man med läpparna ihop, mmm, och M har två pucklar. N gör man med tungan bakom tänderna, nnn, och N har en puckel.",
+    "emoji": "👯",
+    "kind": "contrast",
+    "letters": [
+      "m",
+      "n"
+    ],
+    "games": [
+      "catch-sound",
+      "sound-sort",
+      "build-word",
+      "sound-train",
+      "which-word"
+    ],
+    "requires": [
+      "marsverkstan"
+    ],
+    "x": 64,
+    "y": 38
+  },
+  {
     "id": "kometen",
     "name": "Kometen",
+    "goal": "Här lär vi oss ljuden för Ä, K, U och F.",
     "emoji": "☄️",
-    "x": 64,
-    "y": 36,
+    "x": 78,
+    "y": 70,
     "kind": "letters",
     "letters": [
       "ä",
@@ -95,18 +151,20 @@
       "catch-sound",
       "sound-train",
       "build-word",
+      "read-word",
       "which-word"
     ],
     "requires": [
-      "marsverkstan"
+      "tvillingplaneten"
     ]
   },
   {
     "id": "ordplaneten",
     "name": "Ordplaneten",
+    "goal": "Här lär vi oss ordbilder: små vanliga ord som man känner igen direkt, som och, är och jag.",
     "emoji": "🛸",
-    "x": 78,
-    "y": 70,
+    "x": 92,
+    "y": 38,
     "kind": "sightwords",
     "letters": [],
     "games": [
@@ -120,9 +178,10 @@
   {
     "id": "ringplaneten",
     "name": "Ringplaneten",
+    "goal": "Här lär vi oss ljuden för D, Ö, G och Å.",
     "emoji": "🪐",
-    "x": 92,
-    "y": 36,
+    "x": 106,
+    "y": 70,
     "kind": "letters",
     "letters": [
       "d",
@@ -134,6 +193,7 @@
       "catch-sound",
       "sound-train",
       "build-word",
+      "read-word",
       "which-word"
     ],
     "requires": [
@@ -143,9 +203,10 @@
   {
     "id": "racerbanan",
     "name": "Rymdracerbanan",
+    "goal": "Här lär vi oss ljuden för Y, H, J och B.",
     "emoji": "🏁",
-    "x": 106,
-    "y": 70,
+    "x": 120,
+    "y": 38,
     "kind": "letters",
     "letters": [
       "y",
@@ -157,6 +218,7 @@
       "catch-sound",
       "sound-train",
       "build-word",
+      "read-word",
       "which-word"
     ],
     "requires": [
@@ -164,11 +226,125 @@
     ]
   },
   {
+    "id": "vardagsplaneten",
+    "name": "Vardagsplaneten",
+    "goal": "Här läser vi de vanligaste småorden: har, kan, inte, hon, han. De låter precis som de stavas, så dem ljudar vi oss igenom.",
+    "emoji": "🏠",
+    "kind": "words",
+    "letters": [],
+    "words": [
+      "en",
+      "ett",
+      "du",
+      "vi",
+      "nu",
+      "han",
+      "hon",
+      "har",
+      "kan",
+      "ska",
+      "med",
+      "här",
+      "på",
+      "inte",
+      "till"
+    ],
+    "games": [
+      "which-word",
+      "sound-train",
+      "build-word"
+    ],
+    "requires": [
+      "racerbanan"
+    ],
+    "x": 134,
+    "y": 70
+  },
+  {
+    "id": "ordfabriken",
+    "name": "Ordfabriken",
+    "goal": "Här läser vi korta ord med tre ljud, som sol, mus och båt. Alla bokstäver kan vi redan.",
+    "emoji": "🏭",
+    "x": 148,
+    "y": 38,
+    "kind": "words",
+    "letters": [],
+    "words": [
+      "sol",
+      "ris",
+      "ros",
+      "orm",
+      "mor",
+      "pil",
+      "vas",
+      "nos",
+      "mat",
+      "ost",
+      "mus",
+      "fot",
+      "säl",
+      "lok",
+      "tåg",
+      "gul",
+      "bil",
+      "hus",
+      "bok",
+      "båt"
+    ],
+    "games": [
+      "sound-train",
+      "build-word",
+      "read-word",
+      "which-word"
+    ],
+    "requires": [
+      "vardagsplaneten"
+    ]
+  },
+  {
+    "id": "rymdstationen",
+    "name": "Rymdstationen",
+    "goal": "Här läser vi längre ord med fyra ljud eller fler, som tomat, kanin och cykel.",
+    "emoji": "🛰️",
+    "x": 162,
+    "y": 70,
+    "kind": "words",
+    "letters": [],
+    "words": [
+      "apa",
+      "tio",
+      "tomat",
+      "kaka",
+      "fika",
+      "kanin",
+      "räka",
+      "fisk",
+      "kamel",
+      "dino",
+      "måne",
+      "låda",
+      "hund",
+      "häst",
+      "bebis",
+      "cykel"
+    ],
+    "games": [
+      "sound-train",
+      "build-word",
+      "read-word",
+      "which-word"
+    ],
+    "requires": [
+      "ordfabriken"
+    ]
+  },
+  {
     "id": "robotplaneten",
     "name": "Robotplaneten",
+    "goal": "Här lär vi oss de ovanliga bokstäverna X, C, Z, Q och W.",
     "emoji": "🤖",
-    "x": 120,
-    "y": 36,
+    "x": 176,
+    "y": 38,
     "kind": "letters",
     "letters": [
       "x",
@@ -181,23 +357,36 @@
       "catch-sound",
       "sound-train",
       "build-word",
+      "read-word",
       "which-word"
     ],
     "requires": [
-      "racerbanan"
+      "rymdstationen"
     ]
   },
   {
-    "id": "verkstan",
-    "name": "Turboverkstan",
-    "emoji": "🔧",
-    "x": 134,
+    "id": "dubbelplaneten",
+    "name": "Dubbelplaneten",
+    "goal": "Här läser vi ord med dubbla bokstäver, som katt, boll och äpple. Två lika bokstäver ger ett kort ljud före.",
+    "emoji": "🎱",
+    "x": 190,
     "y": 70,
-    "kind": "cluster",
+    "kind": "words",
     "letters": [],
+    "words": [
+      "katt",
+      "hatt",
+      "boll",
+      "äpple",
+      "uggla",
+      "glass",
+      "kloss",
+      "blomma"
+    ],
     "games": [
       "sound-train",
       "build-word",
+      "read-word",
       "which-word"
     ],
     "requires": [
@@ -205,13 +394,79 @@
     ]
   },
   {
-    "id": "tokplaneten",
-    "name": "Tokplaneten",
-    "emoji": "🤪",
-    "x": 148,
-    "y": 36,
+    "id": "stjarnfabriken",
+    "name": "Stjärnfabriken",
+    "goal": "Här läser vi ord som börjar med två konsonanter ihop, som sko, stol och bro.",
+    "emoji": "✨",
+    "x": 204,
+    "y": 38,
+    "kind": "words",
+    "letters": [],
+    "words": [
+      "sko",
+      "stol",
+      "snö",
+      "glas",
+      "plan",
+      "bro",
+      "brev",
+      "krona",
+      "skog",
+      "träd",
+      "gris",
+      "åska",
+      "ödla"
+    ],
+    "games": [
+      "sound-train",
+      "build-word",
+      "read-word",
+      "which-word"
+    ],
+    "requires": [
+      "dubbelplaneten"
+    ]
+  },
+  {
+    "id": "verkstan",
+    "name": "Turboverkstan",
+    "goal": "Turboverkstan: här blandas alla svåra ord, dubbla bokstäver, kluster och sj-ljud.",
+    "emoji": "🔧",
+    "x": 218,
+    "y": 70,
+    "kind": "cluster",
+    "letters": [],
+    "games": [
+      "sound-train",
+      "build-word",
+      "read-word",
+      "which-word"
+    ],
+    "requires": [
+      "stjarnfabriken"
+    ]
+  },
+  {
+    "id": "smameningar",
+    "name": "Småmeningar",
+    "goal": "Här läser vi korta meningar med tre eller fyra ord och väljer bilden som passar.",
+    "emoji": "💬",
+    "x": 232,
+    "y": 38,
     "kind": "sentences",
     "letters": [],
+    "sentences": [
+      "kon_hatt",
+      "gris_yxa",
+      "haj_hatt",
+      "mus_bil",
+      "rav_bok",
+      "sol_sno",
+      "gul_bil",
+      "fem_katter",
+      "hund_fisk",
+      "bebis_dino"
+    ],
     "games": [
       "silly-sentences"
     ],
@@ -220,11 +475,40 @@
     ]
   },
   {
+    "id": "tokplaneten",
+    "name": "Tokplaneten",
+    "goal": "Här läser vi lite längre tokiga meningar och väljer bilden som passar.",
+    "emoji": "🤪",
+    "x": 246,
+    "y": 70,
+    "kind": "sentences",
+    "letters": [],
+    "sentences": [
+      "apa_hus",
+      "orm_bil",
+      "sal_tag",
+      "is_nasan",
+      "ko_lada",
+      "mus_manen",
+      "rav_tag",
+      "hund_katt",
+      "eld_manen",
+      "uv_taxi"
+    ],
+    "games": [
+      "silly-sentences"
+    ],
+    "requires": [
+      "smameningar"
+    ]
+  },
+  {
     "id": "sagoplaneten",
     "name": "Sagoplaneten",
+    "goal": "Här läser vi små berättelser och svarar på en fråga.",
     "emoji": "📖",
-    "x": 162,
-    "y": 70,
+    "x": 260,
+    "y": 38,
     "kind": "stories",
     "letters": [],
     "games": [

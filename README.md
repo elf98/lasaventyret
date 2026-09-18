@@ -62,7 +62,7 @@ Allt innehåll ligger i `src/content/*.json`. Ändra JSON, kör `npm run audio`,
 | `mascots.json`, `names.json` | maskoter och namnförslag |
 | `outfits.json`, `stickers.json` | kläder (stjärntröskel) och klistermärken |
 | `config.json` | barnets namn, uppgifter per pass, andel repetition, passlängd |
-| `sightwords.json` | ordbilder (och, är, jag ...) |
+| `sightwords.json` | ordbilder – **bara ord vars uttal inte följer stavningen** (och, är, jag, det, de, dem, mig, dig, sig, var, säger, mycket). Ljudenliga småord (har, kan, inte ...) ligger i `words.json` och avkodas på Vardagsplaneten; Ordplaneten kör mest Vilket ord? (3 alternativ på lätt, annars 4) med ett memory per pass, påbörjade ord först |
 | `rhymes.json` | rimpar av ord-id (båda måste ha emoji) |
 | `sentences.json` | tokiga meningar: text, rätt bild (emoji), två fel bilder |
 | `stories.json` | berättelser: titel, meningar, fråga, tre bild-alternativ, index för rätt svar |
@@ -72,8 +72,9 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
 
 ## Pedagogik och motor
 
-- `src/engine/mastery.ts` – behärskning: tre rätt i rad spridda över minst två pass. Fel
-  nollställer. Repetitionsintervall 0/1/3/7/14/30 dagar, fördubblas efter behärskning.
+- `src/engine/mastery.ts` – behärskning: tre rätt i rad (ordbilder, meningar, berättelser: två)
+  spridda över minst två pass. **Ett fel backar ett steg**, inte till noll; behärskning tappas först när
+  raden är helt borta (tre fel i rad). Repetitionsintervall 0/1/3/7/14/30 dagar, fördubblas efter behärskning.
 - `src/engine/sessionBuilder.ts` – bygger ett pass: varje bokstav i nivån minst en gång, resten
   viktat mot det svaga, plus ~25 % repetition från tidigare planeter (förfallna först). Ordandelen
   (Ljudtåget/Bygg ordet) växer från 25 % till 60 % i takt med att planetens bokstäver behärskas.
@@ -89,10 +90,14 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
 | Spel | Fil | Tränar |
 |---|---|---|
 | Fånga ljudet | `src/games/CatchSound.tsx` | bokstav–ljud |
-| Ljudtåget | `src/games/SoundTrain.tsx` | ljuda ihop i ordning, sedan välja rätt bild |
+| Första ljudet / Sista ljudet | `src/games/SoundHunt.tsx` | hör ordet, välj bokstaven för första respektive sista ljudet (ingen läsning) |
+| Räkna ljuden | `src/games/CountSounds.tsx` | hör ordet, välj hur många ljud det har; prickarna tänds när ordet ljudas |
+| Ljudsortering | `src/games/SoundSort.tsx` | m eller n: hör ordet, se bilden, tryck på bokstaven som finns i ordet |
+| Ljudtåget | `src/games/SoundTrain.tsx` | ljuda ihop i ordning, sedan välja rätt bild. Ordet sägs först EFTER bildvalet: barnet ska göra syntesen själv |
 | Bygg ordet | `src/games/BuildWord.tsx` | dra/tryck brickor till rutor, ordet ljudas ihop |
-| Vilket ord? | `src/games/WhichWord.tsx` | hör ett ord, välj rätt skrivet ord (ordbilder eller lika långa ljudenliga ord) |
-| Ordbilds-memory | `src/games/SightMemory.tsx` | tre par ordbilder, varje kort läses upp |
+| Läs och välj | `src/games/ReadWord.tsx` | ordet står skrivet, tre bilder, ordet läses INTE upp: ren avkodning. Efter två fel ljudas ordet fram |
+| Vilket ord? | `src/games/WhichWord.tsx` | hör ett ord, välj rätt skrivet ord; alternativen liknar målordet (mus/mun/mor) så hela ordet måste läsas |
+| Ordbilds-memory | `src/games/SightMemory.tsx` | fyra par ordbilder, VERSALER mot gemener (OCH + och) så att korten måste läsas; tysta tills ett par hittats |
 | Rimjakt | `src/games/RhymeHunt.tsx` | hör ett ord, välj bilden som rimmar (`rhymes.json`) |
 | Tokiga meningar | `src/games/SillySentences.tsx` | läs själv, välj rätt bild; högtalaren läser ord för ord (`sentences.json`) |
 | Berättelse | `src/games/StoryReader.tsx` | 3–5 meningar, pil för nästa, bildfråga (`stories.json`) |
@@ -103,15 +108,24 @@ passbyggaren och i `SessionScreen.tsx`, och lista spelet på planeterna i `level
 
 ## Planeter och klarkrav
 
-`levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `cluster` (Turboverkstan: ord med
-`decodable: false`), `sentences`, `stories`, `phonology` (Startrampen, bonus). En planet är klar när en
-andel av dess innehåll behärskas (`src/engine/unlock.ts`): bokstäver 80 %, ordbilder 80 %, kluster 50 %,
-meningar 50 %, berättelser 60 %. Kartan är 175 vw bred och panoreras med finger/mus eller pilknapparna.
+`levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `contrast` (Tvillingplaneten: m eller n,
+Fånga ljudet med bara de två + Ljudsortering: hör ordet, se bilden, välj bokstaven; egen räkning per ord), `words` (given ordlista: Vardagsplaneten
+vanliga småord utan bild, Ordfabriken korta ord, Rymdstationen långa ord, Dubbelplaneten dubbeltecknade,
+Stjärnfabriken kluster; ord utan bild körs i Ljudtåget, Bygg ordet och Vilket ord?), `cluster`
+(Turboverkstan: alla ord med `decodable: false`), `sentences` (med `sentences`-urval: Småmeningar de korta,
+Tokplaneten de längre), `stories`, `phonology` (Startrampen, bonus: fyra ljudlekar över en kurerad ordlista). Varje planet har ett `goal` som läses
+upp i planetrutan (långtryck på planeten). En planet är klar när en andel av dess innehåll behärskas
+(`src/engine/unlock.ts`): bokstäver 80 %, ordbilder 80 %, ordlistor 70 %, kluster 50 %, meningar 50 %,
+berättelser 60 %, ljudlekar 40 %. Ordningen: Sol, Månen, Mars, Tvillingplaneten, Kometen, Ordplaneten, Ringplaneten, Racerbanan, Vardagsplaneten, Ordfabriken,
+Rymdstationen, Robotplaneten, Dubbelplaneten, Stjärnfabriken, Turboverkstan, Småmeningar, Tokplaneten,
+Sagoplaneten. Kartan är 273 vw bred och panoreras med finger/mus eller pilknapparna.
 
 ## Svårighetsgrad och genvägar
 
 Föräldravyn: Lätt/Medel/Svår styr ordandel (25/45/60 % som grund), max stavelser utan bild (2/1/0) och
-ordspelens ordning. Planeter kan bockas som klara där, så att nästa låses upp direkt.
+ordspelens ordning. **Skrivstil** (VERSALER / gemener / blandat, `letterCase` i settings) styr hur ord
+visas i Läs och välj, Vilket ord?, meningar och berättelser; bokstavskorten visar alltid båda formerna,
+och memory parar alltid ihop versal med gemen. Blandat ger samma ord samma form varje gång. Planeter kan bockas som klara där, så att nästa låses upp direkt.
 
 ## Bokstavsljud
 
@@ -120,9 +134,18 @@ Alla bokstäver via IPA-fonem; vokalerna som korta ljud (se ovan). Stopp-ljuden
 IndexedDB, går alltid före TTS och följer med i Exportera/Importera (base64) så att den kan flyttas från
 datorn till iPaden. Inspelning kräver https eller localhost.
 
+## Stjärnor och belöning
+
+Varje pass ger 1–3 stjärnor (`src/engine/rating.ts`): 3 = alla uppgifter rätt på första försöket,
+2 = högst två uppgifter med fel, annars 1. Under passet visas hur många stjärnor som fortfarande går
+att få. Klädtrösklarna i `outfits.json` är satta efter den skalan; gamla sparfiler (version 1, stjärnor
+per uppgift) skalas ner med 5 vid migrering och import. Tre tryck på 1,2 sekunder ger en kort paus
+("Lugn! Lyssna först") där inga tryck når spelet, och i Ljudtåget räknas nästa vagn först när förra
+vagnens ljud spelats klart.
+
 ## Progress
 
-Sparas i localStorage (`lasaventyret-progress-v1`). Export/import som JSON finns i föräldravyn
+Sparas i localStorage (`lasaventyret-progress-v1`, persist-version 2). Export/import som JSON finns i föräldravyn
 (håll in kugghjulet 3 s + räkneuppgift).
 
 ## Egna ord

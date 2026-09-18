@@ -7,17 +7,22 @@ import { burstConfetti } from '../components/confetti'
 import HoldButton from '../components/HoldButton'
 import Mascot from '../components/Mascot'
 import StarCounter from '../components/StarCounter'
+import StarRating from '../components/StarRating'
 import Starfield from '../components/Starfield'
 import { levels, stickers, type Level } from '../content'
 import { levelNameId, phraseId } from '../content/audioIds'
 import { pick } from '../engine/random'
 import { useApp } from '../store/app'
+import { levelProgress } from '../engine/unlock'
 import { selectCompleted, selectUnlocked, useProgress } from '../store/progress'
 import { useSettings } from '../store/settings'
+import FullscreenButton from '../components/FullscreenButton'
+import PlanetInfo from '../components/PlanetInfo'
+import { levelGoalId } from '../content/audioIds'
 import ParentGate from './ParentGate'
 
 /** Kartans bredd i vw; planeternas x anges i vw i levels.json. */
-const MAP_WIDTH = 175
+const MAP_WIDTH = 273
 
 function today(): string {
   const d = new Date()
@@ -41,6 +46,7 @@ export default function MapScreen() {
   const [gate, setGate] = useState(false)
   const [flying, setFlying] = useState<Level | null>(null)
   const [prize, setPrize] = useState<string | null>(null)
+  const [info, setInfo] = useState<Level | null>(null)
   const scroller = useRef<HTMLDivElement>(null)
   // Egen panorering: iOS scrollar inte alltid en overflow-container i sidled,
   // så fingret/musen flyttar kartan själv och pilknapparna finns som reserv.
@@ -104,17 +110,59 @@ export default function MapScreen() {
     setScrollX(scroller.current?.scrollLeft ?? 0)
   }
 
-  const tapPlanet = async (level: Level) => {
+  // Kort tryck = åk till planeten. Långtryck (0,55 s) = planetrutan med mål, krav och läge.
+  const pressTimer = useRef<number | null>(null)
+  const longPressed = useRef(false)
+
+  const showInfo = (level: Level) => {
+    sfx.pop()
+    setInfo(level)
+    void audio.speak([levelNameId(level.id), ...(level.goal ? [levelGoalId(level.id)] : [])])
+  }
+
+  const flyTo = async (level: Level) => {
+    if (flying) return
+    setInfo(null)
+    sfx.whoosh()
+    setFlying(level)
+    const ok = await audio.speak([phraseId('lets_go_to'), levelNameId(level.id)])
+    if (ok) startSession(level.id)
+  }
+
+  const tapPlanet = (level: Level) => {
     if (flying || suppressTap.current) return
     if (!unlocked.includes(level.id)) {
       sfx.soft()
       void audio.speak(phraseId('level_locked'))
       return
     }
-    sfx.whoosh()
-    setFlying(level)
-    const ok = await audio.speak([phraseId('lets_go_to'), levelNameId(level.id)])
-    if (ok) startSession(level.id)
+    void flyTo(level)
+  }
+
+  const pressStart = (level: Level) => {
+    longPressed.current = false
+    if (pressTimer.current) window.clearTimeout(pressTimer.current)
+    pressTimer.current = window.setTimeout(() => {
+      pressTimer.current = null
+      if (suppressTap.current || flying) return
+      longPressed.current = true
+      showInfo(level)
+    }, 550)
+  }
+  const pressEnd = (level: Level) => {
+    if (pressTimer.current) {
+      window.clearTimeout(pressTimer.current)
+      pressTimer.current = null
+    }
+    if (longPressed.current) {
+      longPressed.current = false
+      return
+    }
+    tapPlanet(level)
+  }
+  const pressCancel = () => {
+    if (pressTimer.current) window.clearTimeout(pressTimer.current)
+    pressTimer.current = null
   }
 
   const openChest = async () => {
@@ -160,15 +208,23 @@ export default function MapScreen() {
 
           {levels.map((l) => {
             const isDone = completed.includes(l.id)
+            // Bästa passbetyget (1–3) på planeten visas under den, i stället för en ensam stjärna vid klar.
+            const best = progress.sessions.filter((s) => s.levelId === l.id).reduce((m, s) => Math.max(m, s.stars), 0)
             const isOpen = unlocked.includes(l.id)
             const isCurrent = l.id === current.id && !isDone
             const justUnlocked = pendingUnlock === l.id
+            // Hur långt planeten är på väg att bli klar: andel behärskat innehåll som en liten mätare.
+            const lp = levelProgress(l, progress.mastery)
+            const showBar = isOpen && !isDone && !isBonus(l) && lp.total > 0
             return (
               <motion.button
                 key={l.id}
                 type="button"
                 aria-label={l.name}
-                onClick={() => void tapPlanet(l)}
+                onPointerDown={() => pressStart(l)}
+                onPointerUp={() => pressEnd(l)}
+                onPointerLeave={pressCancel}
+                onPointerCancel={pressCancel}
                 whileTap={{ scale: 0.9 }}
                 initial={justUnlocked ? { scale: 0.4 } : false}
                 animate={justUnlocked ? { scale: [0.4, 1.35, 1] } : isCurrent ? { y: [0, -8, 0] } : { scale: 1 }}
@@ -183,7 +239,12 @@ export default function MapScreen() {
                     🔒
                   </motion.span>
                 )}
-                {isDone && <span className="big-emoji absolute -top-1 right-0 text-[40px]">⭐</span>}
+                {best > 0 && <StarRating value={Math.min(3, best)} size={30} className="absolute -bottom-7 left-1/2 -translate-x-1/2" />}
+                {showBar && (
+                  <span className={`absolute left-1/2 h-3 w-24 -translate-x-1/2 overflow-hidden rounded-full bg-black/50 ring-2 ring-white/40 ${best > 0 ? '-bottom-12' : '-bottom-5'}`} role="progressbar" aria-valuenow={Math.round(lp.partial * 100)} aria-valuemax={100} aria-label={`${Math.round(lp.partial * 100)} procent klart`}>
+                    <span className="block h-full rounded-full bg-sun transition-[width] duration-700" style={{ width: `${Math.round(lp.partial * 100)}%` }} />
+                  </span>
+                )}
                 {isBonus(l) && isOpen && !isDone && <span className="big-emoji absolute -top-1 right-0 text-[36px]">🎈</span>}
               </motion.button>
             )
@@ -212,7 +273,7 @@ export default function MapScreen() {
       )}
 
       <div className="pointer-events-none absolute top-3 right-4 left-4 z-20 flex items-center justify-between">
-        <div className="pointer-events-auto"><StarCounter value={progress.stars} /></div>
+        <div className="pointer-events-auto flex items-center gap-3"><FullscreenButton /><StarCounter value={progress.stars} /></div>
         <motion.button
           type="button"
           aria-label="Skattkista"
@@ -238,6 +299,17 @@ export default function MapScreen() {
         )}
       </AnimatePresence>
 
+      {info && (
+        <PlanetInfo
+          level={info}
+          locked={!unlocked.includes(info.id)}
+          onPlay={() => void flyTo(info)}
+          onClose={() => {
+            setInfo(null)
+            audio.stop()
+          }}
+        />
+      )}
       {gate && <ParentGate onClose={() => setGate(false)} onSuccess={() => go('parent')} />}
     </div>
   )

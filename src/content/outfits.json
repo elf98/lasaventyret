@@ -1,8 +1,8 @@
 [
-  { "id": "cap",    "emoji": "🧢", "slot": "hat",   "stars": 10 },
-  { "id": "shades", "emoji": "🕶️", "slot": "eyes",  "stars": 25 },
-  { "id": "tophat", "emoji": "🎩", "slot": "hat",   "stars": 50 },
-  { "id": "wings",  "emoji": "🦋", "slot": "wings", "stars": 80 },
-  { "id": "crown",  "emoji": "👑", "slot": "hat",   "stars": 120 },
-  { "id": "rocket", "emoji": "🚀", "slot": "hand",  "stars": 170 }
+  { "id": "cap",    "emoji": "🧢", "slot": "hat",   "stars": 2  },
+  { "id": "shades", "emoji": "🕶️", "slot": "eyes",  "stars": 5  },
+  { "id": "tophat", "emoji": "🎩", "slot": "hat",   "stars": 10 },
+  { "id": "wings",  "emoji": "🦋", "slot": "wings", "stars": 16 },
+  { "id": "crown",  "emoji": "👑", "slot": "hat",   "stars": 24 },
+  { "id": "rocket", "emoji": "🚀", "slot": "hand",  "stars": 34 }
 ]

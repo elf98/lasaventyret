@@ -5,6 +5,7 @@ import { sfx } from '../audio/sfx'
 import BigButton from '../components/BigButton'
 import { starBurst } from '../components/confetti'
 import Mascot from '../components/Mascot'
+import { useCaseClass } from '../components/textCase'
 import { storyById, tokenize } from '../content'
 import { phraseId, storyQuestionId, storySentenceId, storyTitleId, tokenId } from '../content/audioIds'
 import type { Task } from '../engine/types'
@@ -12,6 +13,8 @@ import type { Task } from '../engine/types'
 interface Props {
   task: Task
   scaffold: boolean
+  /** Alternativ som strukits som hjälp efter två fel: nedtonade och otryckbara. */
+  eliminated?: string[]
   celebrating: boolean
   brief?: boolean
   onWrong: () => void
@@ -20,6 +23,7 @@ interface Props {
 
 /** Miniberättelse: en mening i taget, pil för nästa, bildfråga på slutet. */
 export default function StoryReader({ task, scaffold, celebrating, brief, onWrong, onSolved }: Props) {
+  const caseClass = useCaseClass()
   const story = storyById.get(task.targetId)
   const [idx, setIdx] = useState(0)
   const [phase, setPhase] = useState<'read' | 'question' | 'done'>('read')
@@ -84,12 +88,12 @@ export default function StoryReader({ task, scaffold, celebrating, brief, onWron
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-8">
-      <div className="text-[34px] font-bold text-white/80">{story.title}</div>
+      <div className={`text-[34px] font-bold text-white/80 ${caseClass(story.title)}`}>{story.title}</div>
       {phase === 'read' ? (
         <>
           <div className="flex flex-wrap justify-center gap-x-5 rounded-[32px] bg-white px-12 py-8 text-space shadow-[0_8px_0_rgba(0,0,0,0.25)]">
             {words.map((w, i) => (
-              <span key={i} className={`rounded-2xl px-2 text-[56px] font-extrabold ${highlight === i ? 'bg-sun' : ''}`}>
+              <span key={i} className={`rounded-2xl px-2 text-[56px] font-extrabold ${caseClass(w)} ${highlight === i ? 'bg-sun' : ''}`}>
                 {w}
               </span>
             ))}
@@ -106,7 +110,7 @@ export default function StoryReader({ task, scaffold, celebrating, brief, onWron
         </>
       ) : (
         <>
-          <div className="rounded-[32px] bg-white px-12 py-6 text-[44px] font-extrabold text-space">{story.question}</div>
+          <div className={`rounded-[32px] bg-white px-12 py-6 text-[44px] font-extrabold text-space ${caseClass(story.question)}`}>{story.question}</div>
           <div className="flex items-center gap-8">
             {task.options.map((pic, i) => {
               const isAnswer = i === answer

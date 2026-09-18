@@ -5,6 +5,7 @@ import { sfx } from '../audio/sfx'
 import BigButton from '../components/BigButton'
 import { starBurst } from '../components/confetti'
 import Mascot from '../components/Mascot'
+import { useCaseClass } from '../components/textCase'
 import { sentenceById, tokenize } from '../content'
 import { phraseId, sentenceId, tokenId } from '../content/audioIds'
 import type { Task } from '../engine/types'
@@ -12,6 +13,8 @@ import type { Task } from '../engine/types'
 interface Props {
   task: Task
   scaffold: boolean
+  /** Alternativ som strukits som hjälp efter två fel: nedtonade och otryckbara. */
+  eliminated?: string[]
   celebrating: boolean
   brief?: boolean
   onWrong: () => void
@@ -22,7 +25,8 @@ interface Props {
  * Tokiga meningar: barnet läser meningen själv och trycker på bilden som passar.
  * Högtalaren läser ord för ord (hjälp, inget fel). Två fel = vi läser tillsammans.
  */
-export default function SillySentences({ task, scaffold, celebrating, brief, onWrong, onSolved }: Props) {
+export default function SillySentences({ task, scaffold, eliminated = [], celebrating, brief, onWrong, onSolved }: Props) {
+  const caseClass = useCaseClass()
   const sentence = sentenceById.get(task.targetId)
   const displayWords = sentence?.text.split(' ') ?? []
   const tokens = sentence ? tokenize(sentence.text) : []
@@ -53,6 +57,7 @@ export default function SillySentences({ task, scaffold, celebrating, brief, onW
   }, [scaffold])
 
   const tap = async (picture: string, e: React.PointerEvent) => {
+    if (eliminated.includes(picture)) return
     if (solved) return
     if (picture === task.answer) {
       setSolved(true)
@@ -79,7 +84,7 @@ export default function SillySentences({ task, scaffold, celebrating, brief, onW
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-10">
       <div className="flex flex-wrap justify-center gap-x-5 rounded-[32px] bg-white px-12 py-8 text-space shadow-[0_8px_0_rgba(0,0,0,0.25)]">
         {displayWords.map((w, i) => (
-          <span key={i} className={`rounded-2xl px-2 text-[56px] font-extrabold transition-colors ${highlight === i ? 'bg-sun' : ''}`}>
+          <span key={i} className={`rounded-2xl px-2 text-[56px] font-extrabold ${caseClass(w)} transition-colors ${highlight === i ? 'bg-sun' : ''}`}>
             {w}
           </span>
         ))}
@@ -96,7 +101,7 @@ export default function SillySentences({ task, scaffold, celebrating, brief, onW
               whileTap={{ scale: 0.92 }}
               animate={wobble === pic ? { rotate: [0, -8, 8, -5, 5, 0] } : solved && isAnswer ? { scale: [1, 1.2, 1.1] } : scaffold && isAnswer && !solved ? { scale: [1, 1.06, 1] } : { rotate: 0, scale: 1 }}
               transition={{ duration: 0.5, repeat: scaffold && isAnswer && !solved ? Infinity : 0 }}
-              className={`flex h-40 min-w-52 items-center justify-center rounded-[36px] px-6 ${solved && isAnswer ? 'bg-sun' : 'bg-white/15'} ${solved && !isAnswer ? 'opacity-30' : ''} ${scaffold && isAnswer && !solved ? 'glow' : ''}`}
+              className={`flex h-40 min-w-52 items-center justify-center rounded-[36px] px-6 ${solved && isAnswer ? 'bg-sun' : 'bg-white/15'} ${solved && !isAnswer ? 'opacity-30' : ''} ${scaffold && isAnswer && !solved ? 'glow' : ''} ${eliminated.includes(pic) ? 'pointer-events-none opacity-20' : ''}`}
             >
               <span className="big-emoji text-[84px] tracking-wider">{pic}</span>
             </motion.button>

@@ -13,6 +13,8 @@ import type { Task } from '../engine/types'
 interface Props {
   task: Task
   scaffold: boolean
+  /** Alternativ som strukits som hjälp efter två fel: nedtonade och otryckbara. */
+  eliminated?: string[]
   celebrating: boolean
   /** Kort instruktion (spelet har redan förklarats en gång i passet). */
   brief?: boolean
@@ -50,19 +52,22 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
   const drive = async () => {
     setPhase('drive')
     sfx.whoosh()
-    await audio.speak([phraseId('train_go'), wordId(task.targetId)])
     if (word && word.emoji !== '' && task.options.length > 1) {
+      // Barnet ska själv ljuda ihop: ordet sägs INTE före bildvalet, bara som bekräftelse efteråt.
       setPhase('pick')
       void audio.speak(phraseId('which_picture'))
     } else {
+      // Stavelse utan bild: inget att välja mellan, ordet är facit.
       setPhase('done')
-      await audio.speak([phraseId('it_became'), wordId(task.targetId)])
+      await audio.speak(wordId(task.targetId))
       onSolved()
     }
   }
 
   const tapWagon = async (i: number, e: React.PointerEvent) => {
     if (phase !== 'tap') return
+    // Ett tryck i taget: nästa vagn räknas först när förra vagnens ljud är klart.
+    if (busy.current) return
     if (i === next) {
       sfx.pop()
       starBurst(e.clientX / window.innerWidth, e.clientY / window.innerHeight)
@@ -74,7 +79,6 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
       if (n >= sounds.length) void drive()
       return
     }
-    if (busy.current) return
     busy.current = true
     sfx.soft()
     setWobble(i)
@@ -90,6 +94,8 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
       setPicked(id)
       setPhase('done')
       sfx.tada()
+      // Bekräftelse först nu: du läste det, och ordet var ...
+      void audio.speak(wordId(task.targetId))
       onSolved()
       return
     }

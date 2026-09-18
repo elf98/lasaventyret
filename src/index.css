@@ -27,11 +27,14 @@ body {
   -webkit-touch-callout: none;
 }
 
-.screen {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+/* I components-lagret så att utilities (t.ex. overflow-y-auto i föräldravyn) vinner över overflow: hidden. */
+@layer components {
+  .screen {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
 }
 
 /* Bokstavskort: versal + gemen, vokaler röda och konsonanter blå som i svensk skola. */

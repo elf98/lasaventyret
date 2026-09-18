@@ -9,10 +9,27 @@ export function wordOptions(game: GameId, w: Word, allWords: Word[], knownWords:
     return shuffle([...w.sounds, ...extra], rng)
   }
   if (game === 'which-word') {
-    // Helst lika långa ord (sol/sal/sil), annars vad som finns. Aldrig samma text två gånger.
-    const same = shuffle(knownWords.filter((o) => o.id !== w.id && o.text.length === w.text.length && o.text !== w.text), rng)
-    const rest = shuffle(knownWords.filter((o) => o.id !== w.id && o.text.length !== w.text.length), rng)
-    const picks = [...same, ...rest].filter((o, i, arr) => arr.findIndex((x) => x.text === o.text) === i).slice(0, 2)
+    // Alternativen ska likna målordet, annars räcker det att läsa första bokstaven för att gissa rätt:
+    // samma längd och samma första/sista bokstav väger tyngst (mus/mun/mor). Aldrig samma text två gånger.
+    const score = (o: Word) =>
+      (o.text.length === w.text.length ? 3 : 0) + (o.text[0] === w.text[0] ? 3 : 0) + (o.text[o.text.length - 1] === w.text[w.text.length - 1] ? 2 : 0) + (o.sounds.length === w.sounds.length ? 1 : 0)
+    const picks = shuffle(knownWords.filter((o) => o.id !== w.id && o.text !== w.text), rng)
+      .sort((a, b) => score(b) - score(a))
+      .filter((o, i, arr) => arr.findIndex((x) => x.text === o.text) === i)
+      .slice(0, 2)
+    return shuffle([w.id, ...picks.map((o) => o.id)], rng)
+  }
+  if (game === 'read-word') {
+    // Bilder som alternativ. En distraktor ska likna målordet i skrift (samma början eller längd),
+    // annars går uppgiften att lösa på första bokstaven.
+    const cands = allWords.filter((o) => o.emoji !== '' && o.id !== w.id && o.emoji !== w.emoji)
+    const near = shuffle(cands.filter((o) => o.text[0] === w.text[0] || o.text.length === w.text.length), rng)
+    const far = shuffle(cands.filter((o) => !near.includes(o)), rng)
+    const picks: Word[] = []
+    for (const o of [...near, ...far]) {
+      if (picks.length >= 2) break
+      if (!picks.some((p) => p.emoji === o.emoji)) picks.push(o)
+    }
     return shuffle([w.id, ...picks.map((o) => o.id)], rng)
   }
   // sound-train: bildval efter ljudningen (tomt för stavelser utan bild)

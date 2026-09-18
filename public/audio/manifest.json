@@ -4,8 +4,8 @@
   "items": {
     "letter.s": {
       "file": "letter.s.mp3",
-      "hash": "61b91cded95c",
-      "text": "[ljud s] ss"
+      "hash": "a85e03160b49",
+      "text": "[ljud s] s"
     },
     "letter.o": {
       "file": "letter.o.mp3",
@@ -14,8 +14,8 @@
     },
     "letter.l": {
       "file": "letter.l.mp3",
-      "hash": "c55c3cdf1c01",
-      "text": "[ljud l] ll"
+      "hash": "226da2bb79c3",
+      "text": "[ljud l] l"
     },
     "letter.a": {
       "file": "letter.a.mp3",
@@ -23,9 +23,9 @@
       "text": "[ljud a] a -10%"
     },
     "letter.m": {
-      "file": "letter.m.mp3",
-      "hash": "5fbaf4828c70",
-      "text": "[ljud m] mm"
+      "file": "letter.m.wav",
+      "hash": "c937fc6de0ae",
+      "text": "[ljud m] ssml -25% klipp {\"start\":\"tail\",\"eq\":[{\"f\":2200,\"gain\":-8,\"q\":0.6}]}"
     },
     "letter.i": {
       "file": "letter.i.mp3",
@@ -43,24 +43,24 @@
       "text": "[ljud e] \"e\" -40%"
     },
     "letter.n": {
-      "file": "letter.n.mp3",
-      "hash": "715b3c196755",
-      "text": "[ljud n] nn"
+      "file": "letter.n.wav",
+      "hash": "844c9494625f",
+      "text": "[ljud n] ssml -25% klipp {\"start\":\"tail\",\"eq\":[{\"f\":2000,\"gain\":10.5,\"q\":0.6}]}"
     },
     "letter.v": {
       "file": "letter.v.mp3",
-      "hash": "9050df4b0c02",
-      "text": "[ljud v] vv"
+      "hash": "a0b017d30bbc",
+      "text": "[ljud v] v"
     },
     "letter.t": {
-      "file": "letter.t.mp3",
-      "hash": "0abfb6fb4e60",
-      "text": "[ljud t] th"
+      "file": "letter.t.wav",
+      "hash": "3c037f119c1b",
+      "text": "[ljud t] tʊˈmɑːt -20% klipp {\"end\":\"voiced\"}"
     },
     "letter.p": {
       "file": "letter.p.mp3",
-      "hash": "ca8adb302723",
-      "text": "[ljud p] ph"
+      "hash": "d752105a1ccc",
+      "text": "[ljud p] pə"
     },
     "letter.ä": {
       "file": "letter.ae.mp3",
@@ -69,8 +69,8 @@
     },
     "letter.k": {
       "file": "letter.k.mp3",
-      "hash": "ae1e9c370389",
-      "text": "[ljud k] kh"
+      "hash": "cdc3dc14de29",
+      "text": "[ljud k] kə"
     },
     "letter.u": {
       "file": "letter.u.mp3",
@@ -79,8 +79,8 @@
     },
     "letter.f": {
       "file": "letter.f.mp3",
-      "hash": "e263f9c852a6",
-      "text": "[ljud f] fff"
+      "hash": "f0949674c869",
+      "text": "[ljud f] f"
     },
     "letter.d": {
       "file": "letter.d.mp3",
@@ -89,8 +89,8 @@
     },
     "letter.ö": {
       "file": "letter.oe.mp3",
-      "hash": "5e9d01ef1c1c",
-      "text": "[ljud ö] øː"
+      "hash": "49534d9d2a11",
+      "text": "[ljud ö] øː -10%"
     },
     "letter.g": {
       "file": "letter.g.mp3",
@@ -104,18 +104,18 @@
     },
     "letter.y": {
       "file": "letter.y.mp3",
-      "hash": "e04cc9bc9050",
-      "text": "[ljud y] ssml"
+      "hash": "04cd8a1c3ca3",
+      "text": "[ljud y] ssml -25%"
     },
     "letter.h": {
-      "file": "letter.h.mp3",
-      "hash": "6ed91ec91807",
-      "text": "[ljud h] hh"
+      "file": "letter.h.wav",
+      "hash": "6277eaee5cc1",
+      "text": "[ljud h] hɑːv -35% klipp {\"end\":\"voiced\"}"
     },
     "letter.j": {
-      "file": "letter.j.mp3",
-      "hash": "8055120bfc82",
-      "text": "[ljud j] jjj"
+      "file": "letter.j.wav",
+      "hash": "cff9470b2dd9",
+      "text": "[ljud j] jjj klipp {\"keep\":0.55}"
     },
     "letter.b": {
       "file": "letter.b.mp3",
@@ -129,23 +129,23 @@
     },
     "letter.c": {
       "file": "letter.c.mp3",
-      "hash": "5aef1db2d973",
-      "text": "[ljud c] ss"
+      "hash": "14ed2dc087bf",
+      "text": "[ljud c] s"
     },
     "letter.z": {
       "file": "letter.z.mp3",
-      "hash": "8cec4e138573",
-      "text": "[ljud z] ss"
+      "hash": "3c81168fa05f",
+      "text": "[ljud z] s"
     },
     "letter.q": {
       "file": "letter.q.mp3",
-      "hash": "d87575015fe5",
-      "text": "[ljud q] kh"
+      "hash": "b567661f94bb",
+      "text": "[ljud q] kə"
     },
     "letter.w": {
       "file": "letter.w.mp3",
-      "hash": "c29e1d3f3ac9",
-      "text": "[ljud w] vv"
+      "hash": "86c0e32eec17",
+      "text": "[ljud w] v"
     },
     "word.sol": {
       "file": "word.sol.mp3",
@@ -1144,13 +1144,13 @@
     },
     "phrase.memory_intro": {
       "file": "phrase.memory_intro.mp3",
-      "hash": "c0de0d4393fa",
-      "text": "Memory! Vänd två kort och hitta två lika ord."
+      "hash": "da21c3308a37",
+      "text": "Memory! Hitta samma ord två gånger. Ett kort har stora bokstäver och ett har små."
     },
     "phrase.cue_memory": {
       "file": "phrase.cue_memory.mp3",
-      "hash": "4f4877969240",
-      "text": "Memory! Hitta två lika."
+      "hash": "a05d9230a885",
+      "text": "Hitta samma ord, stora och små!"
     },
     "phrase.memory_match": {
       "file": "phrase.memory_match.mp3",
@@ -1254,12 +1254,12 @@
     },
     "sight.och": {
       "file": "sight.och.mp3",
-      "hash": "b402a1ea2f46",
+      "hash": "17bfad98ae3c",
       "text": "och"
     },
     "sight.är": {
       "file": "sight.aer.mp3",
-      "hash": "5db939e17616",
+      "hash": "8ffa8862ee99",
       "text": "är"
     },
     "sight.jag": {
@@ -1284,7 +1284,7 @@
     },
     "sight.det": {
       "file": "sight.det.mp3",
-      "hash": "8b0f52fc8e63",
+      "hash": "714f98d01c47",
       "text": "det"
     },
     "sight.har": {
@@ -1334,12 +1334,12 @@
     },
     "sight.med": {
       "file": "sight.med.mp3",
-      "hash": "adecb43d1972",
+      "hash": "1d373c19996d",
       "text": "med"
     },
     "sight.här": {
       "file": "sight.haer.mp3",
-      "hash": "2dff241a4f67",
+      "hash": "b6ba2afb56f8",
       "text": "här"
     },
     "sight.nu": {
@@ -1634,7 +1634,7 @@
     },
     "token.det": {
       "file": "token.det.mp3",
-      "hash": "2f211584da82",
+      "hash": "9f8260928756",
       "text": "det"
     },
     "token.dino": {
@@ -1754,7 +1754,7 @@
     },
     "token.här": {
       "file": "token.haer.mp3",
-      "hash": "f91d2e980cee",
+      "hash": "8d01ead202bf",
       "text": "här"
     },
     "token.i": {
@@ -1809,7 +1809,7 @@
     },
     "token.med": {
       "file": "token.med.mp3",
-      "hash": "84bb058a77f7",
+      "hash": "88bf0fbd1104",
       "text": "med"
     },
     "token.mus": {
@@ -1834,7 +1834,7 @@
     },
     "token.och": {
       "file": "token.och.mp3",
-      "hash": "82e5acad7961",
+      "hash": "1c6130646250",
       "text": "och"
     },
     "token.orm": {
@@ -1959,7 +1959,7 @@
     },
     "token.är": {
       "file": "token.aer.mp3",
-      "hash": "5a6e8ebf74e7",
+      "hash": "fdbcea64c729",
       "text": "är"
     },
     "token.åka": {
@@ -2066,6 +2066,496 @@
       "file": "phrase.praise_29.mp3",
       "hash": "828b3a3914bf",
       "text": "Det gick ju jättebra!"
+    },
+    "phrase.calm_down": {
+      "file": "phrase.calm_down.mp3",
+      "hash": "2ef7dc4da550",
+      "text": "Lugn! Lyssna först, tryck sedan."
+    },
+    "phrase.stars_1": {
+      "file": "phrase.stars_1.mp3",
+      "hash": "15c4e5255e9e",
+      "text": "Du fick en stjärna. Försök igen för att få fler!"
+    },
+    "phrase.stars_2": {
+      "file": "phrase.stars_2.mp3",
+      "hash": "6bf0dc08703f",
+      "text": "Du fick två stjärnor. Försök igen för att få fler!"
+    },
+    "phrase.stars_3": {
+      "file": "phrase.stars_3.mp3",
+      "hash": "e2b653d11082",
+      "text": "Du fick tre stjärnor! Alla rätt!"
+    },
+    "phrase.hint_starts_with": {
+      "file": "phrase.hint_starts_with.mp3",
+      "hash": "8746c360a368",
+      "text": "Ordet börjar på"
+    },
+    "phrase.btn_fullscreen": {
+      "file": "phrase.btn_fullscreen.mp3",
+      "hash": "7d83a718cc17",
+      "text": "Helskärm"
+    },
+    "phrase.planet_done_when": {
+      "file": "phrase.planet_done_when.mp3",
+      "hash": "ef8441e41684",
+      "text": "Planeten är klar när"
+    },
+    "level.startrampen.goal": {
+      "file": "level.startrampen.goal.mp3",
+      "hash": "d41ee69810b7",
+      "text": "Här leker vi med ljud: rim, första ljudet, sista ljudet och hur många ljud ett ord har. Inget att läsa, bara lyssna. Bonusplanet som alltid är öppen."
+    },
+    "level.solplaneten.goal": {
+      "file": "level.solplaneten.goal.mp3",
+      "hash": "a4feeb22dd82",
+      "text": "Här lär vi oss ljuden för S, O, L och A, och ljudar ihop de första orden."
+    },
+    "level.manen.goal": {
+      "file": "level.manen.goal.mp3",
+      "hash": "87f71666af03",
+      "text": "Här lär vi oss ljuden för M, I, R och E."
+    },
+    "level.marsverkstan.goal": {
+      "file": "level.marsverkstan.goal.mp3",
+      "hash": "89493a64bf15",
+      "text": "Här lär vi oss ljuden för N, V, T och P."
+    },
+    "level.kometen.goal": {
+      "file": "level.kometen.goal.mp3",
+      "hash": "ee1a553449a8",
+      "text": "Här lär vi oss ljuden för Ä, K, U och F."
+    },
+    "level.ordplaneten.goal": {
+      "file": "level.ordplaneten.goal.mp3",
+      "hash": "422f9c2f3147",
+      "text": "Här lär vi oss ordbilder: små vanliga ord som man känner igen direkt, som och, är och jag."
+    },
+    "level.ringplaneten.goal": {
+      "file": "level.ringplaneten.goal.mp3",
+      "hash": "4952699d4ff0",
+      "text": "Här lär vi oss ljuden för D, Ö, G och Å."
+    },
+    "level.racerbanan.goal": {
+      "file": "level.racerbanan.goal.mp3",
+      "hash": "1ce3ff48e478",
+      "text": "Här lär vi oss ljuden för Y, H, J och B."
+    },
+    "level.robotplaneten.goal": {
+      "file": "level.robotplaneten.goal.mp3",
+      "hash": "5fe3d5dc7c54",
+      "text": "Här lär vi oss de ovanliga bokstäverna X, C, Z, Q och W."
+    },
+    "level.verkstan.goal": {
+      "file": "level.verkstan.goal.mp3",
+      "hash": "b634fea03980",
+      "text": "Turboverkstan: här blandas alla svåra ord, dubbla bokstäver, kluster och sj-ljud."
+    },
+    "level.tokplaneten.goal": {
+      "file": "level.tokplaneten.goal.mp3",
+      "hash": "5b856dac4979",
+      "text": "Här läser vi lite längre tokiga meningar och väljer bilden som passar."
+    },
+    "level.sagoplaneten.goal": {
+      "file": "level.sagoplaneten.goal.mp3",
+      "hash": "9904d3ea1ef7",
+      "text": "Här läser vi små berättelser och svarar på en fråga."
+    },
+    "level.ordfabriken": {
+      "file": "level.ordfabriken.mp3",
+      "hash": "fa757cbb150b",
+      "text": "Ordfabriken"
+    },
+    "level.ordfabriken.goal": {
+      "file": "level.ordfabriken.goal.mp3",
+      "hash": "ab92236d0fe7",
+      "text": "Här läser vi korta ord med tre ljud, som sol, mus och båt. Alla bokstäver kan vi redan."
+    },
+    "level.rymdstationen": {
+      "file": "level.rymdstationen.mp3",
+      "hash": "2252338e218e",
+      "text": "Rymdstationen"
+    },
+    "level.rymdstationen.goal": {
+      "file": "level.rymdstationen.goal.mp3",
+      "hash": "52ca3e66a536",
+      "text": "Här läser vi längre ord med fyra ljud eller fler, som tomat, kanin och cykel."
+    },
+    "level.dubbelplaneten": {
+      "file": "level.dubbelplaneten.mp3",
+      "hash": "32c665cd9ab0",
+      "text": "Dubbelplaneten"
+    },
+    "level.dubbelplaneten.goal": {
+      "file": "level.dubbelplaneten.goal.mp3",
+      "hash": "063f46b651d2",
+      "text": "Här läser vi ord med dubbla bokstäver, som katt, boll och äpple. Två lika bokstäver ger ett kort ljud före."
+    },
+    "level.stjarnfabriken": {
+      "file": "level.stjarnfabriken.mp3",
+      "hash": "a72e808e9270",
+      "text": "Stjärnfabriken"
+    },
+    "level.stjarnfabriken.goal": {
+      "file": "level.stjarnfabriken.goal.mp3",
+      "hash": "b21a87a3cfa9",
+      "text": "Här läser vi ord som börjar med två konsonanter ihop, som sko, stol och bro."
+    },
+    "level.smameningar": {
+      "file": "level.smameningar.mp3",
+      "hash": "32fedf474dc7",
+      "text": "Småmeningar"
+    },
+    "level.smameningar.goal": {
+      "file": "level.smameningar.goal.mp3",
+      "hash": "33b2e7de3f5c",
+      "text": "Här läser vi korta meningar med tre eller fyra ord och väljer bilden som passar."
+    },
+    "phrase.praise_30": {
+      "file": "phrase.praise_30.mp3",
+      "hash": "9c593bcc436a",
+      "text": "Bra, Oscar!"
+    },
+    "phrase.praise_31": {
+      "file": "phrase.praise_31.mp3",
+      "hash": "691df932197d",
+      "text": "Snyggt jobbat, Oscar!"
+    },
+    "phrase.praise_32": {
+      "file": "phrase.praise_32.mp3",
+      "hash": "da1854ee5d7e",
+      "text": "Du är grym, Oscar!"
+    },
+    "phrase.praise_33": {
+      "file": "phrase.praise_33.mp3",
+      "hash": "edb9d380763f",
+      "text": "Ja! Så ska det låta!"
+    },
+    "phrase.praise_34": {
+      "file": "phrase.praise_34.mp3",
+      "hash": "22671a9049c2",
+      "text": "Rätt, rätt, rätt!"
+    },
+    "phrase.praise_35": {
+      "file": "phrase.praise_35.mp3",
+      "hash": "68f8d5dd20c3",
+      "text": "Du är en läsraket!"
+    },
+    "phrase.praise_36": {
+      "file": "phrase.praise_36.mp3",
+      "hash": "15de220b83f3",
+      "text": "Åh, vad bra!"
+    },
+    "phrase.praise_37": {
+      "file": "phrase.praise_37.mp3",
+      "hash": "433e432120f0",
+      "text": "Precis så!"
+    },
+    "phrase.praise_38": {
+      "file": "phrase.praise_38.mp3",
+      "hash": "2dfbe0b94c18",
+      "text": "Oj oj oj, vad duktig du är!"
+    },
+    "phrase.praise_39": {
+      "file": "phrase.praise_39.mp3",
+      "hash": "68e65969f7b5",
+      "text": "Mästerligt!"
+    },
+    "phrase.praise_40": {
+      "file": "phrase.praise_40.mp3",
+      "hash": "2711378ec5e8",
+      "text": "Du klarade det!"
+    },
+    "phrase.praise_41": {
+      "file": "phrase.praise_41.mp3",
+      "hash": "f7fd9403bbf6",
+      "text": "Det där satt som en smäck!"
+    },
+    "phrase.praise_42": {
+      "file": "phrase.praise_42.mp3",
+      "hash": "0d139d5555a5",
+      "text": "Bra gjort!"
+    },
+    "phrase.praise_43": {
+      "file": "phrase.praise_43.mp3",
+      "hash": "6d7d1894ef03",
+      "text": "Helt rätt, Oscar!"
+    },
+    "phrase.praise_44": {
+      "file": "phrase.praise_44.mp3",
+      "hash": "3c4d7dcbde4a",
+      "text": "Det stämmer!"
+    },
+    "phrase.praise_45": {
+      "file": "phrase.praise_45.mp3",
+      "hash": "f13d3898b086",
+      "text": "Vilken hjärna du har!"
+    },
+    "phrase.praise_46": {
+      "file": "phrase.praise_46.mp3",
+      "hash": "1a5a2cd2a2cb",
+      "text": "Rätt svar!"
+    },
+    "phrase.praise_47": {
+      "file": "phrase.praise_47.mp3",
+      "hash": "9149290700a2",
+      "text": "Nu snackar vi!"
+    },
+    "phrase.praise_48": {
+      "file": "phrase.praise_48.mp3",
+      "hash": "a6ad64e9ed67",
+      "text": "Du är på gång!"
+    },
+    "phrase.praise_49": {
+      "file": "phrase.praise_49.mp3",
+      "hash": "df79ce206dee",
+      "text": "Du lyser som en stjärna!"
+    },
+    "phrase.praise_50": {
+      "file": "phrase.praise_50.mp3",
+      "hash": "f7d19764a8a9",
+      "text": "Kanonbra, Oscar!"
+    },
+    "phrase.praise_51": {
+      "file": "phrase.praise_51.mp3",
+      "hash": "10159d167e49",
+      "text": "Toppenbra!"
+    },
+    "phrase.praise_52": {
+      "file": "phrase.praise_52.mp3",
+      "hash": "ff164d7d0fc0",
+      "text": "Det var lätt för dig!"
+    },
+    "phrase.praise_53": {
+      "file": "phrase.praise_53.mp3",
+      "hash": "db180f135ee3",
+      "text": "Läsproffs!"
+    },
+    "phrase.praise_54": {
+      "file": "phrase.praise_54.mp3",
+      "hash": "187592c38d10",
+      "text": "Ja, ja, ja!"
+    },
+    "phrase.praise_55": {
+      "file": "phrase.praise_55.mp3",
+      "hash": "6c2e20f69ab1",
+      "text": "Fantastiskt bra, Oscar!"
+    },
+    "phrase.sort_intro": {
+      "file": "phrase.sort_intro.mp3",
+      "hash": "a64dab999b80",
+      "text": "Lyssna på ordet och titta på bilden. Hör du m eller n? Tryck på rätt bokstav."
+    },
+    "phrase.cue_sort": {
+      "file": "phrase.cue_sort.mp3",
+      "hash": "e70701836392",
+      "text": "M eller n?"
+    },
+    "phrase.not_in_word": {
+      "file": "phrase.not_in_word.mp3",
+      "hash": "f1ee1cc1399c",
+      "text": "Nej, i ordet finns inget"
+    },
+    "level.tvillingplaneten": {
+      "file": "level.tvillingplaneten.mp3",
+      "hash": "10d25c51cc1f",
+      "text": "Tvillingplaneten"
+    },
+    "level.tvillingplaneten.goal": {
+      "file": "level.tvillingplaneten.goal.mp3",
+      "hash": "048d7827a136",
+      "text": "Här övar vi skillnaden mellan m och n. M gör man med läpparna ihop, mmm, och M har två pucklar. N gör man med tungan bakom tänderna, nnn, och N har en puckel."
+    },
+    "phrase.sort_reverse_intro": {
+      "file": "phrase.sort_reverse_intro.mp3",
+      "hash": "92bfa3b7cd72",
+      "text": "Vilken bild har det här ljudet i sig?"
+    },
+    "phrase.cue_sort_reverse": {
+      "file": "phrase.cue_sort_reverse.mp3",
+      "hash": "d1bab4d58003",
+      "text": "Vilken bild har"
+    },
+    "word.du": {
+      "file": "word.du.mp3",
+      "hash": "ef21b76dca06",
+      "text": "du"
+    },
+    "word.en": {
+      "file": "word.en.mp3",
+      "hash": "074dd21751ec",
+      "text": "en"
+    },
+    "word.ett": {
+      "file": "word.ett.mp3",
+      "hash": "8bea4e2182d2",
+      "text": "ett"
+    },
+    "word.har": {
+      "file": "word.har.mp3",
+      "hash": "a1561ce38ab2",
+      "text": "har"
+    },
+    "word.inte": {
+      "file": "word.inte.mp3",
+      "hash": "d2a36fafc170",
+      "text": "inte"
+    },
+    "word.på": {
+      "file": "word.paa.mp3",
+      "hash": "822ae41293fd",
+      "text": "på"
+    },
+    "word.vi": {
+      "file": "word.vi.mp3",
+      "hash": "042275d4fa7c",
+      "text": "vi"
+    },
+    "word.hon": {
+      "file": "word.hon.mp3",
+      "hash": "977affa08899",
+      "text": "hon"
+    },
+    "word.han": {
+      "file": "word.han.mp3",
+      "hash": "8b42057e95a6",
+      "text": "han"
+    },
+    "word.kan": {
+      "file": "word.kan.mp3",
+      "hash": "e510bd837c93",
+      "text": "kan"
+    },
+    "word.ska": {
+      "file": "word.ska.mp3",
+      "hash": "d850857acf87",
+      "text": "ska"
+    },
+    "word.till": {
+      "file": "word.till.mp3",
+      "hash": "100e9075be3a",
+      "text": "till"
+    },
+    "word.med": {
+      "file": "word.med.mp3",
+      "hash": "1d373c19996d",
+      "text": "med"
+    },
+    "word.här": {
+      "file": "word.haer.mp3",
+      "hash": "b6ba2afb56f8",
+      "text": "här"
+    },
+    "word.nu": {
+      "file": "word.nu.mp3",
+      "hash": "2aab6df13079",
+      "text": "nu"
+    },
+    "phrase.read_word_intro": {
+      "file": "phrase.read_word_intro.mp3",
+      "hash": "a84750668a90",
+      "text": "Läs ordet och tryck på rätt bild."
+    },
+    "phrase.cue_read_word": {
+      "file": "phrase.cue_read_word.mp3",
+      "hash": "529533afee0e",
+      "text": "Läs ordet!"
+    },
+    "phrase.that_is": {
+      "file": "phrase.that_is.mp3",
+      "hash": "9d342d524634",
+      "text": "Det där är"
+    },
+    "phrase.read_word_again": {
+      "file": "phrase.read_word_again.mp3",
+      "hash": "2e1c4ecc4551",
+      "text": "Läs ordet en gång till."
+    },
+    "level.vardagsplaneten": {
+      "file": "level.vardagsplaneten.mp3",
+      "hash": "dc9c16ea1499",
+      "text": "Vardagsplaneten"
+    },
+    "level.vardagsplaneten.goal": {
+      "file": "level.vardagsplaneten.goal.mp3",
+      "hash": "d88f9ff205ed",
+      "text": "Här läser vi de vanligaste småorden: har, kan, inte, hon, han. De låter precis som de stavas, så dem ljudar vi oss igenom."
+    },
+    "sight.de": {
+      "file": "sight.de.mp3",
+      "hash": "f1e5e3cc9ca6",
+      "text": "de"
+    },
+    "sight.dem": {
+      "file": "sight.dem.mp3",
+      "hash": "b265e56d51c5",
+      "text": "dem"
+    },
+    "sight.mig": {
+      "file": "sight.mig.mp3",
+      "hash": "ad73031fa9ab",
+      "text": "mig"
+    },
+    "sight.dig": {
+      "file": "sight.dig.mp3",
+      "hash": "773ae54259ad",
+      "text": "dig"
+    },
+    "sight.sig": {
+      "file": "sight.sig.mp3",
+      "hash": "a426d20202be",
+      "text": "sig"
+    },
+    "sight.var": {
+      "file": "sight.var.mp3",
+      "hash": "87c8d55d117e",
+      "text": "var"
+    },
+    "sight.säger": {
+      "file": "sight.saeger.mp3",
+      "hash": "98a418f10a68",
+      "text": "säger"
+    },
+    "sight.mycket": {
+      "file": "sight.mycket.mp3",
+      "hash": "27169c0e0f2c",
+      "text": "mycket"
+    },
+    "phrase.first_sound_intro": {
+      "file": "phrase.first_sound_intro.mp3",
+      "hash": "d0f90711867e",
+      "text": "Vilket ljud börjar ordet på? Tryck på bokstaven."
+    },
+    "phrase.cue_first_sound": {
+      "file": "phrase.cue_first_sound.mp3",
+      "hash": "b1d47042f900",
+      "text": "Vilket ljud börjar det på?"
+    },
+    "phrase.last_sound_intro": {
+      "file": "phrase.last_sound_intro.mp3",
+      "hash": "4fa038cae3d7",
+      "text": "Vilket ljud slutar ordet på? Tryck på bokstaven."
+    },
+    "phrase.cue_last_sound": {
+      "file": "phrase.cue_last_sound.mp3",
+      "hash": "52e91cdb19c2",
+      "text": "Vilket ljud slutar det på?"
+    },
+    "phrase.count_intro": {
+      "file": "phrase.count_intro.mp3",
+      "hash": "87ca9a54c198",
+      "text": "Hur många ljud hör du i ordet? Tryck på rätt antal."
+    },
+    "phrase.cue_count": {
+      "file": "phrase.cue_count.mp3",
+      "hash": "f7c0c6452125",
+      "text": "Hur många ljud?"
+    },
+    "phrase.build_word_is": {
+      "file": "phrase.build_word_is.mp3",
+      "hash": "235b595e17b8",
+      "text": "Vi bygger ordet"
     }
   }
 }

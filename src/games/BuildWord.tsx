@@ -12,6 +12,8 @@ import type { Task } from '../engine/types'
 interface Props {
   task: Task
   scaffold: boolean
+  /** Alternativ som strukits som hjälp efter två fel: nedtonade och otryckbara. */
+  eliminated?: string[]
   celebrating: boolean
   /** Kort instruktion (spelet har redan förklarats en gång i passet). */
   brief?: boolean
@@ -41,7 +43,9 @@ export default function BuildWord({ task, scaffold, celebrating, brief, onWrong,
 
   useEffect(() => {
     audio.preload([...sounds.map(letterSoundId), wordId(task.targetId)])
-    void audio.speak([phraseId(brief ? 'build_first' : 'build_intro'), letterSoundId(sounds[0])])
+    // Ord utan bild (har, kan, inte): utan ledtråd är uppgiften omöjlig, så ordet sägs först.
+    const intro = [phraseId(brief ? 'build_first' : 'build_intro'), letterSoundId(sounds[0])]
+    void audio.speak(word && word.emoji === '' ? [phraseId('build_word_is'), wordId(task.targetId), ...intro] : intro)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task.targetId])
 
@@ -50,14 +54,21 @@ export default function BuildWord({ task, scaffold, celebrating, brief, onWrong,
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scaffold])
 
+  // Lever komponenten fortfarande? Ljudningen kan avbrytas av annat tal (t.ex. "Lugn!"-pausen) utan att
+  // uppgiften ska gå förlorad; bara om spelet lämnats (kartan) ska onSolved utebli.
+  const alive = useRef(true)
+  useEffect(() => () => {
+    alive.current = false
+  }, [])
+
   const finish = async () => {
     setDone(true)
-    const ok = await audio.speakEach([phraseId('build_blend'), ...sounds.map(letterSoundId), wordId(task.targetId)], (i) => {
+    await audio.speakEach([phraseId('build_blend'), ...sounds.map(letterSoundId), wordId(task.targetId)], (i) => {
       setBlend(i - 1 >= 0 && i - 1 < sounds.length ? i - 1 : -1)
       if (i === sounds.length + 1) sfx.tada()
     })
     setBlend(-1)
-    if (ok) onSolved()
+    if (alive.current) onSolved()
   }
 
   const attempt = async (tileIdx: number) => {
@@ -126,7 +137,13 @@ export default function BuildWord({ task, scaffold, celebrating, brief, onWrong,
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-8">
       <div className="flex items-center gap-6">
-        <span className="big-emoji text-[130px]">{word.emoji}</span>
+        {word.emoji ? (
+          <span className="big-emoji text-[130px]">{word.emoji}</span>
+        ) : (
+          <motion.button type="button" aria-label="Hör ordet" onPointerDown={() => void audio.speak(wordId(task.targetId))} whileTap={{ scale: 0.92 }} className="flex h-32 w-32 items-center justify-center rounded-full bg-white/20">
+            <span className="big-emoji text-[80px]">🔊</span>
+          </motion.button>
+        )}
       </div>
 
       <div ref={slotRow} className="flex items-center gap-3">

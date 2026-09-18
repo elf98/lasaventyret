@@ -5,13 +5,16 @@ import { sfx } from '../audio/sfx'
 import BigButton from '../components/BigButton'
 import { starBurst } from '../components/confetti'
 import Mascot from '../components/Mascot'
+import { useCaseClass } from '../components/textCase'
 import { sightwordById, wordById } from '../content'
-import { phraseId, sightWordId, wordId } from '../content/audioIds'
+import { letterSoundId, phraseId, sightWordId, wordId } from '../content/audioIds'
 import type { Task } from '../engine/types'
 
 interface Props {
   task: Task
   scaffold: boolean
+  /** Alternativ som strukits som hjälp efter två fel: nedtonade och otryckbara. */
+  eliminated?: string[]
   celebrating: boolean
   brief?: boolean
   onWrong: () => void
@@ -22,9 +25,10 @@ interface Props {
  * Vilket ord?: hör ett ord, tryck på rätt skrivet ord av tre.
  * Ordbilder (och, är, jag ...) eller ljudenliga ord med lika långa distraktorer.
  */
-export default function WhichWord({ task, scaffold, celebrating, brief, onWrong, onSolved }: Props) {
+export default function WhichWord({ task, scaffold, eliminated = [], celebrating, onWrong, onSolved }: Props) {
   const isSight = task.kind === 'sightword'
   const label = (id: string) => (isSight ? sightwordById.get(id)?.text : wordById.get(id)?.text) ?? id
+  const caseClass = useCaseClass()
   const aud = (id: string) => (isSight ? sightWordId(id) : wordId(id))
   const [ready, setReady] = useState(false)
   const [solved, setSolved] = useState(false)
@@ -32,21 +36,24 @@ export default function WhichWord({ task, scaffold, celebrating, brief, onWrong,
   const busy = useRef(false)
 
   useEffect(() => {
-    let alive = true
     audio.preload(task.options.map(aud))
-    void audio.speak([phraseId(brief ? 'cue_which' : 'which_word_intro'), aud(task.targetId)]).then(() => alive && setReady(true))
-    return () => {
-      alive = false
-    }
+    // Ingen instruktion: att man ska trycka på ordet är uppenbart. Bara ordet, och tryck tillåts direkt.
+    setReady(true)
+    void audio.speak(aud(task.targetId))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task.targetId])
 
+  // Scaffolding pekar inte ut rätt ord (då blir det ingen läsning): ordet sägs igen och första ljudet ges som ledtråd.
   useEffect(() => {
-    if (scaffold && !solved) void audio.speak([phraseId('tap_it'), aud(task.targetId)])
+    if (scaffold && !solved) {
+      const first = label(task.targetId).charAt(0).toLowerCase()
+      void audio.speak([phraseId('listen_again'), aud(task.targetId), phraseId('hint_starts_with'), letterSoundId(first)])
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scaffold])
 
   const tap = async (id: string, e: React.PointerEvent) => {
+    if (eliminated.includes(id)) return
     if (!ready || solved) return
     if (id === task.targetId) {
       setSolved(true)
@@ -70,7 +77,7 @@ export default function WhichWord({ task, scaffold, celebrating, brief, onWrong,
       <div className="flex items-center gap-8">
         {task.options.map((id) => {
           const isTarget = id === task.targetId
-          const dim = (scaffold || solved) && !isTarget
+          const dim = solved && !isTarget
           return (
             <motion.button
               key={id}
@@ -78,14 +85,11 @@ export default function WhichWord({ task, scaffold, celebrating, brief, onWrong,
               aria-label={label(id)}
               onPointerDown={(e) => void tap(id, e)}
               whileTap={{ scale: 0.92 }}
-              animate={wobble === id ? { rotate: [0, -8, 8, -5, 5, 0] } : solved && isTarget ? { scale: [1, 1.25, 1.15] } : scaffold && isTarget ? { scale: [1, 1.08, 1] } : { rotate: 0, scale: 1 }}
-              transition={{ duration: 0.5, repeat: scaffold && isTarget && !solved ? Infinity : 0 }}
-              className={`relative flex min-w-52 items-center justify-center rounded-[32px] bg-white px-10 py-8 text-[64px] font-extrabold text-space shadow-[0_8px_0_rgba(0,0,0,0.25)] ${dim ? 'opacity-30' : ''} ${scaffold && isTarget && !solved ? 'glow' : ''}`}
+              animate={wobble === id ? { rotate: [0, -8, 8, -5, 5, 0] } : solved && isTarget ? { scale: [1, 1.25, 1.15] } : { rotate: 0, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className={`relative flex min-w-52 items-center justify-center rounded-[32px] bg-white px-10 py-8 text-[64px] font-extrabold text-space ${caseClass(label(id))} shadow-[0_8px_0_rgba(0,0,0,0.25)] ${dim ? 'opacity-30' : ''} ${eliminated.includes(id) ? 'pointer-events-none opacity-20' : ''}`}
             >
               {label(id)}
-              {scaffold && isTarget && !solved && (
-                <motion.span animate={{ y: [0, -16, 0] }} transition={{ duration: 0.7, repeat: Infinity }} className="big-emoji absolute -right-10 -bottom-12 text-[72px]">👆</motion.span>
-              )}
             </motion.button>
           )
         })}

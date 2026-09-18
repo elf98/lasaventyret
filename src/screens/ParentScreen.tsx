@@ -181,6 +181,19 @@ export default function ParentScreen() {
         </section>
 
         <section>
+          <h2 className="mb-3 text-[24px] font-bold">Skrivstil</h2>
+          <p className="mb-2 text-[15px] text-gray-500">Versaler är lättast att skilja åt i början. Böcker och skyltar använder gemener, så byt när läsningen sitter. Bokstavskorten visar alltid båda.</p>
+          <div className="flex flex-wrap gap-6 text-[20px]">
+            {([['upper', 'STORA bokstäver'], ['lower', 'små bokstäver'], ['mixed', 'Blandat']] as const).map(([v, label]) => (
+              <label key={v} className="flex items-center gap-2">
+                <input type="radio" name="letterCase" className="h-6 w-6" checked={settings.letterCase === v} onChange={() => settings.setLetterCase(v)} />
+                {label}
+              </label>
+            ))}
+          </div>
+        </section>
+
+        <section>
           <h2 className="mb-3 text-[24px] font-bold">Planeter</h2>
           <p className="mb-2 text-[15px] text-gray-500">Bocka i planeter barnet redan behärskar, så låses nästa upp direkt. Behärskningen per bokstav påverkas inte.</p>
           <div className="flex flex-wrap gap-3">

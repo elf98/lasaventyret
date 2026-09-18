@@ -7,6 +7,7 @@ export const letterSoundId = (letterId: string) => `letter.${letterId}`
 export const wordId = (id: string) => `word.${id}`
 export const phraseId = (key: string) => `phrase.${key}`
 export const levelNameId = (levelId: string) => `level.${levelId}`
+export const levelGoalId = (levelId: string) => `level.${levelId}.goal`
 export const mascotIntroId = (mascotId: string) => `mascot.${mascotId}.intro`
 export const nameId = (nameKey: string) => `name.${nameKey}`
 export const nameHelloId = (nameKey: string) => `name.${nameKey}.hello`

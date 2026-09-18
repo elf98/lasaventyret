@@ -1,6 +1,6 @@
 import type { GameId, Level, Sentence, SightWord, Story, Word } from '../content'
 import { interleave, spreadOut, wordOptions } from './builderUtils'
-import { buildPhonology, buildSentences, buildSightwords, buildStories } from './kindBuilders'
+import { buildContrast, buildPhonology, buildSentences, buildSightwords, buildStories } from './kindBuilders'
 import { isDue, masteryKey, weakness } from './mastery'
 import { shuffle, weightedPick, type Rng } from './random'
 import type { MasteryItem, Task } from './types'
@@ -29,17 +29,55 @@ export interface BuildInput {
 
 /** Svårighetsgrad: grundandel ord, max stavelser utan bild, ordspelens ordning. */
 export const DIFFICULTY: Record<Difficulty, { wordShare: number; maxSyllables: number; wordGames: GameId[] }> = {
-  easy: { wordShare: 0.25, maxSyllables: 2, wordGames: ['sound-train', 'build-word', 'which-word'] },
-  normal: { wordShare: 0.45, maxSyllables: 1, wordGames: ['build-word', 'sound-train', 'which-word'] },
-  hard: { wordShare: 0.6, maxSyllables: 0, wordGames: ['build-word', 'which-word', 'sound-train'] },
+  easy: { wordShare: 0.25, maxSyllables: 2, wordGames: ['sound-train', 'build-word', 'read-word', 'which-word'] },
+  normal: { wordShare: 0.45, maxSyllables: 1, wordGames: ['build-word', 'read-word', 'sound-train', 'which-word'] },
+  hard: { wordShare: 0.6, maxSyllables: 0, wordGames: ['read-word', 'build-word', 'which-word', 'sound-train'] },
 }
 
 const MAX_OPTIONS = 4
 const LETTER_GAMES: GameId[] = ['catch-sound']
-const WORD_GAMES: GameId[] = ['sound-train', 'build-word', 'which-word']
+const WORD_GAMES: GameId[] = ['sound-train', 'build-word', 'which-word', 'read-word']
+/** Spel som fungerar utan bild (vardagsord som "har", "inte"). Läs och välj kräver bild. */
+const NO_PICTURE_GAMES: GameId[] = ['sound-train', 'build-word', 'which-word']
 
 export function buildSession(input: BuildInput): Task[] {
   const rng = input.rng ?? Math.random
+  return withWordReview(input, buildForLevel(input, rng), rng)
+}
+
+/**
+ * Repetition över planetgränser: ett förfallet ord eller en förfallen ordbild från en TIDIGARE planet
+ * tar en plats i passet. Utan detta möts ett ord aldrig igen när planeten är avklarad, och det som
+ * inte repeteras glöms. Bokstäver repeteras redan inuti bokstavsplaneterna.
+ */
+function withWordReview(input: BuildInput, tasks: Task[], rng: Rng): Task[] {
+  if (tasks.length < 4) return tasks
+  const here = new Set(tasks.map((t) => t.targetId))
+  const byId = new Map(input.words.map((w) => [w.id, w]))
+  const sightIds = new Set(input.sightwords.map((s) => s.id))
+  const due = Object.values(input.mastery)
+    .filter((m) => (m.kind === 'word' || m.kind === 'sightword') && m.attempts > 0 && isDue(m, input.now) && !here.has(m.id))
+    .sort((a, b) => weakness(b) - weakness(a) || a.dueAt - b.dueAt)
+  const can = (g: GameId) => input.availableGames.includes(g)
+  for (const m of due) {
+    let task: Task | null = null
+    if (m.kind === 'sightword' && sightIds.has(m.id) && can('which-word')) {
+      const others = shuffle(input.sightwords.filter((s) => s.id !== m.id), rng).slice(0, 2)
+      if (others.length === 2) task = { id: `rev-${m.id}`, game: 'which-word', targetId: m.id, kind: 'sightword', options: shuffle([m.id, ...others.map((o) => o.id)], rng), isReview: true }
+    } else if (m.kind === 'word') {
+      const w = byId.get(m.id)
+      const game: GameId | null = w && w.emoji !== '' && can('read-word') ? 'read-word' : can('which-word') ? 'which-word' : null
+      if (w && game) task = { id: `rev-${m.id}`, game, targetId: m.id, kind: 'word', options: wordOptions(game, w, input.words, input.words, [], rng), isReview: true }
+    }
+    if (!task || task.options.length < 2) continue
+    // Aldrig först i passet: barnet ska börja med det planeten handlar om.
+    const at = 1 + Math.floor(rng() * (tasks.length - 1))
+    return tasks.map((t, i) => (i === at ? (task as Task) : t))
+  }
+  return tasks
+}
+
+function buildForLevel(input: BuildInput, rng: Rng): Task[] {
   const games = input.level.games.filter((g) => input.availableGames.includes(g))
   if (games.length === 0) return []
   switch (input.level.kind) {
@@ -51,12 +89,14 @@ export function buildSession(input: BuildInput): Task[] {
       return buildStories(input, games, rng)
     case 'phonology':
       return buildPhonology(input, games, rng)
+    case 'contrast':
+      return buildContrast(input, games, rng)
     default:
       return buildLetters(input, games, rng)
   }
 }
 
-/** Bokstavsplaneter och Verkstan: bokstavsuppgifter + ord med kända bokstäver + repetition. */
+/** Bokstavsplaneter, ordplaneter (kind words: given lista) och Verkstan: bokstavsuppgifter + ord + repetition. */
 function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   const { level, mastery, now } = input
   const diff = DIFFICULTY[input.difficulty]
@@ -71,7 +111,8 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
 
   const known = (w: Word) => !w.noBlend && w.sounds.every((s) => introduced.has(s))
   let wordPool: Word[]
-  if (level.kind === 'cluster') wordPool = input.words.filter((w) => !w.decodable && known(w))
+  if (level.kind === 'words') wordPool = (level.words ?? []).map((id) => input.words.find((w) => w.id === id)).filter((w): w is Word => !!w && !w.noBlend)
+  else if (level.kind === 'cluster') wordPool = input.words.filter((w) => !w.decodable && known(w))
   else {
     wordPool = input.words.filter((w) => w.decodable && known(w) && w.sounds.some((s) => poolIds.includes(s)))
     if (wordPool.length < 3) wordPool = input.words.filter((w) => w.decodable && known(w))
@@ -93,7 +134,11 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
 
   const newCount = Math.max(0, input.count - reviewCount)
   const pictureAvail = wordPool.filter((w) => w.emoji !== '').length
-  const syllableAvail = Math.min(diff.maxSyllables, wordPool.filter((w) => w.emoji === '').length)
+  // Taket för ord utan bild gäller stavelser (sa, la, se) på bokstavsplaneter. En kurerad ordlista
+  // (kind 'words', t.ex. Vardagsplaneten) består med flit av bildlösa ord och styr sig själv.
+  const curated = level.kind === 'words'
+  const plain = wordPool.filter((w) => w.emoji === '')
+  const syllableAvail = curated ? plain.length : Math.min(diff.maxSyllables, plain.length)
   const wantedWords = Math.min(Math.round(newCount * wordShare), pictureAvail + syllableAvail)
   // Planetens egna bokstäver får aldrig trängas ut av ord så länge någon av dem är obehärskad:
   // annars kan sista bokstaven bli utan uppgift pass efter pass och planeten blir aldrig klar.
@@ -111,14 +156,16 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   }
   reviewCandidates.slice(0, reviewCount).forEach((m) => letterTargets.push({ id: m.id, review: true }))
 
+  // Påbörjade ord (rätt men inte behärskade) först så att de blir klara, sedan nya, sist behärskade.
+  const tier = (m: MasteryItem | undefined) => (!m || m.attempts === 0 ? 1 : m.mastered ? 2 : m.streak > 0 ? 0 : 1)
   const rank = (list: Word[]) =>
     shuffle(list, rng).sort((a, b) => {
       const ma = mastery[masteryKey('word', a.id)]
       const mb = mastery[masteryKey('word', b.id)]
-      return weakness(mb) - weakness(ma) || (ma?.lastSeenAt ?? 0) - (mb?.lastSeenAt ?? 0)
+      return tier(ma) - tier(mb) || weakness(mb) - weakness(ma) || (ma?.lastSeenAt ?? 0) - (mb?.lastSeenAt ?? 0)
     })
   const rankedPictures = rank(wordPool.filter((w) => w.emoji !== ''))
-  const rankedSyllables = rank(wordPool.filter((w) => w.emoji === '')).slice(0, diff.maxSyllables)
+  const rankedSyllables = curated ? rank(plain) : rank(plain).slice(0, diff.maxSyllables)
   const wordTargets: Word[] = []
   let pi = 0
   let si = 0
@@ -137,8 +184,10 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
 
   const knownWords = input.words.filter(known)
   let pictureCount = 0
+  let plainCount = 0
+  const plainGames = wordGames.filter((g) => NO_PICTURE_GAMES.includes(g))
   const wordTasks: Task[] = wordTargets.map((w, i) => {
-    const game: GameId = w.emoji === '' && wordGames.includes('sound-train') ? 'sound-train' : wordGames[pictureCount++ % wordGames.length]
+    const game: GameId = w.emoji === '' ? (plainGames.length ? plainGames[plainCount++ % plainGames.length] : 'sound-train') : wordGames[pictureCount++ % wordGames.length]
     return { id: `w${i}-${w.id}`, game, targetId: w.id, kind: 'word', options: wordOptions(game, w, input.words, knownWords, distractorPool, rng), isReview: false }
   })
 

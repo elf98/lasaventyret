@@ -39,7 +39,7 @@ interface ProgressActions {
 export type ProgressStore = ProgressData & ProgressActions
 
 const initial: ProgressData = {
-  version: 1,
+  version: 2,
   onboarded: false,
   mascotType: null,
   mascotNameKey: null,
@@ -54,6 +54,17 @@ const initial: ProgressData = {
 }
 
 const dataKeys = Object.keys(initial) as (keyof ProgressData)[]
+
+/** Version 1 gav 1–2 stjärnor per uppgift (12–16 per pass); version 2 ger 1–3 per pass. Skala ner gamla totaler. */
+function rescaleStars(data: ProgressData): ProgressData {
+  if ((data.version ?? 1) >= 2) return data
+  return {
+    ...data,
+    version: 2,
+    stars: Math.round((data.stars ?? 0) / 5),
+    sessions: (data.sessions ?? []).map((s) => ({ ...s, stars: Math.min(3, Math.max(1, Math.round(s.stars / 5))) })),
+  }
+}
 
 export const useProgress = create<ProgressStore>()(
   persist(
@@ -78,7 +89,7 @@ export const useProgress = create<ProgressStore>()(
       importData: (data) => {
         const clean: Partial<ProgressData> = {}
         for (const k of dataKeys) if (k in data) (clean as Record<string, unknown>)[k] = data[k]
-        set({ ...initial, ...clean })
+        set({ ...initial, ...rescaleStars(clean as ProgressData) })
       },
       exportData: () => {
         const s = get()
@@ -88,7 +99,12 @@ export const useProgress = create<ProgressStore>()(
       },
       reset: () => set({ ...initial }),
     }),
-    { name: 'lasaventyret-progress-v1', partialize: (s) => Object.fromEntries(dataKeys.map((k) => [k, s[k]])) },
+    {
+      name: 'lasaventyret-progress-v1',
+      partialize: (s) => Object.fromEntries(dataKeys.map((k) => [k, s[k]])),
+      version: 2,
+      migrate: (state, from) => ({ ...(from < 2 ? rescaleStars(state as ProgressData) : (state as ProgressData)) }),
+    },
   ),
 )
 
