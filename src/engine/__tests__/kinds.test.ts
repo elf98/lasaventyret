@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { letters, levels, phrases, rhymes, sentences, sightwords, stories, words } from '../../content'
 import { rhymeKey } from '../kindBuilders'
+import { applyResult, masteryKey, newItem } from '../mastery'
 import { seeded } from '../random'
 import { buildSession, type BuildInput } from '../sessionBuilder'
+import type { MasteryItem } from '../types'
+import { levelProgress } from '../unlock'
 
 const ALL: BuildInput['availableGames'] = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story']
 const lvl = (id: string) => levels.find((l) => l.id === id)!
@@ -317,6 +320,53 @@ describe('omvänd ljudsortering', () => {
           for (const other of t.options.filter((x) => x !== t.targetId)) {
             expect(words.find((x) => x.id === other)!.sounds, `${other} har också ${t.letter}`).not.toContain(t.letter)
           }
+        }
+      }
+    }
+  })
+})
+
+describe('mätaren och repetitionen', () => {
+  it('mätaren når 100 % först när planeten faktiskt kan bli klar', () => {
+    // Ett rätt på varje mening ska inte ge full mätare: då stod den på 100 % pass efter pass
+    // medan noll var behärskade och nästa planet aldrig öppnade.
+    const lvl = lvl0('smameningar')
+    const mastery: Record<string, MasteryItem> = {}
+    for (const id of lvl.sentences ?? []) {
+      let m = newItem(id, 'sentence', 0)
+      m = applyResult(m, true, 'p1', 1)
+      mastery[masteryKey('sentence', id)] = m
+    }
+    const p = levelProgress(lvl, mastery)
+    expect(p.mastered).toBe(0)
+    expect(p.complete).toBe(false)
+    expect(p.partial).toBeLessThan(1)
+  })
+
+  it('repetitionsord använder bara bokstäver barnet mött', () => {
+    const early = lvl0('marsverkstan')
+    const seen = new Set(levels.slice(0, levels.findIndex((l) => l.id === early.id) + 1).flatMap((l) => l.letters))
+    const mastery: Record<string, MasteryItem> = {}
+    // Gör ett tidigt ord förfallet så att repetitionen plockar in det.
+    for (const id of ['sol', 'is', 'mor']) {
+      let m = newItem(id, 'word', 0)
+      m = applyResult(m, true, 'p1', 1)
+      m = applyResult(m, true, 'p2', 2)
+      mastery[masteryKey('word', id)] = m
+    }
+    for (const x of seen) {
+      let m = newItem(x, 'letter', 0)
+      m = applyResult(m, true, 'p1', 1)
+      mastery[x] = m
+    }
+    for (let seed = 1; seed <= 10; seed++) {
+      for (const t of build('marsverkstan', { mastery, rng: seeded(seed), now: 10 * 86_400_000 })) {
+        // Bara Vilket ord? visar alternativen som text; i Läs och välj är de bilder.
+        if (!t.isReview || t.game !== 'which-word') continue
+        for (const id of t.options) {
+          const w = words.find((x) => x.id === id)
+          if (!w) continue
+          for (const s of w.sounds) expect(seen.has(s), `repetition visar ${w.text} med okänd bokstav ${s}`).toBe(true)
         }
       }
     }

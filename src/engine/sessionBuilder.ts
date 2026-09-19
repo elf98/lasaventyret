@@ -55,6 +55,9 @@ function withWordReview(input: BuildInput, tasks: Task[], rng: Rng): Task[] {
   const here = new Set(tasks.map((t) => t.targetId))
   const byId = new Map(input.words.map((w) => [w.id, w]))
   const sightIds = new Set(input.sightwords.map((s) => s.id))
+  // Alternativen i Vilket ord? är text barnet ska läsa: de får bara innehålla bokstäver hen mött.
+  const seen = introducedLetters(input)
+  const readable = input.words.filter((w) => !w.noBlend && w.sounds.every((s) => seen.has(s)))
   const due = Object.values(input.mastery)
     .filter((m) => (m.kind === 'word' || m.kind === 'sightword') && m.attempts > 0 && isDue(m, input.now) && !here.has(m.id))
     .sort((a, b) => weakness(b) - weakness(a) || a.dueAt - b.dueAt)
@@ -67,14 +70,25 @@ function withWordReview(input: BuildInput, tasks: Task[], rng: Rng): Task[] {
     } else if (m.kind === 'word') {
       const w = byId.get(m.id)
       const game: GameId | null = w && w.emoji !== '' && can('read-word') ? 'read-word' : can('which-word') ? 'which-word' : null
-      if (w && game) task = { id: `rev-${m.id}`, game, targetId: m.id, kind: 'word', options: wordOptions(game, w, input.words, input.words, [], rng), isReview: true }
+      if (w && game) task = { id: `rev-${m.id}`, game, targetId: m.id, kind: 'word', options: wordOptions(game, w, input.words, readable, [], rng), isReview: true }
     }
     if (!task || task.options.length < 2) continue
-    // Aldrig först i passet: barnet ska börja med det planeten handlar om.
-    const at = 1 + Math.floor(rng() * (tasks.length - 1))
+    // Aldrig först i passet, och aldrig i stället för en berättelse (den väger tre uppgifter).
+    const swappable = tasks.map((t, i) => ({ t, i })).filter(({ t, i }) => i > 0 && t.game !== 'story')
+    if (swappable.length === 0) return tasks
+    const at = swappable[Math.floor(rng() * swappable.length)].i
     return tasks.map((t, i) => (i === at ? (task as Task) : t))
   }
   return tasks
+}
+
+/** Bokstäver barnet mött: nivåns egna, alla tidigare nivåers och allt som finns i mastery. */
+function introducedLetters(input: BuildInput): Set<string> {
+  const out = new Set<string>(input.level.letters)
+  const idx = input.levels.findIndex((l) => l.id === input.level.id)
+  input.levels.slice(0, Math.max(0, idx)).forEach((l) => l.letters.forEach((x) => out.add(x)))
+  for (const m of Object.values(input.mastery)) if (m.kind === 'letter' && m.attempts > 0) out.add(m.id)
+  return out
 }
 
 function buildForLevel(input: BuildInput, rng: Rng): Task[] {
@@ -104,10 +118,7 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   const wordGames = diff.wordGames.filter((g) => games.includes(g) && WORD_GAMES.includes(g))
 
   const poolIds = level.letters
-  const introduced = new Set<string>(poolIds)
-  const levelIndex = input.levels.findIndex((l) => l.id === level.id)
-  input.levels.slice(0, Math.max(0, levelIndex)).forEach((l) => l.letters.forEach((x) => introduced.add(x)))
-  for (const m of Object.values(mastery)) if (m.kind === 'letter' && m.attempts > 0) introduced.add(m.id)
+  const introduced = introducedLetters(input)
 
   const known = (w: Word) => !w.noBlend && w.sounds.every((s) => introduced.has(s))
   let wordPool: Word[]

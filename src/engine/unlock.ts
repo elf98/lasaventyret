@@ -56,12 +56,16 @@ export function levelProgress(level: Level, mastery: Record<string, MasteryItem>
   const ratio = total === 0 ? 0 : mastered / total
   const need = STREAK_NEEDED[ITEM_KIND[level.kind]]
   const needed = Math.ceil(COMPLETE_SHARE[level.kind] * total)
-  const credit = items.reduce((sum, key) => {
-    const m = mastery[key]
-    if (!m) return sum
-    return sum + (m.mastered ? 1 : Math.min(m.streak, need) / need)
-  }, 0)
-  const partial = total === 0 ? 0 : Math.min(1, credit / needed)
+  // Bara de `needed` ord som kommit längst räknas. Att summera delpoäng från ALLA gav full mätare
+  // medan noll var behärskade: barnet såg 100 % pass efter pass utan att planeten öppnade nästa.
+  const credits = items
+    .map((key) => {
+      const m = mastery[key]
+      return !m ? 0 : m.mastered ? 1 : Math.min(m.streak, need) / need
+    })
+    .sort((a, b) => b - a)
+    .slice(0, needed)
+  const partial = total === 0 ? 0 : Math.min(1, credits.reduce((a, b) => a + b, 0) / needed)
   const complete = total > 0 && mastered >= needed
   return { total, mastered, ratio, partial, complete }
 }

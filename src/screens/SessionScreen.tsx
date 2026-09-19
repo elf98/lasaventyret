@@ -87,6 +87,11 @@ export default function SessionScreen() {
   const difficulty = useSettings((s) => s.difficulty)
   const level = levelById.get(levelId ?? '') ?? levels[0]
 
+  // Passet kan lämnas mitt i ett ljud: audio.stop() löser ut spelens await och de anropar onSolved
+  // på en avmonterad skärm. Då bokfördes en uppgift barnet hoppat över, och var det passets sista
+  // rycktes barnet från kartan till belöningsskärmen.
+  const alive = useRef(true)
+  const finished = useRef(false)
   const meta = useRef({ id: newId(), startedAt: Date.now(), completedBefore: selectCompleted(useProgress.getState()), unlockedBefore: selectUnlocked(useProgress.getState()) })
   const [tasks] = useState<Task[]>(
     () =>
@@ -115,7 +120,10 @@ export default function SessionScreen() {
 
   useEffect(() => {
     if (tasks.length === 0) go('map')
-    return () => audio.stop()
+    return () => {
+      alive.current = false
+      audio.stop()
+    }
   }, [tasks.length, go])
 
   useEffect(() => {
@@ -123,6 +131,8 @@ export default function SessionScreen() {
   }, [tasks, index, wrong, correct, good])
 
   const finish = (totalCorrect: number, totalGood: number) => {
+    if (finished.current) return
+    finished.current = true
     const rating = sessionRating(totalGood, tasks.length)
     const p = useProgress.getState()
     const newlyCompleted = diff(meta.current.completedBefore, selectCompleted(p))
@@ -142,7 +152,7 @@ export default function SessionScreen() {
   }
 
   const onSolved = async () => {
-    if (celebrating || !task) return
+    if (celebrating || !task || !alive.current || finished.current) return
     const clean = wrong === 0
     useProgress.getState().recordResult({ taskId: task.id, targetId: task.targetId, kind: task.kind, clean, wrongTaps: wrong, scaffolded: wrong >= 3 }, meta.current.id)
     const totalCorrect = correct + (clean ? 1 : 0)
@@ -158,6 +168,7 @@ export default function SessionScreen() {
     const praise = phraseId(nextPraise())
     await audio.speak(example ? [praise, wordId(example)] : [praise])
     await wait(250)
+    if (!alive.current) return
     if (index + 1 < tasks.length) {
       setIndex(index + 1)
       setWrong(0)
@@ -188,7 +199,7 @@ export default function SessionScreen() {
    */
   const eliminated = useMemo(() => {
     const pickable: Task['game'][] = ['catch-sound', 'which-word', 'read-word', 'sound-sort', 'first-sound', 'last-sound', 'count-sounds', 'rhyme-hunt', 'silly-sentences']
-    if (!task || wrong !== 2 || !pickable.includes(task.game)) return []
+    if (!task || wrong < 2 || !pickable.includes(task.game)) return []
     const answer = task.answer ?? task.targetId
     const wrongOptions = task.options.filter((o) => o !== answer)
     return wrongOptions.length >= 2 ? [wrongOptions[0]] : []

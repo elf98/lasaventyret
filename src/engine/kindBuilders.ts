@@ -114,13 +114,19 @@ export function buildPhonology(input: BuildInput, games: GameId[], rng: Rng): Ta
     return w
   }
 
-  const pairs = input.rhymes.filter((p) => p.every((id) => byId.get(id)?.emoji))
+  // Bara rimpar där båda orden ingår i planetens lista: annars lagras behärskningen på ord som
+  // levelItems aldrig räknar, och mätaren står stilla hur många rim barnet än klarar.
+  const inPool = new Set(pool.map((w) => w.id))
+  const pairs = input.rhymes.filter((p) => p.every((id) => byId.get(id)?.emoji && inPool.has(id)))
   const inPair = new Set(pairs.flat())
   const fillers = pool.filter((w) => !inPair.has(w.id))
   const rhymeTask = (i: number): Task | null => {
     const pair = shuffle(pairs, rng).find((p) => p.some((id) => !used.has(id)))
     if (!pair) return null
-    const [target, partner] = rng() < 0.5 ? pair : [pair[1], pair[0]]
+    // Målordet måste vara det oanvända i paret, annars kan samma ord bli rimmål två gånger i passet.
+    const free = pair.filter((id) => !used.has(id))
+    const target = free.length === 2 ? (rng() < 0.5 ? pair[0] : pair[1]) : free[0]
+    const partner = pair.find((id) => id !== target) as string
     const w = byId.get(target) as Word
     used.add(target)
     const distract = shuffle((fillers.length >= 2 ? fillers : input.words.filter((x) => x.emoji !== '' && !inPair.has(x.id))).filter((f) => f.emoji !== w.emoji && f.emoji !== byId.get(partner)?.emoji && rhymeKey(f.text) !== rhymeKey(w.text)), rng)
