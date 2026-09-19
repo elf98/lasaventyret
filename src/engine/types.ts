@@ -46,6 +46,8 @@ export interface Task {
   options: string[]
   /** Rätt svar när det inte är target självt (rimpartner, rätt bild, svarsindex). */
   answer?: string
+  /** Bokstaven uppgiften handlar om när options är något annat (omvänd ljudsortering). */
+  letter?: string
   isReview: boolean
 }
 

@@ -56,7 +56,8 @@ export default function SoundHunt({ task, scaffold, eliminated = [], celebrating
       setSolved(true)
       sfx.tada()
       starBurst(e.clientX / window.innerWidth, e.clientY / window.innerHeight)
-      void audio.speak([letterSoundId(answer), wordId(task.targetId)])
+      // Vänta in bekräftelsen: nästa tal (berömmet) avbryter allt som pågår.
+      await audio.speak([letterSoundId(answer), wordId(task.targetId)])
       onSolved()
       return
     }

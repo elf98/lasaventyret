@@ -71,8 +71,11 @@ export default function StoryReader({ task, scaffold, celebrating, brief, onWron
   }
 
   const pick = async (i: number, e: React.PointerEvent) => {
-    if (phase !== 'question' || !story) return
+    if (phase !== 'question' || !story || busy.current) return
     if (i === answer) {
+      // Lås medan nästa fråga läses upp: knapparna ligger på samma plats och ett dubbeltryck
+      // hann annars besvara fråga två innan barnet ens hört den.
+      busy.current = true
       sfx.star()
       starBurst(e.clientX / window.innerWidth, e.clientY / window.innerHeight)
       if (qIdx + 1 < story.questions.length) {
@@ -84,6 +87,7 @@ export default function StoryReader({ task, scaffold, celebrating, brief, onWron
         setPhase('reread')
         void audio.speak(phraseId('story_reread'))
       }
+      busy.current = false
       return
     }
     if (busy.current) return

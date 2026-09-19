@@ -301,3 +301,24 @@ describe('ljudmanifestet', () => {
     }
   })
 })
+
+describe('omvänd ljudsortering', () => {
+  it('bär med sig planetens bokstav i stället för att gissa den ur ordet', () => {
+    for (const id of ['tvillingplaneten', 'spegelplaneten']) {
+      const pair = levels.find((l) => l.id === id)!.letters
+      for (let seed = 1; seed <= 8; seed++) {
+        const reverse = build(id, { rng: seeded(seed) }).filter((t) => t.game === 'sound-sort' && t.answer === t.targetId)
+        for (const t of reverse) {
+          const w = words.find((x) => x.id === t.targetId)!
+          expect(t.letter, `${id}: ${t.targetId} saknar bokstav`).toBeDefined()
+          // Bokstaven måste vara planetens egen, och finnas i målordet.
+          expect(pair).toContain(t.letter)
+          expect(w.sounds).toContain(t.letter)
+          for (const other of t.options.filter((x) => x !== t.targetId)) {
+            expect(words.find((x) => x.id === other)!.sounds, `${other} har också ${t.letter}`).not.toContain(t.letter)
+          }
+        }
+      }
+    }
+  })
+})

@@ -227,7 +227,7 @@ export function buildContrast(input: BuildInput, games: GameId[], rng: Rng): Tas
     const w = nextWord(n++)
     if (w) {
       const distractors = shuffle(pool.filter((x) => x.sounds.includes(other(w)) && x.emoji !== w.emoji), rng).slice(0, 2)
-      if (distractors.length === 2) sorts.push({ id: `r-${w.id}`, game: 'sound-sort', targetId: w.id, kind: 'contrast', options: shuffle([w.id, ...distractors.map((x) => x.id)], rng), answer: w.id, isReview: false })
+      if (distractors.length === 2) sorts.push({ id: `r-${w.id}`, game: 'sound-sort', targetId: w.id, kind: 'contrast', options: shuffle([w.id, ...distractors.map((x) => x.id)], rng), answer: w.id, letter: w.sounds.includes(a) ? a : b, isReview: false })
     }
     while (tasks.length + sorts.length < input.count) {
       const x = nextWord(n++)

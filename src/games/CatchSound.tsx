@@ -80,8 +80,14 @@ export default function CatchSound({ task, scaffold, eliminated = [], celebratin
   const replay = () => void audio.speak(letterSoundId(task.targetId))
 
   const tap = async (id: string, e: React.PointerEvent) => {
-    if (eliminated.includes(id)) return
-    if (!ready || solved) return
+    if (eliminated.includes(id) || solved) return
+    // Under introt föll trycket bort tyst och räknades ändå som frenetiskt tryckande. Nu hoppar
+    // trycket i stället över introt och spelar ljudet barnet ska leta efter.
+    if (!ready) {
+      setReady(true)
+      void audio.speak(letterSoundId(task.targetId))
+      return
+    }
     if (id === task.targetId) {
       busy.current = false
       setSolved(true)

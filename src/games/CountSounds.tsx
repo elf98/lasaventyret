@@ -52,8 +52,8 @@ export default function CountSounds({ task, scaffold, eliminated = [], celebrati
   const replay = () => void audio.speak(wordId(task.targetId))
 
   const tap = async (id: string, e: React.PointerEvent) => {
-    if (solved || busy.current) return
-    if (eliminated.includes(id)) return
+    if (solved || eliminated.includes(id)) return
+    // Rätt svar ska alltid gå fram, även medan ett felsvars ljud spelas (annars känns knappen trasig).
     if (Number(id) === answer) {
       setSolved(true)
       sfx.tada()
@@ -62,6 +62,7 @@ export default function CountSounds({ task, scaffold, eliminated = [], celebrati
       onSolved()
       return
     }
+    if (busy.current) return
     busy.current = true
     sfx.soft()
     setWobble(id)

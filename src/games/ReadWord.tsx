@@ -55,7 +55,8 @@ export default function ReadWord({ task, scaffold, eliminated = [], celebrating,
       setSolved(true)
       sfx.tada()
       starBurst(e.clientX / window.innerWidth, e.clientY / window.innerHeight)
-      void audio.speak(wordId(task.targetId))
+      // Belöningen är att få höra ordet man just avkodat – vänta in den före berömmet.
+      await audio.speak(wordId(task.targetId))
       onSolved()
       return
     }

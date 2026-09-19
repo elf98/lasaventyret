@@ -151,6 +151,7 @@ export default function SessionScreen() {
     setGood(totalGood)
     setDone(done + 1)
     setCelebrating(true)
+    taps.current = []
     sfx.star()
     const example = task.kind === 'letter' ? letterById.get(task.targetId)?.example : undefined
     if (example) setPraiseWord(example)
@@ -165,13 +166,14 @@ export default function SessionScreen() {
     } else finish(totalCorrect, totalGood)
   }
 
-  // Frenetiskt tryckande (tre tryck på 1,2 sekunder) ger en kort paus där inga tryck når spelet.
+  // Frenetiskt tryckande (fyra tryck på en sekund) ger en kort paus där inga tryck når spelet.
+  // Räknaren nollställs vid varje löst uppgift: snabbt men korrekt spel ska inte straffas.
   const taps = useRef<number[]>([])
   const [calm, setCalm] = useState(false)
   const onTap = () => {
     const now = Date.now()
-    taps.current = [...taps.current.filter((t) => now - t < 1200), now]
-    if (taps.current.length >= 3 && !calm) {
+    taps.current = [...taps.current.filter((t) => now - t < 1000), now]
+    if (taps.current.length >= 4 && !calm) {
       setCalm(true)
       taps.current = []
       void audio.speak(phraseId('calm_down'))

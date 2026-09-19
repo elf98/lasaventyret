@@ -52,6 +52,8 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
   const drive = async () => {
     setPhase('drive')
     sfx.whoosh()
+    // Låt vagnarna hinna rulla iväg: utan paus batchar React ihop faserna och animationen syns aldrig.
+    await new Promise((r) => setTimeout(r, 700))
     if (word && word.emoji !== '' && task.options.length > 1) {
       // Barnet ska själv ljuda ihop: ordet sägs INTE före bildvalet, bara som bekräftelse efteråt.
       setPhase('pick')
@@ -94,8 +96,8 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
       setPicked(id)
       setPhase('done')
       sfx.tada()
-      // Bekräftelse först nu: du läste det, och ordet var ...
-      void audio.speak(wordId(task.targetId))
+      // Bekräftelse först nu: du läste det, och ordet var ... (inväntas, annars klipper berömmet den)
+      await audio.speak(wordId(task.targetId))
       onSolved()
       return
     }

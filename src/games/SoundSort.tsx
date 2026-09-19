@@ -5,7 +5,7 @@ import { sfx } from '../audio/sfx'
 import { starBurst } from '../components/confetti'
 import LetterCard from '../components/LetterCard'
 import Mascot from '../components/Mascot'
-import { letterById, wordById } from '../content'
+import { wordById } from '../content'
 import { letterSoundId, phraseId, wordId } from '../content/audioIds'
 import type { Task } from '../engine/types'
 
@@ -28,12 +28,11 @@ interface Props {
  * Ordet visas aldrig skrivet: det är örat som tränas. Fel: ljudet som inte finns i ordet, ordet igen.
  */
 export default function SoundSort({ task, scaffold, eliminated = [], celebrating, brief, onWrong, onSolved }: Props) {
-  const reverse = !letterById.has(task.options[0])
+  // Omvänt läge (bilder som alternativ) känns igen på att uppgiften bär planetens bokstav.
+  const reverse = task.letter !== undefined
   const word = wordById.get(task.targetId)
   const answer = task.answer ?? task.options[0]
-  // Omvänt läge: bokstaven är det ljud i målordet som ingen av de andra bilderna har.
-  const distractors = task.options.filter((id) => id !== task.targetId).map((id) => wordById.get(id))
-  const letter = reverse ? (word?.sounds.find((s) => letterById.has(s) && distractors.every((d) => !d?.sounds.includes(s))) ?? task.options[0]) : answer
+  const letter = task.letter ?? answer
   const [solved, setSolved] = useState(false)
   const [wobble, setWobble] = useState<string | null>(null)
   const busy = useRef(false)
@@ -60,7 +59,8 @@ export default function SoundSort({ task, scaffold, eliminated = [], celebrating
       sfx.tada()
       starBurst(e.clientX / window.innerWidth, e.clientY / window.innerHeight)
       // Bekräfta kopplingen: ljudet och sedan ordet, så att barnet hör ljudet inne i ordet.
-      void audio.speak([letterSoundId(letter), wordId(task.targetId)])
+      // Måste inväntas, annars avbryter berömmet den direkt.
+      await audio.speak([letterSoundId(letter), wordId(task.targetId)])
       onSolved()
       return
     }

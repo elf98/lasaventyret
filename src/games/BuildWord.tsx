@@ -128,7 +128,8 @@ export default function BuildWord({ task, scaffold, celebrating, brief, onWrong,
     if (!d.moved || insideSlots(e.clientX, e.clientY)) void attempt(i)
   }
 
-  const replay = () => void audio.speak(done ? wordId(task.targetId) : letterSoundId(sounds[next]))
+  // I glappet mellan sista brickan och ihopljudningen finns inget "nästa ljud": spela ordet i stället.
+  const replay = () => void audio.speak(done || next >= sounds.length ? wordId(task.targetId) : letterSoundId(sounds[next]))
 
   if (!word) return null
   const size = sounds.length > 5 ? 84 : 104
