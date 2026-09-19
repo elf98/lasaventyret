@@ -396,7 +396,7 @@
   {
     "id": "dubbelplaneten",
     "name": "Dubbelplaneten",
-    "goal": "Här läser vi ord med dubbla bokstäver, som katt, boll och äpple. Två lika bokstäver ger ett kort ljud före.",
+    "goal": "Här lär vi oss vad dubbla bokstäver gör. En konsonant efter vokalen ger ett långt ljud: tak, glas, mat. Två konsonanter gör vokalen kort: tack, glass, matt.",
     "emoji": "🎱",
     "x": 204,
     "y": 38,
@@ -408,15 +408,30 @@
       "boll",
       "äpple",
       "uggla",
-      "glass",
       "kloss",
-      "blomma"
+      "blomma",
+      "tak",
+      "tack",
+      "glas",
+      "glass",
+      "mat",
+      "matt",
+      "ful",
+      "full",
+      "kal",
+      "kall",
+      "vit",
+      "vitt",
+      "vas",
+      "vass",
+      "bok",
+      "bock"
     ],
     "games": [
-      "sound-train",
-      "build-word",
+      "which-word",
       "read-word",
-      "which-word"
+      "sound-train",
+      "build-word"
     ],
     "requires": [
       "robotplaneten"

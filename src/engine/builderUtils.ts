@@ -13,8 +13,12 @@ export function wordOptions(game: GameId, w: Word, allWords: Word[], knownWords:
     // samma längd och samma första/sista bokstav väger tyngst (mus/mun/mor). Aldrig samma text två gånger.
     const score = (o: Word) =>
       (o.text.length === w.text.length ? 3 : 0) + (o.text[0] === w.text[0] ? 3 : 0) + (o.text[o.text.length - 1] === w.text[w.text.length - 1] ? 2 : 0) + (o.sounds.length === w.sounds.length ? 1 : 0)
-    const picks = shuffle(knownWords.filter((o) => o.id !== w.id && o.text !== w.text), rng)
-      .sort((a, b) => score(b) - score(a))
+    // Har ordet ett minimalt par (tak/tack) ska partnern alltid vara med: det är hela övningen.
+    const partner = w.pair ? allWords.find((o) => o.id === w.pair) : undefined
+    const picks = [
+      ...(partner ? [partner] : []),
+      ...shuffle(knownWords.filter((o) => o.id !== w.id && o.text !== w.text && o.id !== w.pair), rng).sort((a, b) => score(b) - score(a)),
+    ]
       .filter((o, i, arr) => arr.findIndex((x) => x.text === o.text) === i)
       .slice(0, 2)
     return shuffle([w.id, ...picks.map((o) => o.id)], rng)

@@ -131,8 +131,11 @@ describe('nivådata', () => {
       for (const id of l.words ?? []) {
         const w = words.find((x) => x.id === id)
         expect(w, `${l.id}: ${id}`).toBeDefined()
-        // Bild krävs bara där ett bildspel används; vardagsord som "har" har ingen bild.
-        if (l.games.includes('read-word')) expect(w!.emoji, `${l.id}: ${id} saknar bild`).not.toBe('')
+      }
+      // Bildspel kräver att det finns bildord att välja bland – men enskilda ord får sakna bild,
+      // passbyggaren ger dem bara uppgifter som fungerar utan (Ljudtåget, Bygg ordet, Vilket ord?).
+      if (l.games.includes('read-word') && (l.words ?? []).length) {
+        expect((l.words ?? []).some((id) => words.find((x) => x.id === id)?.emoji), `${l.id} har inget bildord`).toBe(true)
       }
       for (const id of l.sentences ?? []) expect(sentences.some((s) => s.id === id), `${l.id}: ${id}`).toBe(true)
       for (const r of l.requires) expect(levels.findIndex((x) => x.id === r), `${l.id} kräver ${r}`).toBeLessThan(levels.findIndex((x) => x.id === l.id))
@@ -211,6 +214,42 @@ describe('berättelser och meningar', () => {
       expect(s.distractors.length, s.id).toBe(2)
       expect(new Set([s.picture, ...s.distractors]).size, `${s.id} har dubblerade bilder`).toBe(3)
       expect(s.text.endsWith('.'), s.id).toBe(true)
+    }
+  })
+})
+
+describe('bildlösa ord', () => {
+  it('ord utan bild hamnar aldrig i ett spel som kräver bild', () => {
+    const needsPicture = ['read-word', 'rhyme-hunt', 'first-sound', 'last-sound', 'count-sounds']
+    for (const l of levels.filter((x) => (x.words ?? []).some((id) => !words.find((w) => w.id === id)?.emoji))) {
+      for (let seed = 1; seed <= 6; seed++) {
+        for (const t of build(l.id, { rng: seeded(seed) })) {
+          if (!needsPicture.includes(t.game)) continue
+          expect(words.find((w) => w.id === t.targetId)?.emoji, `${l.id}: ${t.targetId} i ${t.game}`).toBeTruthy()
+        }
+      }
+    }
+  })
+})
+
+describe('vokallängd', () => {
+  it('minimala par pekar på varandra och skiljer sig bara i dubbelteckningen', () => {
+    const pairs = words.filter((w) => w.pair)
+    expect(pairs.length).toBeGreaterThanOrEqual(10)
+    for (const w of pairs) {
+      const p = words.find((x) => x.id === w.pair)
+      expect(p, `${w.id} pekar på ${w.pair} som inte finns`).toBeDefined()
+      expect(p!.pair, `${w.pair} pekar inte tillbaka på ${w.id}`).toBe(w.id)
+      expect(Math.abs(p!.text.length - w.text.length), `${w.id}/${w.pair}`).toBe(1)
+    }
+  })
+
+  it('Vilket ord? sätter alltid partnern bland alternativen', () => {
+    const tasks = build('dubbelplaneten', { rng: seeded(5), count: 12 }).filter((t) => t.game === 'which-word')
+    expect(tasks.length).toBeGreaterThan(0)
+    for (const t of tasks) {
+      const w = words.find((x) => x.id === t.targetId)!
+      if (w.pair) expect(t.options, `${w.id} saknar ${w.pair}`).toContain(w.pair)
     }
   })
 })

@@ -46,6 +46,8 @@ export interface Word {
   ipa?: string
   /** Ordet går inte att ljuda bokstav för bokstav (sj-ljud m.m.): bara bild/rim. */
   noBlend?: boolean
+  /** Minimalt par i vokallängd (tak/tack): en konsonant = lång vokal, två = kort. */
+  pair?: string
 }
 
 export interface SightWord {

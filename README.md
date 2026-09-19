@@ -56,7 +56,7 @@ Allt innehåll ligger i `src/content/*.json`. Ändra JSON, kör `npm run audio`,
 | Fil | Innehåll |
 |---|---|
 | `letters.json` | bokstäver i inlärningsordning, ljud (IPA), exempelord |
-| `words.json` | ord med emoji och ljudsekvens (`sounds`); `decodable: false` = kluster/dubbelteckning, väntar på Verkstan; tom `emoji` = stavelse utan bild (bara riktiga småord) |
+| `words.json` | ord med emoji och ljudsekvens (`sounds`); `pair` = minimalt par i vokallängd (tak/tack), partnern läggs alltid bland alternativen i Vilket ord?; `decodable: false` = kluster/dubbelteckning, väntar på Verkstan; tom `emoji` = stavelse utan bild (bara riktiga småord) |
 | `phrases.json` | alla instruktioner, beröm (`praise_*`, dras ur en blandad kortlek utan upprepning), knappetiketter (id → text) |
 | `levels.json` | planeter: bokstäver, spel, vad som krävs för upplåsning, position på kartan |
 | `mascots.json`, `names.json` | maskoter och namnförslag |
@@ -110,7 +110,7 @@ passbyggaren och i `SessionScreen.tsx`, och lista spelet på planeterna i `level
 
 `levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `contrast` (Tvillingplaneten m/n och Spegelplaneten b/d; ingen Fånga ljudet här – ett ensamt m/n går inte att avgöra utan jämförelse, så varje uppgift ger sammanhang:
 Fånga ljudet med bara de två + Ljudsortering: hör ordet, se bilden, välj bokstaven; egen räkning per ord), `words` (given ordlista: Vardagsplaneten
-22 vanliga småord utan bild, Ordfabriken korta ord, Rymdstationen långa ord, Dubbelplaneten dubbeltecknade,
+22 vanliga småord utan bild, Ordfabriken korta ord, Rymdstationen långa ord, Dubbelplaneten dubbeltecknade och vokallängd,
 Stjärnfabriken kluster; ord utan bild körs i Ljudtåget, Bygg ordet och Vilket ord?), `cluster`
 (Turboverkstan: alla ord med `decodable: false`), `sentences` (med `sentences`-urval: Småmeningar de korta,
 Tokplaneten de längre), `stories`, `phonology` (Startrampen, bonus: fyra ljudlekar över en kurerad ordlista). Varje planet har ett `goal` som läses

@@ -2029,8 +2029,8 @@
     },
     "level.dubbelplaneten.goal": {
       "file": "level.dubbelplaneten.goal.mp3",
-      "hash": "063f46b651d2",
-      "text": "Här läser vi ord med dubbla bokstäver, som katt, boll och äpple. Två lika bokstäver ger ett kort ljud före."
+      "hash": "1937f8ad788c",
+      "text": "Här lär vi oss vad dubbla bokstäver gör. En konsonant efter vokalen ger ett långt ljud: tak, glas, mat. Två konsonanter gör vokalen kort: tack, glass, matt."
     },
     "level.stjarnfabriken": {
       "file": "level.stjarnfabriken.mp3",
@@ -3051,6 +3051,61 @@
       "file": "sight.pappa.mp3",
       "hash": "2ac4ea84f600",
       "text": "pappa"
+    },
+    "word.tak": {
+      "file": "word.tak.mp3",
+      "hash": "ed53672a8008",
+      "text": "tak"
+    },
+    "word.tack": {
+      "file": "word.tack.mp3",
+      "hash": "5b5bf31444dc",
+      "text": "tack"
+    },
+    "word.ful": {
+      "file": "word.ful.mp3",
+      "hash": "b49a1c1a13e1",
+      "text": "ful"
+    },
+    "word.full": {
+      "file": "word.full.mp3",
+      "hash": "f9bd7acaad51",
+      "text": "full"
+    },
+    "word.kal": {
+      "file": "word.kal.mp3",
+      "hash": "f1fcf75ad53d",
+      "text": "kal"
+    },
+    "word.kall": {
+      "file": "word.kall.mp3",
+      "hash": "75624f68f6d8",
+      "text": "kall"
+    },
+    "word.vit": {
+      "file": "word.vit.mp3",
+      "hash": "21a417153233",
+      "text": "vit"
+    },
+    "word.vitt": {
+      "file": "word.vitt.mp3",
+      "hash": "a19704587808",
+      "text": "vitt"
+    },
+    "word.matt": {
+      "file": "word.matt.mp3",
+      "hash": "4d8fd2af3df7",
+      "text": "matt"
+    },
+    "word.vass": {
+      "file": "word.vass.mp3",
+      "hash": "7614e97ca17b",
+      "text": "vass"
+    },
+    "word.bock": {
+      "file": "word.bock.mp3",
+      "hash": "c90e4fe76eb1",
+      "text": "bock"
     }
   }
 }

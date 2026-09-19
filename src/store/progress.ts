@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { levels } from '../content'
+import { levels, stickers as allStickers } from '../content'
 import { applyResult, masteryKey, newItem } from '../engine/mastery'
 import type { MasteryItem, SessionRecord, TaskResult } from '../engine/types'
 import { completedLevels, unlockedLevels } from '../engine/unlock'
@@ -63,6 +63,13 @@ const initial: ProgressData = {
 
 const dataKeys = Object.keys(initial) as (keyof ProgressData)[]
 
+/** Klistermärken som tagits bort ur innehållet (t.ex. emoji utan glyf på iPaden) blir tomma rutor i boken. */
+function dropMissingStickers(data: ProgressData): ProgressData {
+  const known = new Set(allStickers)
+  const kept = (data.stickers ?? []).filter((s) => known.has(s))
+  return kept.length === (data.stickers ?? []).length ? data : { ...data, stickers: kept }
+}
+
 /** Version 1 gav 1–2 stjärnor per uppgift (12–16 per pass); version 2 ger 1–3 per pass. Skala ner gamla totaler. */
 function rescaleStars(data: ProgressData): ProgressData {
   if ((data.version ?? 1) >= 2) return data
@@ -100,7 +107,7 @@ export const useProgress = create<ProgressStore>()(
       importData: (data) => {
         const clean: Partial<ProgressData> = {}
         for (const k of dataKeys) if (k in data) (clean as Record<string, unknown>)[k] = data[k]
-        set({ ...initial, ...rescaleStars(clean as ProgressData) })
+        set({ ...initial, ...dropMissingStickers(rescaleStars(clean as ProgressData)) })
       },
       exportData: () => {
         const s = get()
@@ -113,8 +120,8 @@ export const useProgress = create<ProgressStore>()(
     {
       name: 'lasaventyret-progress-v1',
       partialize: (s) => Object.fromEntries(dataKeys.map((k) => [k, s[k]])),
-      version: 2,
-      migrate: (state, from) => ({ ...(from < 2 ? rescaleStars(state as ProgressData) : (state as ProgressData)) }),
+      version: 3,
+      migrate: (state, from) => ({ ...dropMissingStickers(from < 2 ? rescaleStars(state as ProgressData) : (state as ProgressData)) }),
     },
   ),
 )
