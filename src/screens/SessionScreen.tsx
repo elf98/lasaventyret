@@ -6,7 +6,8 @@ import { wait } from '../audio/useSpeech'
 import BigButton from '../components/BigButton'
 import StarRating from '../components/StarRating'
 import Starfield from '../components/Starfield'
-import { config, letterById, levelById, levels, outfits, praiseKeys, rhymes, sentenceById, sentences, sightwords, stickers, stories, storyById, words } from '../content'
+import { useCaseClass } from '../components/textCase'
+import { config, letterById, levelById, levels, outfits, praiseKeys, rhymes, sentenceById, sentences, sightwords, stickers, stories, storyById, wordById, words } from '../content'
 import { phraseId, wordId } from '../content/audioIds'
 import { bag, newId, pick } from '../engine/random'
 import { sessionRating } from '../engine/rating'
@@ -96,7 +97,12 @@ export default function SessionScreen() {
   const [wrong, setWrong] = useState(0)
   const [done, setDone] = useState(0)
   const [correct, setCorrect] = useState(0)
+  /** Uppgifter lösta med högst ett fel: stjärnorna ska belöna att barnet vågar pröva, inte att det väntar. */
+  const [good, setGood] = useState(0)
   const [celebrating, setCelebrating] = useState(false)
+  /** Exempelordet som visas skrivet i berömmet, så att ljud, bokstav och ord knyts ihop visuellt. */
+  const [praiseWord, setPraiseWord] = useState<string | null>(null)
+  const caseClass = useCaseClass()
   const task = tasks[index]
   // Spel som redan fått sin fulla instruktion i detta pass: därefter kort cue.
   const explained = useRef(new Set<string>())
@@ -111,11 +117,11 @@ export default function SessionScreen() {
   }, [tasks.length, go])
 
   useEffect(() => {
-    if (import.meta.env.DEV) (window as unknown as { __session?: unknown }).__session = { tasks, index, wrong, correct }
-  }, [tasks, index, wrong, correct])
+    if (import.meta.env.DEV) (window as unknown as { __session?: unknown }).__session = { tasks, index, wrong, correct, good }
+  }, [tasks, index, wrong, correct, good])
 
-  const finish = (totalCorrect: number) => {
-    const rating = sessionRating(totalCorrect, tasks.length)
+  const finish = (totalCorrect: number, totalGood: number) => {
+    const rating = sessionRating(totalGood, tasks.length)
     const p = useProgress.getState()
     const newlyCompleted = diff(meta.current.completedBefore, selectCompleted(p))
     if (newlyCompleted.length) p.markCompleted(newlyCompleted)
@@ -138,19 +144,23 @@ export default function SessionScreen() {
     const clean = wrong === 0
     useProgress.getState().recordResult({ taskId: task.id, targetId: task.targetId, kind: task.kind, clean, wrongTaps: wrong, scaffolded: wrong >= 3 }, meta.current.id)
     const totalCorrect = correct + (clean ? 1 : 0)
+    const totalGood = good + (wrong <= 1 ? 1 : 0)
     setCorrect(totalCorrect)
+    setGood(totalGood)
     setDone(done + 1)
     setCelebrating(true)
     sfx.star()
     const example = task.kind === 'letter' ? letterById.get(task.targetId)?.example : undefined
+    if (example) setPraiseWord(example)
     const praise = phraseId(nextPraise())
     await audio.speak(example ? [praise, wordId(example)] : [praise])
     await wait(250)
     if (index + 1 < tasks.length) {
       setIndex(index + 1)
       setWrong(0)
+      setPraiseWord(null)
       setCelebrating(false)
-    } else finish(totalCorrect)
+    } else finish(totalCorrect, totalGood)
   }
 
   // Frenetiskt tryckande (tre tryck på 1,2 sekunder) ger en kort paus där inga tryck når spelet.
@@ -188,11 +198,25 @@ export default function SessionScreen() {
       <div className="absolute top-3 right-4 left-4 z-20 flex items-center justify-between">
         <BigButton size="md" icon="🗺️" color="bg-black/40" speakId={phraseId('btn_home')} onPress={() => go('map')} label="Till kartan" />
         <ProgressTrack total={tasks.length} index={index} />
-        <StarRating value={sessionRating(correct + (tasks.length - done), tasks.length)} />
+        <StarRating value={sessionRating(good + (tasks.length - done), tasks.length)} />
       </div>
       <div className="absolute inset-0" onPointerDownCapture={onTap}>
         {task && Game && <Game key={task.id} task={task} scaffold={wrong >= 3} eliminated={eliminated} celebrating={celebrating} brief={brief} onWrong={() => setWrong((w) => w + 1)} onSolved={() => void onSolved()} />}
       </div>
+      {praiseWord && celebrating && task && (
+        <div className="pointer-events-none absolute inset-0 z-20 flex items-end justify-center pb-24">
+          <motion.div initial={{ scale: 0.7, y: 30, opacity: 0 }} animate={{ scale: 1, y: 0, opacity: 1 }} transition={{ type: 'spring', stiffness: 260 }} className="flex items-center gap-5 rounded-[32px] bg-white/95 px-8 py-4 shadow-2xl">
+            <span className="big-emoji text-[64px]">{wordById.get(praiseWord)?.emoji}</span>
+            <span className={`text-[56px] leading-none font-extrabold ${caseClass(praiseWord)}`}>
+              {(wordById.get(praiseWord)?.text ?? praiseWord).split('').map((c, i) => (
+                <span key={i} className={c.toLowerCase() === task.targetId ? 'text-go' : 'text-space'}>
+                  {c}
+                </span>
+              ))}
+            </span>
+          </motion.div>
+        </div>
+      )}
       {calm && (
         <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/60" aria-live="polite">
           <motion.div initial={{ scale: 0.6 }} animate={{ scale: [0.6, 1.1, 1] }} transition={{ duration: 0.4 }} className="flex flex-col items-center gap-3 rounded-[40px] bg-white px-14 py-10 text-space shadow-2xl">

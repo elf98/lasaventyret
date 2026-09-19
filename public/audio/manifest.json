@@ -2556,6 +2556,21 @@
       "file": "phrase.build_word_is.mp3",
       "hash": "235b595e17b8",
       "text": "Vi bygger ordet"
+    },
+    "word.plaster": {
+      "file": "word.plaster.mp3",
+      "hash": "639f86653d1c",
+      "text": "plåster"
+    },
+    "level.spegelplaneten": {
+      "file": "level.spegelplaneten.mp3",
+      "hash": "879bba402839",
+      "text": "Spegelplaneten"
+    },
+    "level.spegelplaneten.goal": {
+      "file": "level.spegelplaneten.goal.mp3",
+      "hash": "637a50a99684",
+      "text": "Här övar vi B och D. De är nästan spegelbilder av varandra: B har magen åt höger, D har magen åt vänster. Bil börjar på b, dino börjar på d."
     }
   }
 }

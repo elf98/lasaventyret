@@ -9,6 +9,7 @@ import Mascot from '../components/Mascot'
 import { letterById, wordById } from '../content'
 import { letterSoundId, phraseId } from '../content/audioIds'
 import type { Task } from '../engine/types'
+import { useSettings } from '../store/settings'
 
 interface Props {
   task: Task
@@ -32,6 +33,8 @@ const LANES = [20, 40, 60, 78]
  * Fel svar ger en mjuk hint och nytt försök. Aldrig något straffande.
  */
 export default function CatchSound({ task, scaffold, eliminated = [], celebrating, brief, onWrong, onSolved }: Props) {
+  // Rörliga mål mäter också reaktionstid; på lätt nivå ska ljudet få vara det svåra.
+  const slow = useSettings((st) => st.difficulty) === 'easy'
   const [ready, setReady] = useState(false)
   const [solved, setSolved] = useState(false)
   const [wobble, setWobble] = useState<string | null>(null)
@@ -45,10 +48,11 @@ export default function CatchSound({ task, scaffold, eliminated = [], celebratin
         id,
         lane: LANES[i % LANES.length],
         dir: i % 2 === 0 ? 'right' : 'left',
-        dur: 11 + Math.random() * 4,
+        dur: (slow ? 19 : 11) + Math.random() * 4,
         delay: -Math.random() * 9,
         vehicle: VEHICLES[(i + Math.floor(Math.random() * VEHICLES.length)) % VEHICLES.length],
       })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [task.options],
   )
 

@@ -89,7 +89,7 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
 
 | Spel | Fil | Tränar |
 |---|---|---|
-| Fånga ljudet | `src/games/CatchSound.tsx` | bokstav–ljud |
+| Fånga ljudet | `src/games/CatchSound.tsx` | bokstav–ljud; bokstäverna flyger nästan dubbelt så långsamt på Lätt |
 | Första ljudet / Sista ljudet | `src/games/SoundHunt.tsx` | hör ordet, välj bokstaven för första respektive sista ljudet (ingen läsning) |
 | Räkna ljuden | `src/games/CountSounds.tsx` | hör ordet, välj hur många ljud det har; prickarna tänds när ordet ljudas |
 | Ljudsortering | `src/games/SoundSort.tsx` | m eller n: hör ordet, se bilden, tryck på bokstaven som finns i ordet |
@@ -108,7 +108,7 @@ passbyggaren och i `SessionScreen.tsx`, och lista spelet på planeterna i `level
 
 ## Planeter och klarkrav
 
-`levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `contrast` (Tvillingplaneten: m eller n,
+`levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `contrast` (Tvillingplaneten m/n och Spegelplaneten b/d:
 Fånga ljudet med bara de två + Ljudsortering: hör ordet, se bilden, välj bokstaven; egen räkning per ord), `words` (given ordlista: Vardagsplaneten
 vanliga småord utan bild, Ordfabriken korta ord, Rymdstationen långa ord, Dubbelplaneten dubbeltecknade,
 Stjärnfabriken kluster; ord utan bild körs i Ljudtåget, Bygg ordet och Vilket ord?), `cluster`
@@ -116,9 +116,10 @@ Stjärnfabriken kluster; ord utan bild körs i Ljudtåget, Bygg ordet och Vilket
 Tokplaneten de längre), `stories`, `phonology` (Startrampen, bonus: fyra ljudlekar över en kurerad ordlista). Varje planet har ett `goal` som läses
 upp i planetrutan (långtryck på planeten). En planet är klar när en andel av dess innehåll behärskas
 (`src/engine/unlock.ts`): bokstäver 80 %, ordbilder 80 %, ordlistor 70 %, kluster 50 %, meningar 50 %,
-berättelser 60 %, ljudlekar 40 %. Ordningen: Sol, Månen, Mars, Tvillingplaneten, Kometen, Ordplaneten, Ringplaneten, Racerbanan, Vardagsplaneten, Ordfabriken,
+berättelser 60 %, ljudlekar 40 %. Ordningen: Sol, Månen, Mars, Tvillingplaneten, Kometen, Ordplaneten, Ringplaneten, Racerbanan,
+Spegelplaneten, Vardagsplaneten, Ordfabriken,
 Rymdstationen, Robotplaneten, Dubbelplaneten, Stjärnfabriken, Turboverkstan, Småmeningar, Tokplaneten,
-Sagoplaneten. Kartan är 273 vw bred och panoreras med finger/mus eller pilknapparna.
+Sagoplaneten. Kartan är 287 vw bred och panoreras med finger/mus eller pilknapparna.
 
 ## Svårighetsgrad och genvägar
 
@@ -136,8 +137,9 @@ datorn till iPaden. Inspelning kräver https eller localhost.
 
 ## Stjärnor och belöning
 
-Varje pass ger 1–3 stjärnor (`src/engine/rating.ts`): 3 = alla uppgifter rätt på första försöket,
-2 = högst två uppgifter med fel, annars 1. Under passet visas hur många stjärnor som fortfarande går
+Varje pass ger 1–3 stjärnor (`src/engine/rating.ts`): 3 = alla uppgifter lösta med högst ett fel,
+2 = högst två uppgifter som krävde fler försök, annars 1. Måttet är "rätt inom två försök", inte
+felfritt, så att det lönar sig att våga pröva. Behärskning (mastery) kräver fortfarande felfritt. Under passet visas hur många stjärnor som fortfarande går
 att få. Klädtrösklarna i `outfits.json` är satta efter den skalan; gamla sparfiler (version 1, stjärnor
 per uppgift) skalas ner med 5 vid migrering och import. Tre tryck på 1,2 sekunder ger en kort paus
 ("Lugn! Lyssna först") där inga tryck når spelet, och i Ljudtåget räknas nästa vagn först när förra

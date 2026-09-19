@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { levels, rhymes, sentences, sightwords, stories, words } from '../../content'
+import { letters, levels, rhymes, sentences, sightwords, stories, words } from '../../content'
 import { rhymeKey } from '../kindBuilders'
 import { seeded } from '../random'
 import { buildSession, type BuildInput } from '../sessionBuilder'
@@ -160,6 +160,33 @@ describe('ordbilder och vardagsord', () => {
     for (const t of tasks) {
       expect(lvl.words).toContain(t.targetId)
       expect(['sound-train', 'build-word', 'which-word']).toContain(t.game)
+    }
+  })
+})
+
+describe('bilderna', () => {
+  it('inga två ord delar bild, och varje bokstavs exempelord finns', () => {
+    // Två ord med samma bild gör bildvalet omöjligt: barnet kan läsa rätt och ändå välja "fel" ruta.
+    const seen = new Map<string, string>()
+    for (const w of words.filter((x) => x.emoji !== '')) {
+      expect(seen.has(w.emoji), `${w.id} delar bild med ${seen.get(w.emoji)}`).toBe(false)
+      seen.set(w.emoji, w.id)
+    }
+    for (const l of letters) {
+      const w = words.find((x) => x.id === l.example)
+      expect(w, `bokstaven ${l.id} pekar på exempelordet ${l.example} som inte finns`).toBeDefined()
+      expect(w!.sounds, `${l.example} innehåller inte ljudet ${l.id}`).toContain(l.id)
+    }
+  })
+
+  it('Spegelplaneten blandar hörövning och läsning med b- och d-ord', () => {
+    const tasks = build('spegelplaneten')
+    expect(tasks).toHaveLength(8)
+    expect(new Set(tasks.map((t) => t.game)).size).toBeGreaterThanOrEqual(3)
+    expect(tasks.some((t) => t.game === 'read-word')).toBe(true)
+    for (const t of tasks.filter((x) => x.kind === 'contrast')) {
+      const w = words.find((x) => x.id === t.targetId)!
+      expect(w.sounds.includes('b')).not.toBe(w.sounds.includes('d'))
     }
   })
 })

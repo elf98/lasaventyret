@@ -204,6 +204,12 @@ export function buildContrast(input: BuildInput, games: GameId[], rng: Rng): Tas
     const others = shuffle(pictures.filter((x) => x.id !== w.id && x.emoji !== w.emoji), rng).slice(0, 2)
     tasks.push({ id: `t-${w.id}`, game: 'sound-train', targetId: w.id, kind: 'word', options: shuffle([w.id, ...others.map((x) => x.id)], rng), isReview: false })
   }
+  if (has('read-word') && readable.length >= 3) {
+    // Viktigast för b/d: ordet står skrivet och måste läsas, ingen ledtråd i örat.
+    const w = shuffle(readable, rng)[0]
+    const others = shuffle(pictures.filter((x) => x.id !== w.id && x.emoji !== w.emoji), rng).slice(0, 2)
+    if (others.length === 2) tasks.push({ id: `d-${w.id}`, game: 'read-word', targetId: w.id, kind: 'word', options: shuffle([w.id, ...others.map((x) => x.id)], rng), isReview: false })
+  }
   if (has('which-word') && readable.length >= 3) {
     const w = shuffle(readable, rng)[0]
     const others = shuffle(readable.filter((x) => x.id !== w.id), rng).slice(0, 2)
