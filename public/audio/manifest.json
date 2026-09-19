@@ -297,11 +297,6 @@
       "hash": "c2c90d941e11",
       "text": "Hej Oscar! Välkommen till Läsäventyret!"
     },
-    "phrase.tap_to_start": {
-      "file": "phrase.tap_to_start.mp3",
-      "hash": "2e52a163b59a",
-      "text": "Tryck på raketen för att starta!"
-    },
     "phrase.choose_mascot": {
       "file": "phrase.choose_mascot.mp3",
       "hash": "699dc179e402",
@@ -326,11 +321,6 @@
       "file": "phrase.lets_go_to.mp3",
       "hash": "149638de1cb8",
       "text": "Nu åker vi till"
-    },
-    "phrase.lets_go": {
-      "file": "phrase.lets_go.mp3",
-      "hash": "5d06a48681d0",
-      "text": "Håll i dig, nu åker vi!"
     },
     "phrase.catch_intro": {
       "file": "phrase.catch_intro.mp3",
@@ -361,11 +351,6 @@
       "file": "phrase.tap_it.mp3",
       "hash": "75945808106c",
       "text": "Tryck på den!"
-    },
-    "phrase.as_in": {
-      "file": "phrase.as_in.mp3",
-      "hash": "9e370284eaa4",
-      "text": "som i"
     },
     "phrase.praise_1": {
       "file": "phrase.praise_1.mp3",
@@ -507,11 +492,6 @@
       "hash": "72f2761dcf75",
       "text": "Tillbaka"
     },
-    "phrase.btn_listen": {
-      "file": "phrase.btn_listen.mp3",
-      "hash": "de9ca4548e9c",
-      "text": "Lyssna"
-    },
     "phrase.btn_continue": {
       "file": "phrase.btn_continue.mp3",
       "hash": "7ba048501b39",
@@ -526,11 +506,6 @@
       "file": "phrase.btn_stickers.mp3",
       "hash": "39fa912c33af",
       "text": "Klistermärken"
-    },
-    "phrase.btn_yes": {
-      "file": "phrase.btn_yes.mp3",
-      "hash": "dd49a00541f5",
-      "text": "Ja"
     },
     "phrase.well_done_planet": {
       "file": "phrase.well_done_planet.mp3",
@@ -932,11 +907,6 @@
       "hash": "977646879dd1",
       "text": "Börja med vagnen närmast loket!"
     },
-    "phrase.train_go": {
-      "file": "phrase.train_go.mp3",
-      "hash": "0516ec95562a",
-      "text": "Nu åker tåget! Lyssna på hela ordet:"
-    },
     "phrase.which_picture": {
       "file": "phrase.which_picture.mp3",
       "hash": "81fa86f8293d",
@@ -946,11 +916,6 @@
       "file": "phrase.not_that_picture.mp3",
       "hash": "6b9ddef04e5a",
       "text": "Inte den. Lyssna igen:"
-    },
-    "phrase.it_became": {
-      "file": "phrase.it_became.mp3",
-      "hash": "3c374d918292",
-      "text": "Det blev:"
     },
     "phrase.build_intro": {
       "file": "phrase.build_intro.mp3",
@@ -976,11 +941,6 @@
       "file": "phrase.sticker_book_empty.mp3",
       "hash": "82981f3e044c",
       "text": "Boken är tom än. Spela så får du klistermärken!"
-    },
-    "phrase.btn_replay": {
-      "file": "phrase.btn_replay.mp3",
-      "hash": "2bca16beafff",
-      "text": "Lyssna igen"
     },
     "phrase.cue_catch": {
       "file": "phrase.cue_catch.mp3",
@@ -1082,16 +1042,6 @@
       "hash": "103b4ecd8020",
       "text": "bro"
     },
-    "phrase.which_word_intro": {
-      "file": "phrase.which_word_intro.mp3",
-      "hash": "1d4c61422a58",
-      "text": "Vilket ord hör du? Tryck på ordet som jag säger."
-    },
-    "phrase.cue_which": {
-      "file": "phrase.cue_which.mp3",
-      "hash": "f53cc16fe692",
-      "text": "Tryck på ordet"
-    },
     "phrase.memory_intro": {
       "file": "phrase.memory_intro.mp3",
       "hash": "da21c3308a37",
@@ -1101,11 +1051,6 @@
       "file": "phrase.cue_memory.mp3",
       "hash": "a05d9230a885",
       "text": "Hitta samma ord, stora och små!"
-    },
-    "phrase.memory_match": {
-      "file": "phrase.memory_match.mp3",
-      "hash": "ddf3778b0ab8",
-      "text": "Ett par!"
     },
     "phrase.memory_all": {
       "file": "phrase.memory_all.mp3",
@@ -1936,11 +1881,6 @@
       "file": "phrase.btn_fullscreen.mp3",
       "hash": "7d83a718cc17",
       "text": "Helskärm"
-    },
-    "phrase.planet_done_when": {
-      "file": "phrase.planet_done_when.mp3",
-      "hash": "ef8441e41684",
-      "text": "Planeten är klar när"
     },
     "level.startrampen.goal": {
       "file": "level.startrampen.goal.mp3",

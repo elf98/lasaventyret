@@ -417,15 +417,20 @@ async function main() {
 
   const all = collect()
   // Ljud som inte längre finns i innehållet ska bort ur manifestet, annars släpar filerna med i bygget.
-  if (!only) {
+  if (!only && !list) {
     const live = new Set(all.map((i) => i.id))
+    let removed = 0
     for (const id of Object.keys(manifest.items)) {
       if (live.has(id)) continue
       const file = path.join(outDir, manifest.items[id].file)
       if (existsSync(file)) rmSync(file)
       delete manifest.items[id]
-      if (!list) console.log(`  tog bort ${id}`)
+      removed++
+      console.log(`  tog bort ${id}`)
     }
+    // Måste sparas här: om inget nytt ska genereras returnerar vi innan manifestet annars skrivs,
+    // och då lovar manifestet ljud vars filer redan är raderade (appen blir tyst på dem).
+    if (removed) writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n')
   }
   const items = all.filter((i) => !only || i.id.startsWith(only))
   const todo: { item: Item; ssml: string; hash: string; file: string }[] = []

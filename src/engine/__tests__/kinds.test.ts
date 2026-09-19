@@ -281,3 +281,23 @@ describe('fraser', () => {
     }
   })
 })
+
+describe('ljudmanifestet', () => {
+  it('varje post har en fil och varje fil en post', async () => {
+    // Ett manifest som lovar ljud vars fil saknas ger tyst paus i appen i stället för tal.
+    const fs = await import('node:fs')
+    const path = await import('node:path')
+    const dir = path.resolve(__dirname, '../../../public/audio')
+    const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'manifest.json'), 'utf8')) as { items: Record<string, { file: string }> }
+    const files = new Set(fs.readdirSync(dir))
+    const used = new Set<string>()
+    for (const [id, item] of Object.entries(manifest.items)) {
+      expect(files.has(item.file), `${id} saknar filen ${item.file}`).toBe(true)
+      used.add(item.file)
+    }
+    for (const f of files) {
+      if (f === 'manifest.json') continue
+      expect(used.has(f), `${f} finns men ingen post pekar på den`).toBe(true)
+    }
+  })
+})
