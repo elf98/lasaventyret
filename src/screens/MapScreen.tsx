@@ -117,7 +117,8 @@ export default function MapScreen() {
   const showInfo = (level: Level) => {
     sfx.pop()
     setInfo(level)
-    void audio.speak([levelNameId(level.id), ...(level.goal ? [levelGoalId(level.id)] : [])])
+    const bonus = isBonus(level) ? [phraseId('level_bonus')] : []
+    void audio.speak([levelNameId(level.id), ...(level.goal ? [levelGoalId(level.id)] : []), ...bonus])
   }
 
   const flyTo = async (level: Level) => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { letters, levels, rhymes, sentences, sightwords, stories, words } from '../../content'
+import { letters, levels, phrases, rhymes, sentences, sightwords, stories, words } from '../../content'
 import { rhymeKey } from '../kindBuilders'
 import { seeded } from '../random'
 import { buildSession, type BuildInput } from '../sessionBuilder'
@@ -254,6 +254,30 @@ describe('vokallängd', () => {
     for (const t of tasks) {
       const w = words.find((x) => x.id === t.targetId)!
       if (w.pair) expect(t.options, `${w.id} saknar ${w.pair}`).toContain(w.pair)
+    }
+  })
+})
+
+describe('fraser', () => {
+  it('varje fras används någonstans, och varje använd fras finns', async () => {
+    // Fraser som blir kvar när ett spel ändras ger ljudfiler som aldrig spelas och listor som växer.
+    const fs = await import('node:fs')
+    const path = await import('node:path')
+    const read = (dir: string): string =>
+      fs.readdirSync(dir, { withFileTypes: true }).reduce((acc, e) => {
+        const full = path.join(dir, e.name)
+        if (e.isDirectory()) return acc + read(full)
+        return e.name.endsWith('.ts') || e.name.endsWith('.tsx') ? acc + fs.readFileSync(full, 'utf8') : acc
+      }, '')
+    const code = read(path.resolve(__dirname, '../..'))
+    // praise_/poke_/stars_ byggs ihop dynamiskt och kan inte hittas som textsträngar.
+    const dynamic = /^(praise_|poke_|stars_)/
+    for (const key of Object.keys(phrases)) {
+      if (dynamic.test(key)) continue
+      expect(code.includes(`'${key}'`), `frasen ${key} används inte längre`).toBe(true)
+    }
+    for (const m of code.matchAll(/phraseId\('([a-z_0-9]+)'\)/g)) {
+      expect(phrases[m[1]], `koden använder frasen ${m[1]} som inte finns`).toBeDefined()
     }
   })
 })
