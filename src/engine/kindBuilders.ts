@@ -63,15 +63,25 @@ export function buildSentences(input: BuildInput, _games: GameId[], rng: Rng): T
   return ranked.slice(0, Math.min(input.count, ranked.length)).map((s, i) => sentenceTask(s, i, rng))
 }
 
-/** Sagoplaneten: två berättelser varvade med två tokiga meningar. */
+/**
+ * Sagoplaneten: berättelser varvade med tokiga meningar. En berättelse tar ungefär lika lång tid som
+ * tre vanliga uppgifter (meningar, två frågor, omläsning), så passet räknar den som tre – annars blev
+ * passet bara hälften så långt som på andra planeter och planeten tog dubbelt så många pass.
+ */
+const STORY_WEIGHT = 3
+
 export function buildStories(input: BuildInput, games: GameId[], rng: Rng): Task[] {
-  const stories = rank(input.stories, 'story', input, rng).slice(0, 2)
-  const sentences = games.includes('silly-sentences') ? rank(input.sentences, 'sentence', input, rng).slice(0, 2) : []
+  const wanted = Math.max(1, Math.round(input.count / STORY_WEIGHT))
+  const stories = rank(input.stories, 'story', input, rng).slice(0, wanted)
+  const room = Math.max(0, input.count - stories.length * STORY_WEIGHT)
+  const sentences = games.includes('silly-sentences') ? rank(input.sentences, 'sentence', input, rng).slice(0, room + stories.length) : []
   const tasks: Task[] = []
   stories.forEach((st: Story, i) => {
     tasks.push({ id: `st${i}-${st.id}`, game: 'story', targetId: st.id, kind: 'story', options: st.questions[0].options, answer: String(st.questions[0].answer), isReview: false })
     if (sentences[i]) tasks.push(sentenceTask(sentences[i], i, rng))
   })
+  // Fyll ut med meningar om berättelserna inte räcker till hela passet.
+  for (let i = stories.length; tasks.length < Math.ceil(input.count / 2) && i < sentences.length; i++) tasks.push(sentenceTask(sentences[i], i, rng))
   return tasks
 }
 

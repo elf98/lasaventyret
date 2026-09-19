@@ -23,7 +23,7 @@ export const COMPLETE_SHARE: Record<Level['kind'], number> = {
   words: 0.6,
   contrast: 0.5,
   sentences: 0.5,
-  stories: 0.6,
+  stories: 0.5,
   phonology: 0.4,
 }
 
