@@ -15,7 +15,7 @@ export const sightWordId = (id: string) => `sight.${id}`
 export const sentenceId = (id: string) => `sentence.${id}`
 export const storyTitleId = (id: string) => `story.${id}.title`
 export const storySentenceId = (id: string, n: number) => `story.${id}.${n}`
-export const storyQuestionId = (id: string) => `story.${id}.q`
+export const storyQuestionId = (id: string, n = 0) => `story.${id}.q${n}`
 /** Enskilt ord ur en mening, för ord-för-ord-läsning. */
 export const tokenId = (text: string) => `token.${text}`
 

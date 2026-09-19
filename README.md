@@ -64,8 +64,8 @@ Allt innehåll ligger i `src/content/*.json`. Ändra JSON, kör `npm run audio`,
 | `config.json` | barnets namn, uppgifter per pass, andel repetition, passlängd |
 | `sightwords.json` | ordbilder – **bara ord vars uttal inte följer stavningen** (och, är, jag, det, de, dem, mig, dig, sig, var, säger, mycket). Ljudenliga småord (har, kan, inte ...) ligger i `words.json` och avkodas på Vardagsplaneten; Ordplaneten kör mest Vilket ord? (3 alternativ på lätt, annars 4) med ett memory per pass, påbörjade ord först |
 | `rhymes.json` | rimpar av ord-id (båda måste ha emoji) |
-| `sentences.json` | tokiga meningar: text, rätt bild (emoji), två fel bilder |
-| `stories.json` | berättelser: titel, meningar, fråga, tre bild-alternativ, index för rätt svar |
+| `sentences.json` | tokiga meningar: text, rätt bild (emoji), två fel bilder; 41 st, fördelade på Småmeningar (korta) och Tokplaneten (längre) via `sentences` i levels.json |
+| `stories.json` | berättelser: titel, meningar och `questions` (två per berättelse: en om innehållet, en om ordningen), var och en med tre bild-alternativ och index för rätt svar |
 
 Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` och kör
 `npm run audio`. Ny fras: lägg till nyckel i `phrases.json` och använd `phraseId('nyckel')`.
@@ -100,7 +100,7 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
 | Ordbilds-memory | `src/games/SightMemory.tsx` | fyra par ordbilder, VERSALER mot gemener (OCH + och) så att korten måste läsas; tysta tills ett par hittats |
 | Rimjakt | `src/games/RhymeHunt.tsx` | hör ett ord, välj bilden som rimmar (`rhymes.json`) |
 | Tokiga meningar | `src/games/SillySentences.tsx` | läs själv, välj rätt bild; högtalaren läser ord för ord (`sentences.json`) |
-| Berättelse | `src/games/StoryReader.tsx` | 3–5 meningar, pil för nästa, bildfråga (`stories.json`) |
+| Berättelse | `src/games/StoryReader.tsx` | 3–5 meningar, pil för nästa, två bildfrågor, sedan hela texten samlad för omläsning (bygger flyt) |
 
 Nytt spel: skapa komponent med samma props (`task`, `scaffold`, `celebrating`, `onWrong`, `onSolved`),
 lägg till id i `GameId` (`src/content/index.ts`), i `AVAILABLE_GAMES` (`src/games/index.ts`), i

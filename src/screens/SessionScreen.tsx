@@ -61,7 +61,7 @@ function devTask(): Task[] | null {
     if (s) Object.assign(t, { kind: 'sentence', options: [s.picture, ...s.distractors], answer: s.picture })
   } else if (game === 'story') {
     const s = storyById.get(targetId)
-    if (s) Object.assign(t, { kind: 'story', options: s.options, answer: String(s.answer) })
+    if (s) Object.assign(t, { kind: 'story', options: s.questions[0].options, answer: String(s.questions[0].answer) })
   }
   return [t]
 }

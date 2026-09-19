@@ -1,17 +1,302 @@
 [
-  { "id": "mus_bilen", "title": "Musen och bilen",
-    "sentences": ["Här är en mus.", "Musen har en bil.", "Bilen är gul.", "Musen åker till månen."],
-    "question": "Vart åker musen?", "options": ["🌙", "☀️", "🏠"], "answer": 0 },
-  { "id": "rav_fisken", "title": "Räven och fisken",
-    "sentences": ["Räven är på en båt.", "Räven ser en fisk.", "Fisken är stor.", "Räven får inte fisken."],
-    "question": "Vad ser räven?", "options": ["🐟", "🐍", "🐭"], "answer": 0 },
-  { "id": "kon_hatten", "title": "Kon och hatten",
-    "sentences": ["Kon har en hatt.", "Hatten är röd.", "Kon åker tåg.", "På tåget tappar kon hatten."],
-    "question": "Vad har kon på sig?", "options": ["👑", "🎩", "🧢"], "answer": 1 },
-  { "id": "apan_huset", "title": "Apan i huset",
-    "sentences": ["Apan är i ett hus.", "Apan ser en orm.", "Ormen sover.", "Apan går ut i solen."],
-    "question": "Vad ser apan?", "options": ["🐱", "🐶", "🐍"], "answer": 2 },
-  { "id": "dinon_elden", "title": "Dinon och elden",
-    "sentences": ["En dino är i en låda.", "Dinon har en yxa.", "Dinon ser eld.", "Dinon springer till havet."],
-    "question": "Vad har dinon?", "options": ["🪓", "📖", "🎈"], "answer": 0 }
+  {
+    "id": "mus_bilen",
+    "title": "Musen och bilen",
+    "sentences": [
+      "Här är en mus.",
+      "Musen har en bil.",
+      "Bilen är gul.",
+      "Musen åker till månen."
+    ],
+    "questions": [
+      {
+        "text": "Vart åker musen?",
+        "options": [
+          "🌙",
+          "☀️",
+          "🏠"
+        ],
+        "answer": 0
+      },
+      {
+        "text": "Vad hände först?",
+        "options": [
+          "🐭🚗",
+          "🐭🌙",
+          "🌙"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "rav_fisken",
+    "title": "Räven och fisken",
+    "sentences": [
+      "Räven är på en båt.",
+      "Räven ser en fisk.",
+      "Fisken är stor.",
+      "Räven får inte fisken."
+    ],
+    "questions": [
+      {
+        "text": "Vad ser räven?",
+        "options": [
+          "🐟",
+          "🐍",
+          "🐭"
+        ],
+        "answer": 0
+      },
+      {
+        "text": "Vad hände först?",
+        "options": [
+          "🦊⛵",
+          "🦊🐟",
+          "🐟"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "kon_hatten",
+    "title": "Kon och hatten",
+    "sentences": [
+      "Kon har en hatt.",
+      "Hatten är röd.",
+      "Kon åker tåg.",
+      "På tåget tappar kon hatten."
+    ],
+    "questions": [
+      {
+        "text": "Vad har kon på sig?",
+        "options": [
+          "👑",
+          "🎩",
+          "🧢"
+        ],
+        "answer": 1
+      },
+      {
+        "text": "Vad hände sist?",
+        "options": [
+          "🎩🚆",
+          "🐄🎩",
+          "🐄"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "apan_huset",
+    "title": "Apan i huset",
+    "sentences": [
+      "Apan är i ett hus.",
+      "Apan ser en orm.",
+      "Ormen sover.",
+      "Apan går ut i solen."
+    ],
+    "questions": [
+      {
+        "text": "Vad ser apan?",
+        "options": [
+          "🐱",
+          "🐶",
+          "🐍"
+        ],
+        "answer": 2
+      },
+      {
+        "text": "Vad hände sist?",
+        "options": [
+          "🐒☀️",
+          "🐒🏠",
+          "🐍"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "dinon_elden",
+    "title": "Dinon och elden",
+    "sentences": [
+      "En dino är i en låda.",
+      "Dinon har en yxa.",
+      "Dinon ser eld.",
+      "Dinon springer till havet."
+    ],
+    "questions": [
+      {
+        "text": "Vad har dinon?",
+        "options": [
+          "🪓",
+          "📖",
+          "🎈"
+        ],
+        "answer": 0
+      },
+      {
+        "text": "Vad hände först?",
+        "options": [
+          "🦖🗃️",
+          "🦖🔥",
+          "🌊"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "katten_bollen",
+    "title": "Katten och bollen",
+    "sentences": [
+      "Här är en katt.",
+      "Katten ser en boll.",
+      "Bollen rullar ut.",
+      "Katten springer efter."
+    ],
+    "questions": [
+      {
+        "text": "Vad ser katten?",
+        "options": [
+          "⚽",
+          "📖",
+          "🍪"
+        ],
+        "answer": 0
+      },
+      {
+        "text": "Vad hände sist?",
+        "options": [
+          "🐱⚽",
+          "🐱📖",
+          "⚽"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "bin_blomman",
+    "title": "Biet och blomman",
+    "sentences": [
+      "Ett bi flyger ut.",
+      "Biet ser en blomma.",
+      "Blomman är röd.",
+      "Biet sitter på blomman."
+    ],
+    "questions": [
+      {
+        "text": "Vad ser biet?",
+        "options": [
+          "🌸",
+          "🌳",
+          "🍎"
+        ],
+        "answer": 0
+      },
+      {
+        "text": "Vad hände först?",
+        "options": [
+          "🐝",
+          "🐝🌸",
+          "🌸"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "hunden_skogen",
+    "title": "Hunden i skogen",
+    "sentences": [
+      "Hunden går till skogen.",
+      "Där är ett stort träd.",
+      "En uggla sitter i trädet.",
+      "Hunden går hem igen."
+    ],
+    "questions": [
+      {
+        "text": "Vem satt i trädet?",
+        "options": [
+          "🦉",
+          "🐱",
+          "🐰"
+        ],
+        "answer": 0
+      },
+      {
+        "text": "Vad hände sist?",
+        "options": [
+          "🐶🏠",
+          "🐶🌲",
+          "🦉"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "bebisen_glassen",
+    "title": "Bebisen och glassen",
+    "sentences": [
+      "Bebisen får en glass.",
+      "Glassen är kall.",
+      "Glassen faller ner.",
+      "Mor ger en ny glass."
+    ],
+    "questions": [
+      {
+        "text": "Vem ger en ny glass?",
+        "options": [
+          "👩",
+          "👶",
+          "🐶"
+        ],
+        "answer": 0
+      },
+      {
+        "text": "Vad hände först?",
+        "options": [
+          "👶🍦",
+          "🍦",
+          "👩🍦"
+        ],
+        "answer": 0
+      }
+    ]
+  },
+  {
+    "id": "haren_moroten",
+    "title": "Kaninen och kakan",
+    "sentences": [
+      "Kaninen är hungrig.",
+      "Kaninen ser en kaka.",
+      "Kakan ligger på ett bord.",
+      "Kaninen äter upp kakan."
+    ],
+    "questions": [
+      {
+        "text": "Vad äter kaninen?",
+        "options": [
+          "🍪",
+          "🍎",
+          "🥔"
+        ],
+        "answer": 0
+      },
+      {
+        "text": "Vad hände sist?",
+        "options": [
+          "🐰🍪",
+          "🐰",
+          "🍪"
+        ],
+        "answer": 0
+      }
+    ]
+  }
 ]

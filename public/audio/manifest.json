@@ -2571,6 +2571,636 @@
       "file": "level.spegelplaneten.goal.mp3",
       "hash": "637a50a99684",
       "text": "Här övar vi B och D. De är nästan spegelbilder av varandra: B har magen åt höger, D har magen åt vänster. Bil börjar på b, dino börjar på d."
+    },
+    "phrase.story_reread": {
+      "file": "phrase.story_reread.mp3",
+      "hash": "550fb924b534",
+      "text": "Bra! Läs nu hela berättelsen en gång till för dig själv."
+    },
+    "sentence.katt_bok": {
+      "file": "sentence.katt_bok.mp3",
+      "hash": "8575b242cf16",
+      "text": "Katten har en bok."
+    },
+    "sentence.bi_blomma": {
+      "file": "sentence.bi_blomma.mp3",
+      "hash": "f668956e8216",
+      "text": "Ett bi på en blomma."
+    },
+    "sentence.hund_boll": {
+      "file": "sentence.hund_boll.mp3",
+      "hash": "ea4c048a96b8",
+      "text": "Hunden har en boll."
+    },
+    "sentence.rav_sko": {
+      "file": "sentence.rav_sko.mp3",
+      "hash": "0f43f78d2308",
+      "text": "Räven har en sko."
+    },
+    "sentence.apa_glass": {
+      "file": "sentence.apa_glass.mp3",
+      "hash": "f2161e268754",
+      "text": "Apan äter glass."
+    },
+    "sentence.ko_stol": {
+      "file": "sentence.ko_stol.mp3",
+      "hash": "f318e8cf883e",
+      "text": "Kon sitter på en stol."
+    },
+    "sentence.haj_bat": {
+      "file": "sentence.haj_bat.mp3",
+      "hash": "1dd49b077cb1",
+      "text": "En haj vid en båt."
+    },
+    "sentence.gris_hatt": {
+      "file": "sentence.gris_hatt.mp3",
+      "hash": "cac2c63dfcb6",
+      "text": "Grisen har en hatt."
+    },
+    "sentence.mus_ost": {
+      "file": "sentence.mus_ost.mp3",
+      "hash": "18ec3ba53d98",
+      "text": "Musen äter ost."
+    },
+    "sentence.katt_sover": {
+      "file": "sentence.katt_sover.mp3",
+      "hash": "acf8890e356b",
+      "text": "Katten sover i en låda."
+    },
+    "sentence.hast_apple": {
+      "file": "sentence.hast_apple.mp3",
+      "hash": "f905bb71dcee",
+      "text": "Hästen äter ett äpple."
+    },
+    "sentence.bebis_jojo": {
+      "file": "sentence.bebis_jojo.mp3",
+      "hash": "89f5686aabe0",
+      "text": "Bebisen har en jojo."
+    },
+    "sentence.uggla_cykel": {
+      "file": "sentence.uggla_cykel.mp3",
+      "hash": "99d285de6c18",
+      "text": "Ugglan kan inte åka cykel."
+    },
+    "sentence.ren_glass": {
+      "file": "sentence.ren_glass.mp3",
+      "hash": "48f58249f620",
+      "text": "Renen vill ha glass på snön."
+    },
+    "sentence.dino_bad": {
+      "file": "sentence.dino_bad.mp3",
+      "hash": "f2a2d245d8dd",
+      "text": "Dinon sitter i ett bad."
+    },
+    "sentence.zebra_sol": {
+      "file": "sentence.zebra_sol.mp3",
+      "hash": "a0694fd9b4fd",
+      "text": "Zebran ligger i solen."
+    },
+    "sentence.kanin_krona": {
+      "file": "sentence.kanin_krona.mp3",
+      "hash": "00e0936f94f2",
+      "text": "Kaninen har en krona på huvudet."
+    },
+    "sentence.kamel_hav": {
+      "file": "sentence.kamel_hav.mp3",
+      "hash": "219f779864c0",
+      "text": "Kamelen ser ett hav."
+    },
+    "sentence.odla_brev": {
+      "file": "sentence.odla_brev.mp3",
+      "hash": "99283704eead",
+      "text": "Ödlan har ett brev."
+    },
+    "sentence.saal_fisk": {
+      "file": "sentence.saal_fisk.mp3",
+      "hash": "7e4dfdb3979c",
+      "text": "Sälen äter en fisk."
+    },
+    "sentence.raka_bro": {
+      "file": "sentence.raka_bro.mp3",
+      "hash": "fe37d810f5db",
+      "text": "En räka under en bro."
+    },
+    "sentence.bjorn_taxi": {
+      "file": "sentence.bjorn_taxi.mp3",
+      "hash": "91fbc075d662",
+      "text": "Hunden åker taxi till skogen."
+    },
+    "story.mus_bilen.q0": {
+      "file": "story.mus_bilen.q0.mp3",
+      "hash": "ccc7fda1c3a2",
+      "text": "Vart åker musen?"
+    },
+    "story.mus_bilen.q1": {
+      "file": "story.mus_bilen.q1.mp3",
+      "hash": "c1075abb01e0",
+      "text": "Vad hände först?"
+    },
+    "story.rav_fisken.q0": {
+      "file": "story.rav_fisken.q0.mp3",
+      "hash": "50496a057528",
+      "text": "Vad ser räven?"
+    },
+    "story.rav_fisken.q1": {
+      "file": "story.rav_fisken.q1.mp3",
+      "hash": "c1075abb01e0",
+      "text": "Vad hände först?"
+    },
+    "story.kon_hatten.q0": {
+      "file": "story.kon_hatten.q0.mp3",
+      "hash": "61fcf75b2ece",
+      "text": "Vad har kon på sig?"
+    },
+    "story.kon_hatten.q1": {
+      "file": "story.kon_hatten.q1.mp3",
+      "hash": "b7ce98b3024a",
+      "text": "Vad hände sist?"
+    },
+    "story.apan_huset.q0": {
+      "file": "story.apan_huset.q0.mp3",
+      "hash": "25231c3004cd",
+      "text": "Vad ser apan?"
+    },
+    "story.apan_huset.q1": {
+      "file": "story.apan_huset.q1.mp3",
+      "hash": "b7ce98b3024a",
+      "text": "Vad hände sist?"
+    },
+    "story.dinon_elden.q0": {
+      "file": "story.dinon_elden.q0.mp3",
+      "hash": "aa111dff24de",
+      "text": "Vad har dinon?"
+    },
+    "story.dinon_elden.q1": {
+      "file": "story.dinon_elden.q1.mp3",
+      "hash": "c1075abb01e0",
+      "text": "Vad hände först?"
+    },
+    "story.katten_bollen.title": {
+      "file": "story.katten_bollen.title.mp3",
+      "hash": "9667c83f415b",
+      "text": "Katten och bollen"
+    },
+    "story.katten_bollen.0": {
+      "file": "story.katten_bollen.0.mp3",
+      "hash": "1340400acded",
+      "text": "Här är en katt."
+    },
+    "story.katten_bollen.1": {
+      "file": "story.katten_bollen.1.mp3",
+      "hash": "2d76a30e16c9",
+      "text": "Katten ser en boll."
+    },
+    "story.katten_bollen.2": {
+      "file": "story.katten_bollen.2.mp3",
+      "hash": "6094e04ec238",
+      "text": "Bollen rullar ut."
+    },
+    "story.katten_bollen.3": {
+      "file": "story.katten_bollen.3.mp3",
+      "hash": "44b541c9ed9d",
+      "text": "Katten springer efter."
+    },
+    "story.katten_bollen.q0": {
+      "file": "story.katten_bollen.q0.mp3",
+      "hash": "86f1752141c5",
+      "text": "Vad ser katten?"
+    },
+    "story.katten_bollen.q1": {
+      "file": "story.katten_bollen.q1.mp3",
+      "hash": "b7ce98b3024a",
+      "text": "Vad hände sist?"
+    },
+    "story.bin_blomman.title": {
+      "file": "story.bin_blomman.title.mp3",
+      "hash": "75655d395363",
+      "text": "Biet och blomman"
+    },
+    "story.bin_blomman.0": {
+      "file": "story.bin_blomman.0.mp3",
+      "hash": "c70b41f4aea5",
+      "text": "Ett bi flyger ut."
+    },
+    "story.bin_blomman.1": {
+      "file": "story.bin_blomman.1.mp3",
+      "hash": "7cb495f42957",
+      "text": "Biet ser en blomma."
+    },
+    "story.bin_blomman.2": {
+      "file": "story.bin_blomman.2.mp3",
+      "hash": "60436d6d44ae",
+      "text": "Blomman är röd."
+    },
+    "story.bin_blomman.3": {
+      "file": "story.bin_blomman.3.mp3",
+      "hash": "8ee0bf993123",
+      "text": "Biet sitter på blomman."
+    },
+    "story.bin_blomman.q0": {
+      "file": "story.bin_blomman.q0.mp3",
+      "hash": "09dce383e5d7",
+      "text": "Vad ser biet?"
+    },
+    "story.bin_blomman.q1": {
+      "file": "story.bin_blomman.q1.mp3",
+      "hash": "c1075abb01e0",
+      "text": "Vad hände först?"
+    },
+    "story.hunden_skogen.title": {
+      "file": "story.hunden_skogen.title.mp3",
+      "hash": "a0b2531adc98",
+      "text": "Hunden i skogen"
+    },
+    "story.hunden_skogen.0": {
+      "file": "story.hunden_skogen.0.mp3",
+      "hash": "52a6b465104d",
+      "text": "Hunden går till skogen."
+    },
+    "story.hunden_skogen.1": {
+      "file": "story.hunden_skogen.1.mp3",
+      "hash": "59eda3c6e674",
+      "text": "Där är ett stort träd."
+    },
+    "story.hunden_skogen.2": {
+      "file": "story.hunden_skogen.2.mp3",
+      "hash": "447f54ca9247",
+      "text": "En uggla sitter i trädet."
+    },
+    "story.hunden_skogen.3": {
+      "file": "story.hunden_skogen.3.mp3",
+      "hash": "f050bfb687df",
+      "text": "Hunden går hem igen."
+    },
+    "story.hunden_skogen.q0": {
+      "file": "story.hunden_skogen.q0.mp3",
+      "hash": "28686041644c",
+      "text": "Vem satt i trädet?"
+    },
+    "story.hunden_skogen.q1": {
+      "file": "story.hunden_skogen.q1.mp3",
+      "hash": "b7ce98b3024a",
+      "text": "Vad hände sist?"
+    },
+    "story.bebisen_glassen.title": {
+      "file": "story.bebisen_glassen.title.mp3",
+      "hash": "0e0e38e2989d",
+      "text": "Bebisen och glassen"
+    },
+    "story.bebisen_glassen.0": {
+      "file": "story.bebisen_glassen.0.mp3",
+      "hash": "2b5778a06ba2",
+      "text": "Bebisen får en glass."
+    },
+    "story.bebisen_glassen.1": {
+      "file": "story.bebisen_glassen.1.mp3",
+      "hash": "a6093874e9d0",
+      "text": "Glassen är kall."
+    },
+    "story.bebisen_glassen.2": {
+      "file": "story.bebisen_glassen.2.mp3",
+      "hash": "e0196ed4a351",
+      "text": "Glassen faller ner."
+    },
+    "story.bebisen_glassen.3": {
+      "file": "story.bebisen_glassen.3.mp3",
+      "hash": "af107ca5ab6a",
+      "text": "Mor ger en ny glass."
+    },
+    "story.bebisen_glassen.q0": {
+      "file": "story.bebisen_glassen.q0.mp3",
+      "hash": "2a286fce84b9",
+      "text": "Vem ger en ny glass?"
+    },
+    "story.bebisen_glassen.q1": {
+      "file": "story.bebisen_glassen.q1.mp3",
+      "hash": "c1075abb01e0",
+      "text": "Vad hände först?"
+    },
+    "story.haren_moroten.title": {
+      "file": "story.haren_moroten.title.mp3",
+      "hash": "7e2ca05811ca",
+      "text": "Kaninen och kakan"
+    },
+    "story.haren_moroten.0": {
+      "file": "story.haren_moroten.0.mp3",
+      "hash": "1bee5935c2b8",
+      "text": "Kaninen är hungrig."
+    },
+    "story.haren_moroten.1": {
+      "file": "story.haren_moroten.1.mp3",
+      "hash": "cf6b089e502a",
+      "text": "Kaninen ser en kaka."
+    },
+    "story.haren_moroten.2": {
+      "file": "story.haren_moroten.2.mp3",
+      "hash": "d77bb238caa4",
+      "text": "Kakan ligger på ett bord."
+    },
+    "story.haren_moroten.3": {
+      "file": "story.haren_moroten.3.mp3",
+      "hash": "1cb97018609d",
+      "text": "Kaninen äter upp kakan."
+    },
+    "story.haren_moroten.q0": {
+      "file": "story.haren_moroten.q0.mp3",
+      "hash": "ef2111c04488",
+      "text": "Vad äter kaninen?"
+    },
+    "story.haren_moroten.q1": {
+      "file": "story.haren_moroten.q1.mp3",
+      "hash": "b7ce98b3024a",
+      "text": "Vad hände sist?"
+    },
+    "token.bad": {
+      "file": "token.bad.mp3",
+      "hash": "3f53cefd9d61",
+      "text": "bad"
+    },
+    "token.bi": {
+      "file": "token.bi.mp3",
+      "hash": "60b99a91806a",
+      "text": "bi"
+    },
+    "token.biet": {
+      "file": "token.biet.mp3",
+      "hash": "1d0bab66e801",
+      "text": "biet"
+    },
+    "token.blomma": {
+      "file": "token.blomma.mp3",
+      "hash": "399eb43d5929",
+      "text": "blomma"
+    },
+    "token.blomman": {
+      "file": "token.blomman.mp3",
+      "hash": "1e204743a72e",
+      "text": "blomman"
+    },
+    "token.bollen": {
+      "file": "token.bollen.mp3",
+      "hash": "69acb1b95a08",
+      "text": "bollen"
+    },
+    "token.bord": {
+      "file": "token.bord.mp3",
+      "hash": "19b4df4882ab",
+      "text": "bord"
+    },
+    "token.brev": {
+      "file": "token.brev.mp3",
+      "hash": "bd1d0eacc92c",
+      "text": "brev"
+    },
+    "token.bro": {
+      "file": "token.bro.mp3",
+      "hash": "7b031c61840f",
+      "text": "bro"
+    },
+    "token.cykel": {
+      "file": "token.cykel.mp3",
+      "hash": "6b03e699f70b",
+      "text": "cykel"
+    },
+    "token.där": {
+      "file": "token.daer.mp3",
+      "hash": "46599b06d0a0",
+      "text": "där"
+    },
+    "token.efter": {
+      "file": "token.efter.mp3",
+      "hash": "3fa47529a71d",
+      "text": "efter"
+    },
+    "token.faller": {
+      "file": "token.faller.mp3",
+      "hash": "c70d9274e0bd",
+      "text": "faller"
+    },
+    "token.flyger": {
+      "file": "token.flyger.mp3",
+      "hash": "6a4d5bdfc5b1",
+      "text": "flyger"
+    },
+    "token.ger": {
+      "file": "token.ger.mp3",
+      "hash": "c38848bd37c7",
+      "text": "ger"
+    },
+    "token.glass": {
+      "file": "token.glass.mp3",
+      "hash": "c3b949de855b",
+      "text": "glass"
+    },
+    "token.glassen": {
+      "file": "token.glassen.mp3",
+      "hash": "cbdfd033316a",
+      "text": "glassen"
+    },
+    "token.ha": {
+      "file": "token.ha.mp3",
+      "hash": "cd67711c9ca7",
+      "text": "ha"
+    },
+    "token.hav": {
+      "file": "token.hav.mp3",
+      "hash": "e6add2a8cb08",
+      "text": "hav"
+    },
+    "token.hem": {
+      "file": "token.hem.mp3",
+      "hash": "53d2f35b3ad7",
+      "text": "hem"
+    },
+    "token.hungrig": {
+      "file": "token.hungrig.mp3",
+      "hash": "58cb5a33b4a0",
+      "text": "hungrig"
+    },
+    "token.huvudet": {
+      "file": "token.huvudet.mp3",
+      "hash": "dca6f69101c6",
+      "text": "huvudet"
+    },
+    "token.hästen": {
+      "file": "token.haesten.mp3",
+      "hash": "2bc0960dff1b",
+      "text": "hästen"
+    },
+    "token.igen": {
+      "file": "token.igen.mp3",
+      "hash": "78270446e1fc",
+      "text": "igen"
+    },
+    "token.jojo": {
+      "file": "token.jojo.mp3",
+      "hash": "b81ae3dc9d15",
+      "text": "jojo"
+    },
+    "token.kaka": {
+      "file": "token.kaka.mp3",
+      "hash": "ae3440ec3526",
+      "text": "kaka"
+    },
+    "token.kakan": {
+      "file": "token.kakan.mp3",
+      "hash": "752633b74944",
+      "text": "kakan"
+    },
+    "token.kall": {
+      "file": "token.kall.mp3",
+      "hash": "12c5da070459",
+      "text": "kall"
+    },
+    "token.kamelen": {
+      "file": "token.kamelen.mp3",
+      "hash": "f79723c8dc58",
+      "text": "kamelen"
+    },
+    "token.kaninen": {
+      "file": "token.kaninen.mp3",
+      "hash": "c541358a3f6a",
+      "text": "kaninen"
+    },
+    "token.katt": {
+      "file": "token.katt.mp3",
+      "hash": "a3e5ed64a050",
+      "text": "katt"
+    },
+    "token.krona": {
+      "file": "token.krona.mp3",
+      "hash": "6432a317e8ef",
+      "text": "krona"
+    },
+    "token.ligger": {
+      "file": "token.ligger.mp3",
+      "hash": "87b549cb9536",
+      "text": "ligger"
+    },
+    "token.mor": {
+      "file": "token.mor.mp3",
+      "hash": "b27bf3b5c832",
+      "text": "mor"
+    },
+    "token.ner": {
+      "file": "token.ner.mp3",
+      "hash": "a217c45f5656",
+      "text": "ner"
+    },
+    "token.ny": {
+      "file": "token.ny.mp3",
+      "hash": "7ab16ecd2405",
+      "text": "ny"
+    },
+    "token.ost": {
+      "file": "token.ost.mp3",
+      "hash": "54529e8cbaa9",
+      "text": "ost"
+    },
+    "token.renen": {
+      "file": "token.renen.mp3",
+      "hash": "198e0405e444",
+      "text": "renen"
+    },
+    "token.rullar": {
+      "file": "token.rullar.mp3",
+      "hash": "f214c401f843",
+      "text": "rullar"
+    },
+    "token.räka": {
+      "file": "token.raeka.mp3",
+      "hash": "e2353b864381",
+      "text": "räka"
+    },
+    "token.sitter": {
+      "file": "token.sitter.mp3",
+      "hash": "c3de8b6ba39b",
+      "text": "sitter"
+    },
+    "token.sko": {
+      "file": "token.sko.mp3",
+      "hash": "c2917ad233e9",
+      "text": "sko"
+    },
+    "token.skogen": {
+      "file": "token.skogen.mp3",
+      "hash": "13a3007a7571",
+      "text": "skogen"
+    },
+    "token.snön": {
+      "file": "token.snoen.mp3",
+      "hash": "1a65f5f77cac",
+      "text": "snön"
+    },
+    "token.stol": {
+      "file": "token.stol.mp3",
+      "hash": "6b0b59cba5ed",
+      "text": "stol"
+    },
+    "token.stort": {
+      "file": "token.stort.mp3",
+      "hash": "94f5debc7a50",
+      "text": "stort"
+    },
+    "token.träd": {
+      "file": "token.traed.mp3",
+      "hash": "f7ac8e1fce38",
+      "text": "träd"
+    },
+    "token.trädet": {
+      "file": "token.traedet.mp3",
+      "hash": "1501e57f6384",
+      "text": "trädet"
+    },
+    "token.uggla": {
+      "file": "token.uggla.mp3",
+      "hash": "ddb08e1cb963",
+      "text": "uggla"
+    },
+    "token.ugglan": {
+      "file": "token.ugglan.mp3",
+      "hash": "fefe2d4eb8b7",
+      "text": "ugglan"
+    },
+    "token.under": {
+      "file": "token.under.mp3",
+      "hash": "b04194d94797",
+      "text": "under"
+    },
+    "token.upp": {
+      "file": "token.upp.mp3",
+      "hash": "3df220d37f6a",
+      "text": "upp"
+    },
+    "token.vid": {
+      "file": "token.vid.mp3",
+      "hash": "2d9c9da5eefa",
+      "text": "vid"
+    },
+    "token.vill": {
+      "file": "token.vill.mp3",
+      "hash": "130faa5c38eb",
+      "text": "vill"
+    },
+    "token.zebran": {
+      "file": "token.zebran.mp3",
+      "hash": "3b26d3274299",
+      "text": "zebran"
+    },
+    "token.äpple": {
+      "file": "token.aepple.mp3",
+      "hash": "34da08ee5a5f",
+      "text": "äpple"
+    },
+    "token.äter": {
+      "file": "token.aeter.mp3",
+      "hash": "343988971b69",
+      "text": "äter"
+    },
+    "token.ödlan": {
+      "file": "token.oedlan.mp3",
+      "hash": "04fa734b671c",
+      "text": "ödlan"
     }
   }
 }

@@ -169,5 +169,203 @@
       "🦈🧢",
       "🐬🎩"
     ]
+  },
+  {
+    "id": "katt_bok",
+    "text": "Katten har en bok.",
+    "picture": "🐱📖",
+    "distractors": [
+      "🐶📖",
+      "🐱✉️"
+    ]
+  },
+  {
+    "id": "bi_blomma",
+    "text": "Ett bi på en blomma.",
+    "picture": "🐝🌸",
+    "distractors": [
+      "🐝🌳",
+      "🦋🌸"
+    ]
+  },
+  {
+    "id": "hund_boll",
+    "text": "Hunden har en boll.",
+    "picture": "🐶⚽",
+    "distractors": [
+      "🐱⚽",
+      "🐶🪀"
+    ]
+  },
+  {
+    "id": "rav_sko",
+    "text": "Räven har en sko.",
+    "picture": "🦊👟",
+    "distractors": [
+      "🦊🎩",
+      "🐶👟"
+    ]
+  },
+  {
+    "id": "apa_glass",
+    "text": "Apan äter glass.",
+    "picture": "🐒🍦",
+    "distractors": [
+      "🐒🍪",
+      "🐷🍦"
+    ]
+  },
+  {
+    "id": "ko_stol",
+    "text": "Kon sitter på en stol.",
+    "picture": "🐄🪑",
+    "distractors": [
+      "🐐🪑",
+      "🐄🛁"
+    ]
+  },
+  {
+    "id": "haj_bat",
+    "text": "En haj vid en båt.",
+    "picture": "🦈⛵",
+    "distractors": [
+      "🐟⛵",
+      "🦈🌉"
+    ]
+  },
+  {
+    "id": "gris_hatt",
+    "text": "Grisen har en hatt.",
+    "picture": "🐷🎩",
+    "distractors": [
+      "🐄🎩",
+      "🐷👑"
+    ]
+  },
+  {
+    "id": "mus_ost",
+    "text": "Musen äter ost.",
+    "picture": "🐭🧀",
+    "distractors": [
+      "🐭🍪",
+      "🐱🧀"
+    ]
+  },
+  {
+    "id": "katt_sover",
+    "text": "Katten sover i en låda.",
+    "picture": "🐱🗃️",
+    "distractors": [
+      "🐶🗃️",
+      "🐱📦"
+    ]
+  },
+  {
+    "id": "hast_apple",
+    "text": "Hästen äter ett äpple.",
+    "picture": "🐴🍎",
+    "distractors": [
+      "🐴🍓",
+      "🐮🍎"
+    ]
+  },
+  {
+    "id": "bebis_jojo",
+    "text": "Bebisen har en jojo.",
+    "picture": "👶🪀",
+    "distractors": [
+      "👶⚽",
+      "🐒🪀"
+    ]
+  },
+  {
+    "id": "uggla_cykel",
+    "text": "Ugglan kan inte åka cykel.",
+    "picture": "🦉🚲",
+    "distractors": [
+      "🦉🚕",
+      "🦓🚲"
+    ]
+  },
+  {
+    "id": "ren_glass",
+    "text": "Renen vill ha glass på snön.",
+    "picture": "🦌🍦",
+    "distractors": [
+      "🦌🍪",
+      "🐑🍦"
+    ]
+  },
+  {
+    "id": "dino_bad",
+    "text": "Dinon sitter i ett bad.",
+    "picture": "🦖🛁",
+    "distractors": [
+      "🦖🗃️",
+      "🐊🛁"
+    ]
+  },
+  {
+    "id": "zebra_sol",
+    "text": "Zebran ligger i solen.",
+    "picture": "🦓☀️",
+    "distractors": [
+      "🦓⛈️",
+      "🐴☀️"
+    ]
+  },
+  {
+    "id": "kanin_krona",
+    "text": "Kaninen har en krona på huvudet.",
+    "picture": "🐰👑",
+    "distractors": [
+      "🐰🎩",
+      "🐱👑"
+    ]
+  },
+  {
+    "id": "kamel_hav",
+    "text": "Kamelen ser ett hav.",
+    "picture": "🐫🌊",
+    "distractors": [
+      "🐫🏝️",
+      "🐴🌊"
+    ]
+  },
+  {
+    "id": "odla_brev",
+    "text": "Ödlan har ett brev.",
+    "picture": "🦎✉️",
+    "distractors": [
+      "🦎📖",
+      "🐍✉️"
+    ]
+  },
+  {
+    "id": "saal_fisk",
+    "text": "Sälen äter en fisk.",
+    "picture": "🦭🐟",
+    "distractors": [
+      "🦭🦐",
+      "🐻🐟"
+    ]
+  },
+  {
+    "id": "raka_bro",
+    "text": "En räka under en bro.",
+    "picture": "🦐🌉",
+    "distractors": [
+      "🦐🏝️",
+      "🐟🌉"
+    ]
+  },
+  {
+    "id": "bjorn_taxi",
+    "text": "Hunden åker taxi till skogen.",
+    "picture": "🐶🚕",
+    "distractors": [
+      "🐶🚲",
+      "🐱🚕"
+    ]
   }
 ]

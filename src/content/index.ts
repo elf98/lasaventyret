@@ -61,13 +61,18 @@ export interface Sentence {
   distractors: string[]
 }
 
+export interface StoryQuestion {
+  text: string
+  options: string[]
+  answer: number
+}
+
 export interface Story {
   id: string
   title: string
   sentences: string[]
-  question: string
-  options: string[]
-  answer: number
+  /** Två frågor: en om innehållet och en om ordningen, som inte går att svara på utan att ha läst. */
+  questions: StoryQuestion[]
 }
 
 export interface Mascot {

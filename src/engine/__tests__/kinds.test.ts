@@ -190,3 +190,28 @@ describe('bilderna', () => {
     }
   })
 })
+
+describe('berättelser och meningar', () => {
+  it('varje berättelse har två frågor med giltigt svar och tre alternativ', () => {
+    expect(stories.length).toBeGreaterThanOrEqual(10)
+    for (const st of stories) {
+      expect(st.sentences.length, st.id).toBeGreaterThanOrEqual(3)
+      expect(st.questions.length, `${st.id} saknar andra frågan`).toBe(2)
+      for (const q of st.questions) {
+        expect(q.options.length, `${st.id}: ${q.text}`).toBe(3)
+        expect(q.answer).toBeGreaterThanOrEqual(0)
+        expect(q.answer).toBeLessThan(q.options.length)
+        expect(new Set(q.options).size, `${st.id}: ${q.text} har dubbletter`).toBe(q.options.length)
+      }
+    }
+  })
+
+  it('varje mening har rätt bild bland tre olika alternativ', () => {
+    expect(sentences.length).toBeGreaterThanOrEqual(40)
+    for (const s of sentences) {
+      expect(s.distractors.length, s.id).toBe(2)
+      expect(new Set([s.picture, ...s.distractors]).size, `${s.id} har dubblerade bilder`).toBe(3)
+      expect(s.text.endsWith('.'), s.id).toBe(true)
+    }
+  })
+})

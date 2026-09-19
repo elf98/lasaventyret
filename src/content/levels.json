@@ -488,7 +488,19 @@
       "gul_bil",
       "fem_katter",
       "hund_fisk",
-      "bebis_dino"
+      "bebis_dino",
+      "katt_bok",
+      "bi_blomma",
+      "hund_boll",
+      "rav_sko",
+      "apa_glass",
+      "ko_stol",
+      "haj_bat",
+      "gris_hatt",
+      "mus_ost",
+      "katt_sover",
+      "hast_apple",
+      "bebis_jojo"
     ],
     "games": [
       "silly-sentences"
@@ -515,7 +527,17 @@
       "mus_manen",
       "rav_tag",
       "hund_katt",
-      "eld_manen"
+      "eld_manen",
+      "uggla_cykel",
+      "ren_glass",
+      "dino_bad",
+      "zebra_sol",
+      "kanin_krona",
+      "kamel_hav",
+      "odla_brev",
+      "saal_fisk",
+      "raka_bro",
+      "bjorn_taxi"
     ],
     "games": [
       "silly-sentences"

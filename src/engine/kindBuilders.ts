@@ -69,7 +69,7 @@ export function buildStories(input: BuildInput, games: GameId[], rng: Rng): Task
   const sentences = games.includes('silly-sentences') ? rank(input.sentences, 'sentence', input, rng).slice(0, 2) : []
   const tasks: Task[] = []
   stories.forEach((st: Story, i) => {
-    tasks.push({ id: `st${i}-${st.id}`, game: 'story', targetId: st.id, kind: 'story', options: st.options, answer: String(st.answer), isReview: false })
+    tasks.push({ id: `st${i}-${st.id}`, game: 'story', targetId: st.id, kind: 'story', options: st.questions[0].options, answer: String(st.questions[0].answer), isReview: false })
     if (sentences[i]) tasks.push(sentenceTask(sentences[i], i, rng))
   })
   return tasks
