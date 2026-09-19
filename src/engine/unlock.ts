@@ -18,7 +18,7 @@ const ITEM_KIND: Record<Level['kind'], ItemKind> = { letters: 'letter', sightwor
 /** Andel av nivåns innehåll som ska behärskas för att nivån ska räknas som klar. */
 export const COMPLETE_SHARE: Record<Level['kind'], number> = {
   letters: 0.8,
-  sightwords: 0.8,
+  sightwords: 0.75,
   cluster: 0.35,
   words: 0.6,
   contrast: 0.5,

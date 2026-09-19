@@ -28,13 +28,12 @@ describe('planeter med andra slag', () => {
     for (const t of easy.filter((t) => t.game === 'which-word')) expect(t.options).toHaveLength(3)
   })
 
-  it('Tvillingplaneten blandar Fånga ljudet (bara m/n), ljudsortering åt båda håll och läsuppgifter med m-/n-ord', () => {
+  it('Tvillingplaneten ger alltid sammanhang: inga ensamma bokstavsljud att gissa på', () => {
     const tasks = build('tvillingplaneten')
     expect(tasks).toHaveLength(8)
-    expect(tasks[0].game).toBe('catch-sound')
-    expect([...tasks[0].options].sort()).toEqual(['m', 'n'])
-    const kinds = new Set(tasks.map((t) => t.game))
-    expect(kinds.size).toBeGreaterThanOrEqual(4)
+    // Fånga ljudet spelar ett ensamt m/n utan jämförelse – omöjligt att avgöra, ska inte förekomma.
+    expect(tasks.some((t) => t.game === 'catch-sound')).toBe(false)
+    expect(new Set(tasks.map((t) => t.game)).size).toBeGreaterThanOrEqual(3)
     const sorts = tasks.filter((t) => t.game === 'sound-sort')
     expect(sorts.length).toBeGreaterThanOrEqual(3)
     for (const t of sorts) {
@@ -44,7 +43,6 @@ describe('planeter med andra slag', () => {
       expect(w.sounds.includes('m')).not.toBe(w.sounds.includes('n'))
       if (t.options.includes('m')) expect(t.answer).toBe(w.sounds.includes('m') ? 'm' : 'n')
       else {
-        // omvänd: tre bilder, rätt svar är målordet, de andra har den andra bokstaven
         expect(t.options).toHaveLength(3)
         expect(t.answer).toBe(t.targetId)
         for (const id of t.options.filter((x) => x !== t.targetId)) expect(words.find((x) => x.id === id)!.sounds.includes(w.sounds.includes('m') ? 'n' : 'm')).toBe(true)
@@ -184,6 +182,7 @@ describe('bilderna', () => {
     expect(tasks).toHaveLength(8)
     expect(new Set(tasks.map((t) => t.game)).size).toBeGreaterThanOrEqual(3)
     expect(tasks.some((t) => t.game === 'read-word')).toBe(true)
+    expect(tasks.some((t) => t.game === 'catch-sound')).toBe(false)
     for (const t of tasks.filter((x) => x.kind === 'contrast')) {
       const w = words.find((x) => x.id === t.targetId)!
       expect(w.sounds.includes('b')).not.toBe(w.sounds.includes('d'))

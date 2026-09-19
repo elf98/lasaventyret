@@ -76,13 +76,6 @@ const PRONOUNCE: Record<string, string> = {
 const PRONOUNCE_ALONE: Record<string, string> = {
   // jag: läses som text – IPA "jɑːg" tappade g:et och "jɑːgg" gjorde vokalen kort ("jäg")
   och: 'ɔk',
-  // Läses som de stavas. "Dom" är dålig svenska, i skrift såväl som i tal, och ska aldrig läras ut här.
-  de: 'deː',
-  dem: 'dɛm',
-  mig: 'mɛj',
-  dig: 'dɛj',
-  sig: 'sɛj',
-  säger: 'ˈsɛjɛr',
   det: 'deːt',
   är: 'æːr',
   här: 'hæːr',

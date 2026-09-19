@@ -158,8 +158,9 @@ export function contrastWords(level: Level, words: Word[]): Word[] {
 }
 
 /**
- * Tvillingplaneten (m eller n). Ett pass blandar sex uppgiftstyper så att samma skillnad övas från
- * flera håll: Fånga ljudet med bara m/n, Ljudsortering (hör ordet, välj bokstav), omvänd sortering
+ * Tvillingplaneten (m/n) och Spegelplaneten (b/d). Varje uppgift ger sammanhang: ett ensamt nasalljud
+ * går inte att avgöra utan något att jämföra med, så bokstaven visas eller ordet hörs. Passet blandar
+ * Ljudsortering (hör ordet, välj bokstav, båda bokstäverna syns), omvänd sortering
  * (se bokstaven, välj bilden vars ord har ljudet), Bygg ordet med både m och n bland brickorna,
  * Ljudtåget och Vilket ord? med m-/n-ord. Läsuppgifterna använder bara ord med kända bokstäver.
  */
@@ -189,10 +190,6 @@ export function buildContrast(input: BuildInput, games: GameId[], rng: Rng): Tas
   const sorts: Task[] = []
   const has = (g: GameId) => games.includes(g)
   let n = 0
-  if (has('catch-sound')) {
-    const target = rng() < 0.5 ? a : b
-    tasks.push({ id: `c-${target}`, game: 'catch-sound', targetId: target, kind: 'letter', options: shuffle([a, b], rng), isReview: false })
-  }
   const pictures = readable.length ? readable : pool
   if (has('build-word') && readable.length) {
     const w = shuffle(readable, rng)[0]
@@ -228,9 +225,9 @@ export function buildContrast(input: BuildInput, games: GameId[], rng: Rng): Tas
       sorts.push({ id: `s-${x.id}`, game: 'sound-sort', targetId: x.id, kind: 'contrast', options: [a, b], answer: x.sounds.includes(a) ? a : b, isReview: false })
     }
   }
-  // Fånga ljudet först, sedan sorteringar varvade med läsuppgifterna.
-  const rest = shuffle(tasks.filter((t) => t.game !== 'catch-sound'), rng)
-  const out: Task[] = tasks.filter((t) => t.game === 'catch-sound')
+  // Sorteringarna först och varvade med läsuppgifterna: de visar båda bokstäverna sida vid sida.
+  const rest = shuffle(tasks, rng)
+  const out: Task[] = []
   const sortQueue = shuffle(sorts, rng)
   while (sortQueue.length || rest.length) {
     if (sortQueue.length) out.push(sortQueue.shift() as Task)

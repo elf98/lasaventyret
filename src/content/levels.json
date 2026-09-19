@@ -113,7 +113,7 @@
   {
     "id": "tvillingplaneten",
     "name": "Tvillingplaneten",
-    "goal": "Här övar vi skillnaden mellan m och n. M gör man med läpparna ihop, mmm, och M har två pucklar. N gör man med tungan bakom tänderna, nnn, och N har en puckel.",
+    "goal": "Här övar vi skillnaden mellan m och n. M gör man med läpparna ihop, mmm. N gör man med tungan bakom tänderna, nnn. Lyssna på ordet och välj rätt bokstav.",
     "emoji": "👯",
     "kind": "contrast",
     "letters": [
@@ -121,7 +121,6 @@
       "n"
     ],
     "games": [
-      "catch-sound",
       "sound-sort",
       "build-word",
       "sound-train",
@@ -161,7 +160,7 @@
   {
     "id": "ordplaneten",
     "name": "Ordplaneten",
-    "goal": "Här lär vi oss ordbilder: små vanliga ord som man känner igen direkt, som och, är och jag.",
+    "goal": "Här lär vi oss ordbilder: några få ord som vi känner igen direkt utan att ljuda, som och, är och jag.",
     "emoji": "🛸",
     "x": 92,
     "y": 38,
@@ -236,11 +235,11 @@
       "d"
     ],
     "games": [
-      "catch-sound",
       "sound-sort",
       "read-word",
       "build-word",
-      "which-word"
+      "which-word",
+      "sound-train"
     ],
     "requires": [
       "racerbanan"

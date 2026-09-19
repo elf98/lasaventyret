@@ -62,7 +62,7 @@ Allt innehåll ligger i `src/content/*.json`. Ändra JSON, kör `npm run audio`,
 | `mascots.json`, `names.json` | maskoter och namnförslag |
 | `outfits.json`, `stickers.json` | kläder (stjärntröskel) och klistermärken |
 | `config.json` | barnets namn, uppgifter per pass, andel repetition, passlängd |
-| `sightwords.json` | ordbilder – **bara ord vars uttal inte följer stavningen** (och, är, jag, det, de, dem, mig, dig, sig, var, säger, mycket). Ljudenliga småord (har, kan, inte ...) ligger i `words.json` och avkodas på Vardagsplaneten; Ordplaneten kör mest Vilket ord? (3 alternativ på lätt, annars 4) med ett memory per pass, påbörjade ord först |
+| `sightwords.json` | ordbilder – **bara de allra vanligaste orden barnet känner igen direkt** (och, är, jag, det, hej, mamma, pappa); de/dem, mig/dig/sig och mycket är för svåra för en sexåring och ligger inte här. Ljudenliga småord (har, kan, inte ...) ligger i `words.json` och avkodas på Vardagsplaneten; Ordplaneten kör mest Vilket ord? (3 alternativ på lätt, annars 4) med ett memory per pass, påbörjade ord först |
 | `rhymes.json` | rimpar av ord-id (båda måste ha emoji) |
 | `sentences.json` | tokiga meningar: text, rätt bild (emoji), två fel bilder; 41 st, fördelade på Småmeningar (korta) och Tokplaneten (längre) via `sentences` i levels.json |
 | `stories.json` | berättelser: titel, meningar och `questions` (två per berättelse: en om innehållet, en om ordningen), var och en med tre bild-alternativ och index för rätt svar |
@@ -108,7 +108,7 @@ passbyggaren och i `SessionScreen.tsx`, och lista spelet på planeterna i `level
 
 ## Planeter och klarkrav
 
-`levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `contrast` (Tvillingplaneten m/n och Spegelplaneten b/d:
+`levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `contrast` (Tvillingplaneten m/n och Spegelplaneten b/d; ingen Fånga ljudet här – ett ensamt m/n går inte att avgöra utan jämförelse, så varje uppgift ger sammanhang:
 Fånga ljudet med bara de två + Ljudsortering: hör ordet, se bilden, välj bokstaven; egen räkning per ord), `words` (given ordlista: Vardagsplaneten
 22 vanliga småord utan bild, Ordfabriken korta ord, Rymdstationen långa ord, Dubbelplaneten dubbeltecknade,
 Stjärnfabriken kluster; ord utan bild körs i Ljudtåget, Bygg ordet och Vilket ord?), `cluster`

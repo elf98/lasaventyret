@@ -1969,8 +1969,8 @@
     },
     "level.ordplaneten.goal": {
       "file": "level.ordplaneten.goal.mp3",
-      "hash": "422f9c2f3147",
-      "text": "Här lär vi oss ordbilder: små vanliga ord som man känner igen direkt, som och, är och jag."
+      "hash": "a2d1035b4b03",
+      "text": "Här lär vi oss ordbilder: några få ord som vi känner igen direkt utan att ljuda, som och, är och jag."
     },
     "level.ringplaneten.goal": {
       "file": "level.ringplaneten.goal.mp3",
@@ -2204,8 +2204,8 @@
     },
     "level.tvillingplaneten.goal": {
       "file": "level.tvillingplaneten.goal.mp3",
-      "hash": "048d7827a136",
-      "text": "Här övar vi skillnaden mellan m och n. M gör man med läpparna ihop, mmm, och M har två pucklar. N gör man med tungan bakom tänderna, nnn, och N har en puckel."
+      "hash": "f7f0d2a2111a",
+      "text": "Här övar vi skillnaden mellan m och n. M gör man med läpparna ihop, mmm. N gör man med tungan bakom tänderna, nnn. Lyssna på ordet och välj rätt bokstav."
     },
     "phrase.sort_reverse_intro": {
       "file": "phrase.sort_reverse_intro.mp3",
@@ -2321,46 +2321,6 @@
       "file": "level.vardagsplaneten.goal.mp3",
       "hash": "d88f9ff205ed",
       "text": "Här läser vi de vanligaste småorden: har, kan, inte, hon, han. De låter precis som de stavas, så dem ljudar vi oss igenom."
-    },
-    "sight.de": {
-      "file": "sight.de.mp3",
-      "hash": "f1e5e3cc9ca6",
-      "text": "de"
-    },
-    "sight.dem": {
-      "file": "sight.dem.mp3",
-      "hash": "b265e56d51c5",
-      "text": "dem"
-    },
-    "sight.mig": {
-      "file": "sight.mig.mp3",
-      "hash": "ad73031fa9ab",
-      "text": "mig"
-    },
-    "sight.dig": {
-      "file": "sight.dig.mp3",
-      "hash": "773ae54259ad",
-      "text": "dig"
-    },
-    "sight.sig": {
-      "file": "sight.sig.mp3",
-      "hash": "a426d20202be",
-      "text": "sig"
-    },
-    "sight.var": {
-      "file": "sight.var.mp3",
-      "hash": "87c8d55d117e",
-      "text": "var"
-    },
-    "sight.säger": {
-      "file": "sight.saeger.mp3",
-      "hash": "98a418f10a68",
-      "text": "säger"
-    },
-    "sight.mycket": {
-      "file": "sight.mycket.mp3",
-      "hash": "27169c0e0f2c",
-      "text": "mycket"
     },
     "phrase.first_sound_intro": {
       "file": "phrase.first_sound_intro.mp3",
@@ -3076,6 +3036,21 @@
       "file": "word.vad.mp3",
       "hash": "72035fd92467",
       "text": "vad"
+    },
+    "sight.hej": {
+      "file": "sight.hej.mp3",
+      "hash": "ff31c1d1eb13",
+      "text": "hej"
+    },
+    "sight.mamma": {
+      "file": "sight.mamma.mp3",
+      "hash": "ac2c355b8458",
+      "text": "mamma"
+    },
+    "sight.pappa": {
+      "file": "sight.pappa.mp3",
+      "hash": "2ac4ea84f600",
+      "text": "pappa"
     }
   }
 }

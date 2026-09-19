@@ -3,12 +3,7 @@
   { "id": "är", "text": "är" },
   { "id": "jag", "text": "jag" },
   { "id": "det", "text": "det" },
-  { "id": "de", "text": "de" },
-  { "id": "dem", "text": "dem" },
-  { "id": "mig", "text": "mig" },
-  { "id": "dig", "text": "dig" },
-  { "id": "sig", "text": "sig" },
-  { "id": "var", "text": "var" },
-  { "id": "säger", "text": "säger" },
-  { "id": "mycket", "text": "mycket" }
+  { "id": "hej", "text": "hej" },
+  { "id": "mamma", "text": "mamma" },
+  { "id": "pappa", "text": "pappa" }
 ]
