@@ -11,7 +11,7 @@
  */
 import 'dotenv/config'
 import { createHash } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { config, letters, levels, mascots, names, phrases, sentences, sightwords, stories, tokenize, words } from '../src/content'
@@ -160,7 +160,7 @@ function collect(): Item[] {
       items.push({ id: storySentenceId(st.id, i), text: sen, inner: say(sen, '-15%') })
       tokenize(sen).forEach((t) => tokens.add(t))
     })
-    items.push({ id: storyQuestionId(st.id), text: st.question, inner: say(st.question) })
+    st.questions.forEach((q, i) => items.push({ id: storyQuestionId(st.id, i), text: q.text, inner: say(q.text) }))
   }
   // Ord-för-ord-läsning: varje unikt ord i meningar och berättelser, lite långsamt.
   for (const t of [...tokens].sort()) items.push({ id: tokenId(t), text: t, inner: say(t, '-20%', true) })
@@ -422,7 +422,19 @@ async function main() {
     : { version: 1, voice: VOICE, items: {} }
   manifest.voice = VOICE
 
-  const items = collect().filter((i) => !only || i.id.startsWith(only))
+  const all = collect()
+  // Ljud som inte längre finns i innehållet ska bort ur manifestet, annars släpar filerna med i bygget.
+  if (!only) {
+    const live = new Set(all.map((i) => i.id))
+    for (const id of Object.keys(manifest.items)) {
+      if (live.has(id)) continue
+      const file = path.join(outDir, manifest.items[id].file)
+      if (existsSync(file)) rmSync(file)
+      delete manifest.items[id]
+      if (!list) console.log(`  tog bort ${id}`)
+    }
+  }
+  const items = all.filter((i) => !only || i.id.startsWith(only))
   const todo: { item: Item; ssml: string; hash: string; file: string }[] = []
   for (const item of items) {
     const ssml = ssmlFor(item.inner, item.voice)
