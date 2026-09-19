@@ -65,11 +65,15 @@ describe('planeter med andra slag', () => {
     }
   })
 
-  it('Sagoplaneten ger två berättelser varvade med meningar', () => {
+  it('Sagoplaneten fyller passet: en berättelse väger tre uppgifter', () => {
     const tasks = build('sagoplaneten')
-    expect(tasks.filter((t) => t.game === 'story')).toHaveLength(2)
-    expect(tasks.filter((t) => t.game === 'silly-sentences')).toHaveLength(2)
-    const st = tasks.find((t) => t.game === 'story')!
+    const stories = tasks.filter((t) => t.game === 'story')
+    const sentences = tasks.filter((t) => t.game === 'silly-sentences')
+    expect(stories).toHaveLength(3)
+    // Tre berättelser à tre uppgifters tid plus meningarna ska motsvara ett helt pass.
+    expect(stories.length * 3 + sentences.length).toBeGreaterThanOrEqual(8)
+    expect(new Set(stories.map((t) => t.targetId)).size).toBe(stories.length)
+    const st = stories[0]
     expect(Number(st.answer)).toBeLessThan(st.options.length)
   })
 
