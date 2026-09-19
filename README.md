@@ -110,7 +110,7 @@ passbyggaren och i `SessionScreen.tsx`, och lista spelet på planeterna i `level
 
 `levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `contrast` (Tvillingplaneten m/n och Spegelplaneten b/d:
 Fånga ljudet med bara de två + Ljudsortering: hör ordet, se bilden, välj bokstaven; egen räkning per ord), `words` (given ordlista: Vardagsplaneten
-vanliga småord utan bild, Ordfabriken korta ord, Rymdstationen långa ord, Dubbelplaneten dubbeltecknade,
+22 vanliga småord utan bild, Ordfabriken korta ord, Rymdstationen långa ord, Dubbelplaneten dubbeltecknade,
 Stjärnfabriken kluster; ord utan bild körs i Ljudtåget, Bygg ordet och Vilket ord?), `cluster`
 (Turboverkstan: alla ord med `decodable: false`), `sentences` (med `sentences`-urval: Småmeningar de korta,
 Tokplaneten de längre), `stories`, `phonology` (Startrampen, bonus: fyra ljudlekar över en kurerad ordlista). Varje planet har ett `goal` som läses
@@ -145,9 +145,17 @@ per uppgift) skalas ner med 5 vid migrering och import. Tre tryck på 1,2 sekund
 ("Lugn! Lyssna först") där inga tryck når spelet, och i Ljudtåget räknas nästa vagn först när förra
 vagnens ljud spelats klart.
 
+## Föräldravyn
+
+Utöver nivå, skrivstil och planetbockar visas **förväxlingar**: bokstavspar barnet blandat ihop
+(minst två gånger), vanligast först. Ett par högt upp pekar direkt på vilken tvillingplanet som
+behöver köras. Felen loggas i `confusions` när både rätt svar och det valda alternativet är
+bokstäver. Där finns också en påminnelse om att skriva dagens bokstäver på papper efter passet.
+
 ## Progress
 
-Sparas i localStorage (`lasaventyret-progress-v1`, persist-version 2). Export/import som JSON finns i föräldravyn
+Sparas i localStorage (`lasaventyret-progress-v1`, persist-version 2). Full spelinstruktion ges
+bara de två första gångerna ett spel möts (`gamesSeen`), därefter alltid den korta cuen. Export/import som JSON finns i föräldravyn
 (håll in kugghjulet 3 s + räkneuppgift).
 
 ## Egna ord

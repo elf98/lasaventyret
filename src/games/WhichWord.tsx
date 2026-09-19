@@ -17,7 +17,8 @@ interface Props {
   eliminated?: string[]
   celebrating: boolean
   brief?: boolean
-  onWrong: () => void
+  /** Vad barnet valde: används för att se vilka par som förväxlas. */
+  onWrong: (picked?: string) => void
   onSolved: () => void
 }
 
@@ -66,7 +67,7 @@ export default function WhichWord({ task, scaffold, eliminated = [], celebrating
     busy.current = true
     sfx.soft()
     setWobble(id)
-    onWrong()
+    onWrong(id)
     await audio.speak([phraseId('listen_again'), aud(task.targetId)])
     setWobble(null)
     busy.current = false

@@ -106,8 +106,10 @@ export default function SessionScreen() {
   const task = tasks[index]
   // Spel som redan fått sin fulla instruktion i detta pass: därefter kort cue.
   const explained = useRef(new Set<string>())
-  const brief = task ? explained.current.has(task.game) : false
+  // Full instruktion bara de två första gångerna ett spel möts – sedan räcker den korta cuen.
+  const brief = task ? explained.current.has(task.game) || (useProgress.getState().gamesSeen[task.game] ?? 0) > 2 : false
   useEffect(() => {
+    if (task && !explained.current.has(task.game)) useProgress.getState().seeGame(task.game)
     if (task) explained.current.add(task.game)
   }, [task])
 
@@ -190,6 +192,13 @@ export default function SessionScreen() {
     return wrongOptions.length >= 2 ? [wrongOptions[0]] : []
   }, [task, wrong])
 
+  /** Räknar felet och, när både rätt svar och valet är bokstäver, vilket par som blandades ihop. */
+  const onWrongAnswer = (picked?: string) => {
+    setWrong((w) => w + 1)
+    const right = task?.answer ?? task?.targetId
+    if (picked && right && picked !== right && letterById.has(picked) && letterById.has(right)) useProgress.getState().recordConfusion(right, picked)
+  }
+
   const Game = task ? GAMES[task.game] : null
 
   return (
@@ -201,7 +210,7 @@ export default function SessionScreen() {
         <StarRating value={sessionRating(good + (tasks.length - done), tasks.length)} />
       </div>
       <div className="absolute inset-0" onPointerDownCapture={onTap}>
-        {task && Game && <Game key={task.id} task={task} scaffold={wrong >= 3} eliminated={eliminated} celebrating={celebrating} brief={brief} onWrong={() => setWrong((w) => w + 1)} onSolved={() => void onSolved()} />}
+        {task && Game && <Game key={task.id} task={task} scaffold={wrong >= 3} eliminated={eliminated} celebrating={celebrating} brief={brief} onWrong={(picked?: string) => onWrongAnswer(picked)} onSolved={() => void onSolved()} />}
       </div>
       {praiseWord && celebrating && task && (
         <div className="pointer-events-none absolute inset-0 z-20 flex items-end justify-center pb-24">

@@ -114,5 +114,12 @@
   {"id": "till", "text": "till", "emoji": "", "sounds": ["t", "i", "l", "l"], "decodable": false},
   {"id": "med", "text": "med", "emoji": "", "sounds": ["m", "e", "d"], "decodable": true},
   {"id": "här", "text": "här", "emoji": "", "sounds": ["h", "ä", "r"], "decodable": true},
-  {"id": "nu", "text": "nu", "emoji": "", "sounds": ["n", "u"], "decodable": true}
+  {"id": "nu", "text": "nu", "emoji": "", "sounds": ["n", "u"], "decodable": true},
+  {"id": "i", "text": "i", "emoji": "", "sounds": ["i"], "decodable": true},
+  {"id": "att", "text": "att", "emoji": "", "sounds": ["a", "t", "t"], "decodable": false},
+  {"id": "så", "text": "så", "emoji": "", "sounds": ["s", "å"], "decodable": true},
+  {"id": "för", "text": "för", "emoji": "", "sounds": ["f", "ö", "r"], "decodable": true},
+  {"id": "den", "text": "den", "emoji": "", "sounds": ["d", "e", "n"], "decodable": true},
+  {"id": "men", "text": "men", "emoji": "", "sounds": ["m", "e", "n"], "decodable": true},
+  {"id": "vad", "text": "vad", "emoji": "", "sounds": ["v", "a", "d"], "decodable": true}
 ]

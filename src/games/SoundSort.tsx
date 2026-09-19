@@ -16,7 +16,8 @@ interface Props {
   eliminated?: string[]
   celebrating: boolean
   brief?: boolean
-  onWrong: () => void
+  /** Vad barnet valde: används för att se vilka par som förväxlas. */
+  onWrong: (picked?: string) => void
   onSolved: () => void
 }
 
@@ -67,7 +68,7 @@ export default function SoundSort({ task, scaffold, eliminated = [], celebrating
     busy.current = true
     sfx.soft()
     setWobble(id)
-    onWrong()
+    onWrong(id)
     if (reverse) await audio.speak([wordId(id), phraseId('not_in_word'), letterSoundId(letter)])
     else await audio.speak([phraseId('not_in_word'), letterSoundId(id), phraseId('listen_again'), wordId(task.targetId)])
     setWobble(null)

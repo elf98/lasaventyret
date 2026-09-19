@@ -18,6 +18,11 @@ function fmtDate(ts: number): string {
 export default function ParentScreen() {
   const go = useApp((s) => s.go)
   const p = useProgress()
+  // De tre vanligaste förväxlade paren, med minst två tillfällen (enstaka feltryck säger inget).
+  const confusions = Object.entries(p.confusions ?? {})
+    .filter(([, n]) => n >= 2)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
   const settings = useSettings()
   const fileInput = useRef<HTMLInputElement>(null)
   const [view, setView] = useState<'main' | 'record'>('main')
@@ -220,6 +225,36 @@ export default function ParentScreen() {
         </section>
 
         <CustomWords />
+
+        <section>
+          <h2 className="mb-3 text-[24px] font-bold">Förväxlingar</h2>
+          <p className="mb-2 text-[15px] text-gray-500">
+            Bokstavspar som blandats ihop, vanligast först. Ett par högt upp betyder att just den skillnaden behöver övas: kör Tvillingplaneten (m/n) eller
+            Spegelplaneten (b/d), eller spela in de två ljuden med din egen röst.
+          </p>
+          {confusions.length === 0 ? (
+            <p className="text-gray-600">Inga förväxlingar registrerade än.</p>
+          ) : (
+            <div className="flex flex-wrap gap-3">
+              {confusions.map(([pair, n]) => (
+                <span key={pair} className="flex items-center gap-2 rounded-full bg-orange-100 px-4 py-2 text-[20px] font-bold">
+                  <span>{pair.split('>')[0].toUpperCase()}</span>
+                  <span className="text-gray-500">läst som</span>
+                  <span>{pair.split('>')[1].toUpperCase()}</span>
+                  <span className="text-[15px] text-gray-500">{n} ggr</span>
+                </span>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section>
+          <h2 className="mb-3 text-[24px] font-bold">Efter passet</h2>
+          <p className="text-gray-600">
+            Bokstavsformen sitter i handen. Låt barnet skriva dagens bokstäver på ett papper efteråt, gärna stort och med fingret i luften först.
+            Appen kan inte träna det, men fem minuter med penna befäster det appen just har övat.
+          </p>
+        </section>
 
         <section>
           <h2 className="mb-3 text-[24px] font-bold">På iPaden</h2>

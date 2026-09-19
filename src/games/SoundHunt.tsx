@@ -16,7 +16,8 @@ interface Props {
   eliminated?: string[]
   celebrating: boolean
   brief?: boolean
-  onWrong: () => void
+  /** Vad barnet valde: används för att se vilka par som förväxlas. */
+  onWrong: (picked?: string) => void
   onSolved: () => void
 }
 
@@ -63,7 +64,7 @@ export default function SoundHunt({ task, scaffold, eliminated = [], celebrating
     busy.current = true
     sfx.soft()
     setWobble(id)
-    onWrong()
+    onWrong(id)
     await audio.speak([phraseId('not_in_word'), letterSoundId(id), phraseId('listen_again'), wordId(task.targetId)])
     setWobble(null)
     busy.current = false

@@ -422,11 +422,6 @@
       "hash": "0d07c806ae6e",
       "text": "Hurra! Du klarade hela passet!"
     },
-    "phrase.stars_earned": {
-      "file": "phrase.stars_earned.mp3",
-      "hash": "35d3e011c76d",
-      "text": "Titta så många stjärnor du fick!"
-    },
     "phrase.sticker_earned": {
       "file": "phrase.sticker_earned.mp3",
       "hash": "14b667a798a3",
@@ -662,21 +657,6 @@
       "hash": "8856c4087744",
       "text": "la"
     },
-    "word.os": {
-      "file": "word.os.mp3",
-      "hash": "a98643ef3193",
-      "text": "os"
-    },
-    "word.so": {
-      "file": "word.so.mp3",
-      "hash": "2b5bc4b03a81",
-      "text": "so"
-    },
-    "word.al": {
-      "file": "word.al.mp3",
-      "hash": "272a5fd0005d",
-      "text": "al"
-    },
     "word.ros": {
       "file": "word.ros.mp3",
       "hash": "2759d8f6eb9e",
@@ -692,35 +672,15 @@
       "hash": "7c43a8c17249",
       "text": "ram"
     },
-    "word.mos": {
-      "file": "word.mos.mp3",
-      "hash": "1d15674f6d9e",
-      "text": "mos"
-    },
     "word.mor": {
       "file": "word.mor.mp3",
       "hash": "e0c068835646",
       "text": "mor"
     },
-    "word.mi": {
-      "file": "word.mi.mp3",
-      "hash": "c247c50cf676",
-      "text": "mi"
-    },
-    "word.ri": {
-      "file": "word.ri.mp3",
-      "hash": "e5482b307d0d",
-      "text": "ri"
-    },
     "word.se": {
       "file": "word.se.mp3",
       "hash": "c9282c1cd646",
       "text": "se"
-    },
-    "word.me": {
-      "file": "word.me.mp3",
-      "hash": "44790f9f54ef",
-      "text": "me"
     },
     "word.ren": {
       "file": "word.ren.mp3",
@@ -781,11 +741,6 @@
       "file": "word.fem.mp3",
       "hash": "5936dbcbeede",
       "text": "fem"
-    },
-    "word.uv": {
-      "file": "word.uv.mp3",
-      "hash": "1030b41540e9",
-      "text": "uv"
     },
     "word.fika": {
       "file": "word.fika.mp3",
@@ -1082,11 +1037,6 @@
       "hash": "de46b30ccdf0",
       "text": "glas"
     },
-    "word.plan": {
-      "file": "word.plan.mp3",
-      "hash": "8d819abe27bf",
-      "text": "plan"
-    },
     "word.krona": {
       "file": "word.krona.mp3",
       "hash": "edfb9225bb69",
@@ -1267,85 +1217,10 @@
       "hash": "6abad44046e2",
       "text": "jag"
     },
-    "sight.du": {
-      "file": "sight.du.mp3",
-      "hash": "ef21b76dca06",
-      "text": "du"
-    },
-    "sight.en": {
-      "file": "sight.en.mp3",
-      "hash": "074dd21751ec",
-      "text": "en"
-    },
-    "sight.ett": {
-      "file": "sight.ett.mp3",
-      "hash": "8bea4e2182d2",
-      "text": "ett"
-    },
     "sight.det": {
       "file": "sight.det.mp3",
       "hash": "714f98d01c47",
       "text": "det"
-    },
-    "sight.har": {
-      "file": "sight.har.mp3",
-      "hash": "a1561ce38ab2",
-      "text": "har"
-    },
-    "sight.inte": {
-      "file": "sight.inte.mp3",
-      "hash": "d2a36fafc170",
-      "text": "inte"
-    },
-    "sight.på": {
-      "file": "sight.paa.mp3",
-      "hash": "822ae41293fd",
-      "text": "på"
-    },
-    "sight.vi": {
-      "file": "sight.vi.mp3",
-      "hash": "042275d4fa7c",
-      "text": "vi"
-    },
-    "sight.hon": {
-      "file": "sight.hon.mp3",
-      "hash": "977affa08899",
-      "text": "hon"
-    },
-    "sight.han": {
-      "file": "sight.han.mp3",
-      "hash": "8b42057e95a6",
-      "text": "han"
-    },
-    "sight.kan": {
-      "file": "sight.kan.mp3",
-      "hash": "e510bd837c93",
-      "text": "kan"
-    },
-    "sight.ska": {
-      "file": "sight.ska.mp3",
-      "hash": "d850857acf87",
-      "text": "ska"
-    },
-    "sight.till": {
-      "file": "sight.till.mp3",
-      "hash": "100e9075be3a",
-      "text": "till"
-    },
-    "sight.med": {
-      "file": "sight.med.mp3",
-      "hash": "1d373c19996d",
-      "text": "med"
-    },
-    "sight.här": {
-      "file": "sight.haer.mp3",
-      "hash": "b6ba2afb56f8",
-      "text": "här"
-    },
-    "sight.nu": {
-      "file": "sight.nu.mp3",
-      "hash": "2aab6df13079",
-      "text": "nu"
     },
     "sentence.kon_hatt": {
       "file": "sentence.kon_hatt.mp3",
@@ -1442,11 +1317,6 @@
       "hash": "2d803e08ac14",
       "text": "En haj med hatt."
     },
-    "sentence.uv_taxi": {
-      "file": "sentence.uv_taxi.mp3",
-      "hash": "972327e6d824",
-      "text": "En uv kan inte åka taxi."
-    },
     "story.mus_bilen.title": {
       "file": "story.mus_bilen.title.mp3",
       "hash": "158f085eb14d",
@@ -1471,11 +1341,6 @@
       "file": "story.mus_bilen.3.mp3",
       "hash": "60c514333899",
       "text": "Musen åker till månen."
-    },
-    "story.mus_bilen.q": {
-      "file": "story.mus_bilen.q.mp3",
-      "hash": "ccc7fda1c3a2",
-      "text": "Vart åker musen?"
     },
     "story.rav_fisken.title": {
       "file": "story.rav_fisken.title.mp3",
@@ -1502,11 +1367,6 @@
       "hash": "bf129ca7d054",
       "text": "Räven får inte fisken."
     },
-    "story.rav_fisken.q": {
-      "file": "story.rav_fisken.q.mp3",
-      "hash": "50496a057528",
-      "text": "Vad ser räven?"
-    },
     "story.kon_hatten.title": {
       "file": "story.kon_hatten.title.mp3",
       "hash": "cb0461fba168",
@@ -1531,11 +1391,6 @@
       "file": "story.kon_hatten.3.mp3",
       "hash": "1cde2e5a4915",
       "text": "På tåget tappar kon hatten."
-    },
-    "story.kon_hatten.q": {
-      "file": "story.kon_hatten.q.mp3",
-      "hash": "61fcf75b2ece",
-      "text": "Vad har kon på sig?"
     },
     "story.apan_huset.title": {
       "file": "story.apan_huset.title.mp3",
@@ -1562,11 +1417,6 @@
       "hash": "f8ac58c435e0",
       "text": "Apan går ut i solen."
     },
-    "story.apan_huset.q": {
-      "file": "story.apan_huset.q.mp3",
-      "hash": "25231c3004cd",
-      "text": "Vad ser apan?"
-    },
     "story.dinon_elden.title": {
       "file": "story.dinon_elden.title.mp3",
       "hash": "fd9e53b339fa",
@@ -1591,11 +1441,6 @@
       "file": "story.dinon_elden.3.mp3",
       "hash": "8e7926219cf5",
       "text": "Dinon springer till havet."
-    },
-    "story.dinon_elden.q": {
-      "file": "story.dinon_elden.q.mp3",
-      "hash": "aa111dff24de",
-      "text": "Vad har dinon?"
     },
     "token.apan": {
       "file": "token.apan.mp3",
@@ -1941,11 +1786,6 @@
       "file": "token.ut.mp3",
       "hash": "c7adaa995b11",
       "text": "ut"
-    },
-    "token.uv": {
-      "file": "token.uv.mp3",
-      "hash": "ecc5f084d3d1",
-      "text": "uv"
     },
     "token.vi": {
       "file": "token.vi.mp3",
@@ -3201,6 +3041,41 @@
       "file": "token.oedlan.mp3",
       "hash": "04fa734b671c",
       "text": "ödlan"
+    },
+    "word.i": {
+      "file": "word.i.mp3",
+      "hash": "cf2dc5e6ac33",
+      "text": "i"
+    },
+    "word.att": {
+      "file": "word.att.mp3",
+      "hash": "6619e13dfbc9",
+      "text": "att"
+    },
+    "word.så": {
+      "file": "word.saa.mp3",
+      "hash": "fa1ce7dc8c4f",
+      "text": "så"
+    },
+    "word.för": {
+      "file": "word.foer.mp3",
+      "hash": "6852a61106aa",
+      "text": "för"
+    },
+    "word.den": {
+      "file": "word.den.mp3",
+      "hash": "d6d97a26135d",
+      "text": "den"
+    },
+    "word.men": {
+      "file": "word.men.mp3",
+      "hash": "d6d1014d6454",
+      "text": "men"
+    },
+    "word.vad": {
+      "file": "word.vad.mp3",
+      "hash": "72035fd92467",
+      "text": "vad"
     }
   }
 }

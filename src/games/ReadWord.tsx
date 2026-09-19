@@ -16,7 +16,8 @@ interface Props {
   eliminated?: string[]
   celebrating: boolean
   brief?: boolean
-  onWrong: () => void
+  /** Vad barnet valde: används för att se vilka par som förväxlas. */
+  onWrong: (picked?: string) => void
   onSolved: () => void
 }
 
@@ -62,7 +63,7 @@ export default function ReadWord({ task, scaffold, eliminated = [], celebrating,
     busy.current = true
     sfx.soft()
     setWobble(id)
-    onWrong()
+    onWrong(id)
     // Säg vad barnet valde, men inte målordet: det ska fortfarande läsas.
     await audio.speak([phraseId('that_is'), wordId(id), phraseId('read_word_again')])
     setWobble(null)

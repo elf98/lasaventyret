@@ -19,11 +19,17 @@ export interface ProgressData {
   sessions: SessionRecord[]
   /** Nivåer som markerats klara (sparas så att en nivå aldrig låser sig igen). */
   completed: string[]
+  /** Förväxlade bokstavspar, nyckel "rätt>valt" (m>n). Visar vuxna vilka par som behöver övas. */
+  confusions: Record<string, number>
+  /** Hur många gånger varje spel mötts: full instruktion bara de första gångerna. */
+  gamesSeen: Record<string, number>
 }
 
 interface ProgressActions {
   setMascot: (type: string, nameKey: string, nameText: string) => void
   recordResult: (r: TaskResult, sessionId: string, now?: number) => void
+  recordConfusion: (correct: string, picked: string) => void
+  seeGame: (game: string) => void
   addStars: (n: number) => void
   addSticker: (emoji: string) => void
   addOutfit: (id: string) => void
@@ -51,6 +57,8 @@ const initial: ProgressData = {
   mastery: {},
   sessions: [],
   completed: [],
+  confusions: {},
+  gamesSeen: {},
 }
 
 const dataKeys = Object.keys(initial) as (keyof ProgressData)[]
@@ -78,6 +86,9 @@ export const useProgress = create<ProgressStore>()(
           const cur = s.mastery[key] ?? newItem(r.targetId, r.kind, now)
           return { mastery: { ...s.mastery, [key]: applyResult(cur, r.clean, sessionId, now) } }
         }),
+      recordConfusion: (correct, picked) =>
+        set((s) => ({ confusions: { ...s.confusions, [`${correct}>${picked}`]: (s.confusions[`${correct}>${picked}`] ?? 0) + 1 } })),
+      seeGame: (game) => set((s) => ({ gamesSeen: { ...s.gamesSeen, [game]: (s.gamesSeen[game] ?? 0) + 1 } })),
       addStars: (n) => set((s) => ({ stars: s.stars + n })),
       addSticker: (emoji) => set((s) => ({ stickers: [...s.stickers, emoji] })),
       addOutfit: (id) => set((s) => (s.outfits.includes(id) ? {} : { outfits: [...s.outfits, id] })),

@@ -21,7 +21,8 @@ interface Props {
   celebrating: boolean
   /** Kort instruktion (spelet har redan förklarats en gång i passet). */
   brief?: boolean
-  onWrong: () => void
+  /** Vad barnet valde: används för att se vilka par som förväxlas. */
+  onWrong: (picked?: string) => void
   onSolved: () => void
 }
 
@@ -93,7 +94,7 @@ export default function CatchSound({ task, scaffold, eliminated = [], celebratin
     busy.current = true
     sfx.soft()
     setWobble(id)
-    onWrong()
+    onWrong(id)
     await audio.speak([phraseId('almost'), letterSoundId(id), phraseId('we_look_for'), letterSoundId(task.targetId)])
     setWobble(null)
     busy.current = false
