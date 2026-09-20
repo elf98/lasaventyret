@@ -18,14 +18,16 @@ const SILENT_MS = 450
 
 /**
  * Allt tal går via denna klass. Prioritet per id:
- *   1. egen inspelning (override, blob-URL)
- *   2. förgenererad mp3 enligt manifestet
- *   3. tystnad (aldrig Web Speech API)
+ *   1. egen inspelning på den här enheten (override, blob-URL)
+ *   2. inspelning uppladdad till servern (recorded/index.json), t.ex. gjord på datorn
+ *   3. förgenererad mp3 enligt manifestet
+ *   4. tystnad (aldrig Web Speech API)
  */
 class AudioManager {
   private manifest: Manifest | null = null
   private howls = new Map<string, Howl>()
   private overrides = new Map<string, { url: string; format: string }>()
+  private serverRecordings = new Map<string, { url: string; format: string }>()
   private token = 0
   private stopCurrent: (() => void) | null = null
   private warned = new Set<string>()
@@ -54,7 +56,23 @@ class AudioManager {
   }
 
   has(id: string): boolean {
-    return this.overrides.has(id) || !!this.manifest?.items[id]
+    return this.overrides.has(id) || this.serverRecordings.has(id) || !!this.manifest?.items[id]
+  }
+
+  setServerRecording(id: string, url: string, format = 'wav'): void {
+    this.serverRecordings.set(id, { url, format })
+    this.howls.get(id)?.unload()
+    this.howls.delete(id)
+  }
+
+  clearServerRecording(id: string): void {
+    this.serverRecordings.delete(id)
+    this.howls.get(id)?.unload()
+    this.howls.delete(id)
+  }
+
+  hasServerRecording(id: string): boolean {
+    return this.serverRecordings.has(id)
   }
 
   manifestSize(): number {
@@ -74,7 +92,7 @@ class AudioManager {
   }
 
   private urlFor(id: string): { url: string; format: string } | null {
-    const o = this.overrides.get(id)
+    const o = this.overrides.get(id) ?? this.serverRecordings.get(id)
     if (o) return o
     const item = this.manifest?.items[id]
     // Versionstagg ur manifestet: ljudfilerna cachas i ett år (Apache + service worker), så ett

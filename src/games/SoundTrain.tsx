@@ -165,7 +165,7 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
             ))}
           </div>
           {phase === 'pick' || task.options.length > 1 ? (
-            <div className="flex items-center gap-8">
+            <div className={`flex items-center ${task.options.length > 4 ? 'gap-5' : 'gap-8'}`}>
               {task.options.map((id) => {
                 const w = wordById.get(id)
                 if (!w) return null
@@ -179,9 +179,9 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
                     onClick={() => void pickPicture(id)}
                     whileTap={{ scale: 0.9 }}
                     animate={chosen ? { scale: [1, 1.3, 1.2] } : wobble === -1 && !isTarget ? { rotate: [0, -8, 8, 0] } : {}}
-                    className={`flex h-44 w-44 items-center justify-center rounded-[36px] ${chosen ? 'bg-sun' : 'bg-white/15'} ${phase === 'done' && !isTarget ? 'opacity-30' : ''}`}
+                    className={`flex items-center justify-center rounded-[36px] ${task.options.length > 4 ? 'h-40 w-40' : 'h-44 w-44'} ${chosen ? 'bg-sun' : 'bg-white/15'} ${phase === 'done' && !isTarget ? 'opacity-30' : ''}`}
                   >
-                    <span className="big-emoji text-[110px]">{w.emoji}</span>
+                    <span className={`big-emoji ${task.options.length > 4 ? 'text-[92px]' : 'text-[110px]'}`}>{w.emoji}</span>
                   </motion.button>
                 )
               })}

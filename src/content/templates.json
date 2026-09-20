@@ -1,0 +1,24 @@
+{
+  "slots": {
+    "djur": ["mus", "katt", "hund", "ko", "gris", "räv", "apa", "säl", "haj", "kanin", "kamel", "zebra", "uggla", "orm", "dino", "häst", "får", "ren", "bock", "bi", "ödla"],
+    "sak": ["bil", "bok", "hatt", "boll", "sko", "stol", "låda", "krona", "yxa", "jojo", "fisk", "kaka", "tomat", "cykel", "båt", "blomma", "ost", "pil", "ros", "vas", "lök", "rep", "sax", "tröja", "glass", "äpple"],
+    "mat": ["ost", "glass", "kaka", "tomat", "fisk", "potatis", "ris", "lök", "bär", "citron"],
+    "plats": ["hus", "bil", "båt", "tåg", "låda", "skog", "bad", "taxi", "hav"],
+    "fordon": ["bil", "tåg", "båt", "cykel", "taxi", "lok"]
+  },
+  "ett": ["hus", "tåg", "bad", "hav", "äpple", "bär", "rep", "lok", "moln", "träd", "brev", "glas", "får", "öga", "öra"],
+  "templates": [
+    { "id": "har", "text": "{En djur} har {en sak}." },
+    { "id": "ser", "text": "{En djur} ser {en djur2}." },
+    { "id": "i", "text": "{En djur} är i {en plats}." },
+    { "id": "aker", "text": "{En djur} åker {fordon}." },
+    { "id": "ater", "text": "{En djur} äter {mat}." },
+    { "id": "sover", "text": "{En djur} sover i {en plats}." },
+    { "id": "jag_ser", "text": "Jag ser {en djur} i {en plats}." },
+    { "id": "har_ar", "text": "Här är {en djur} med {en sak}." },
+    { "id": "vill_ha", "text": "{En djur} vill ha {en sak}." },
+    { "id": "sitter", "text": "{En djur} sitter på {en sak}." },
+    { "id": "har_tva", "text": "{En djur} har {en sak} och {en sak2}." },
+    { "id": "och", "text": "{En djur} och {en djur2} har {en sak}." }
+  ]
+}

@@ -1,8 +1,23 @@
-import type { GameId, Word } from '../content'
+import { levels, type GameId, type Sentence, type Word } from '../content'
 import { shuffle, type Rng } from './random'
 import type { Task } from './types'
 
-/** Svarsalternativ per ordspel. */
+/** Hur många distraktorer en uppgift bär med sig. Skärmen visar 2–4 av dem beroende på nivå och rad. */
+export const DISTRACTOR_POOL = 4
+
+/** Bokstavspar som har en egen tvillingplanet (m/n, b/d ...): de svåraste distraktorerna för varandra. */
+const CONTRAST_PAIRS: string[][] = levels.filter((l) => l.kind === 'contrast').map((l) => l.letters)
+
+export function contrastPartner(letter: string): string | undefined {
+  const pair = CONTRAST_PAIRS.find((p) => p.includes(letter))
+  return pair?.find((x) => x !== letter)
+}
+
+/**
+ * Svarsalternativ per ordspel. Rätt svar FÖRST, sedan distraktorerna svårast först: skärmen väljer
+ * hur många som visas (fler efter tre rätt i rad, färre efter fel) och blandar dem. Byggarnas ordning
+ * får därför aldrig ritas rakt av.
+ */
 export function wordOptions(game: GameId, w: Word, allWords: Word[], knownWords: Word[], letterPool: string[], rng: Rng): string[] {
   if (game === 'build-word') {
     const extra = shuffle(letterPool.filter((id) => !w.sounds.includes(id)), rng).slice(0, w.sounds.length <= 3 ? 2 : 1)
@@ -20,28 +35,65 @@ export function wordOptions(game: GameId, w: Word, allWords: Word[], knownWords:
       ...shuffle(knownWords.filter((o) => o.id !== w.id && o.text !== w.text && o.id !== w.pair), rng).sort((a, b) => score(b) - score(a)),
     ]
       .filter((o, i, arr) => arr.findIndex((x) => x.text === o.text) === i)
-      .slice(0, 2)
-    return shuffle([w.id, ...picks.map((o) => o.id)], rng)
+      .slice(0, DISTRACTOR_POOL)
+    return [w.id, ...picks.map((o) => o.id)]
   }
   if (game === 'read-word') {
-    // Bilder som alternativ. En distraktor ska likna målordet i skrift (samma början eller längd),
-    // annars går uppgiften att lösa på första bokstaven.
+    // Bilder som alternativ. De första distraktorerna ska likna målordet i skrift (samma början
+    // eller längd), annars går uppgiften att lösa på första bokstaven.
     const cands = allWords.filter((o) => o.emoji !== '' && o.id !== w.id && o.emoji !== w.emoji)
     const near = shuffle(cands.filter((o) => o.text[0] === w.text[0] || o.text.length === w.text.length), rng)
     const far = shuffle(cands.filter((o) => !near.includes(o)), rng)
     const picks: Word[] = []
     for (const o of [...near, ...far]) {
-      if (picks.length >= 2) break
+      if (picks.length >= DISTRACTOR_POOL) break
       if (!picks.some((p) => p.emoji === o.emoji)) picks.push(o)
     }
-    return shuffle([w.id, ...picks.map((o) => o.id)], rng)
+    return [w.id, ...picks.map((o) => o.id)]
   }
   // sound-train: bildval efter ljudningen (tomt för stavelser utan bild)
   if (w.emoji === '') return []
   const others = shuffle(allWords.filter((o) => o.emoji !== '' && o.id !== w.id && o.emoji !== w.emoji), rng)
   const distinct: Word[] = []
-  for (const o of others) if (!distinct.some((d) => d.emoji === o.emoji) && distinct.length < 2) distinct.push(o)
-  return shuffle([w.id, ...distinct.map((d) => d.id)], rng)
+  for (const o of others) if (!distinct.some((d) => d.emoji === o.emoji) && distinct.length < DISTRACTOR_POOL) distinct.push(o)
+  return [w.id, ...distinct.map((d) => d.id)]
+}
+
+/**
+ * Bokstavsalternativ för Fånga ljudet: tvillingbokstaven först (m för n), sedan planetens egna,
+ * sedan övriga kända. Rätt svar först, se wordOptions.
+ */
+export function letterOptions(target: string, planetLetters: string[], known: string[], rng: Rng): string[] {
+  const others = shuffle(known.filter((id) => id !== target), rng)
+  const partner = contrastPartner(target)
+  const ordered = [
+    ...others.filter((id) => id === partner),
+    ...others.filter((id) => id !== partner && planetLetters.includes(id)),
+    ...others.filter((id) => id !== partner && !planetLetters.includes(id)),
+  ]
+  return [target, ...ordered.slice(0, DISTRACTOR_POOL)]
+}
+
+/**
+ * En fjärde bild till en tokig mening: har meningen två bilddelar (🐄🎩) och distraktorerna byter
+ * ut varsin (🐷🎩, 🐄👑), så är bilden med båda utbytta (🐷👑) en tredje distraktor. Svårast först:
+ * de som delar en del med rätt bild, sist den som inte delar någon.
+ */
+export function sentenceOptions(s: Sentence): string[] {
+  const parts = [...new Intl.Segmenter('sv', { granularity: 'grapheme' }).segment(s.picture)].map((x) => x.segment)
+  const extra: string[] = []
+  if (parts.length === 2 && s.distractors.length === 2) {
+    const [a, b] = parts
+    const seg = (t: string) => [...new Intl.Segmenter('sv', { granularity: 'grapheme' }).segment(t)].map((x) => x.segment)
+    const d1 = seg(s.distractors[0])
+    const d2 = seg(s.distractors[1])
+    if (d1.length === 2 && d2.length === 2) {
+      const swapA = d1[0] !== a && d1[1] === b ? d1[0] : d2[0] !== a && d2[1] === b ? d2[0] : null
+      const swapB = d1[1] !== b && d1[0] === a ? d1[1] : d2[1] !== b && d2[0] === a ? d2[1] : null
+      if (swapA && swapB) extra.push(swapA + swapB)
+    }
+  }
+  return [s.picture, ...s.distractors, ...extra.filter((e) => e !== s.picture && !s.distractors.includes(e))]
 }
 
 /** Sprider ut b jämnt bland a. */

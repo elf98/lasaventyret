@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export type Screen = 'boot' | 'onboarding' | 'map' | 'session' | 'reward' | 'parent' | 'pause' | 'stickers'
+export type Screen = 'boot' | 'onboarding' | 'map' | 'session' | 'reward' | 'parent' | 'pause' | 'stickers' | 'alphabet' | 'rocket' | 'finale'
 
 export interface SessionSummary {
   levelId: string
@@ -11,6 +11,10 @@ export interface SessionSummary {
   newlyCompleted: string[]
   newlyUnlocked: string[]
   newOutfit: string | null
+  /** Raketdelar som hittades när passet gjorde ett område klart. */
+  newParts: string[]
+  /** Längsta raden rätt i följd under passet. */
+  bestStreak: number
 }
 
 interface AppState {

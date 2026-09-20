@@ -1,0 +1,149 @@
+{
+    "items": {
+        "letter.s": {
+            "file": "letter.s.wav",
+            "hash": "f3655021c088",
+            "at": "2026-09-20T19:17:24+00:00"
+        },
+        "letter.o": {
+            "file": "letter.o.wav",
+            "hash": "74676f03ebd2",
+            "at": "2026-09-20T19:18:53+00:00"
+        },
+        "letter.l": {
+            "file": "letter.l.wav",
+            "hash": "dc26d4e98348",
+            "at": "2026-09-20T19:19:10+00:00"
+        },
+        "letter.a": {
+            "file": "letter.a.wav",
+            "hash": "f95d30512398",
+            "at": "2026-09-20T19:19:28+00:00"
+        },
+        "letter.m": {
+            "file": "letter.m.wav",
+            "hash": "1671a292bfb9",
+            "at": "2026-09-20T19:19:52+00:00"
+        },
+        "letter.i": {
+            "file": "letter.i.wav",
+            "hash": "e66e4ada6ae2",
+            "at": "2026-09-20T19:20:08+00:00"
+        },
+        "letter.r": {
+            "file": "letter.r.wav",
+            "hash": "b3334bbbc96a",
+            "at": "2026-09-20T19:21:09+00:00"
+        },
+        "letter.e": {
+            "file": "letter.e.wav",
+            "hash": "550031680916",
+            "at": "2026-09-20T19:21:25+00:00"
+        },
+        "letter.n": {
+            "file": "letter.n.wav",
+            "hash": "7e7acf2829f6",
+            "at": "2026-09-20T19:21:45+00:00"
+        },
+        "letter.v": {
+            "file": "letter.v.wav",
+            "hash": "2988abd6a16e",
+            "at": "2026-09-20T19:22:50+00:00"
+        },
+        "letter.t": {
+            "file": "letter.t.wav",
+            "hash": "274ffeb928ac",
+            "at": "2026-09-20T19:23:06+00:00"
+        },
+        "letter.p": {
+            "file": "letter.p.wav",
+            "hash": "b4762fbcb313",
+            "at": "2026-09-20T19:23:38+00:00"
+        },
+        "letter.ä": {
+            "file": "letter.ae.wav",
+            "hash": "06b4bbc925e1",
+            "at": "2026-09-20T19:24:03+00:00"
+        },
+        "letter.k": {
+            "file": "letter.k.wav",
+            "hash": "d1b03ac86370",
+            "at": "2026-09-20T19:24:23+00:00"
+        },
+        "letter.u": {
+            "file": "letter.u.wav",
+            "hash": "2a9cacea5da2",
+            "at": "2026-09-20T19:24:35+00:00"
+        },
+        "letter.f": {
+            "file": "letter.f.wav",
+            "hash": "1c614837b94c",
+            "at": "2026-09-20T19:24:51+00:00"
+        },
+        "letter.d": {
+            "file": "letter.d.wav",
+            "hash": "21221ff43d61",
+            "at": "2026-09-20T19:25:06+00:00"
+        },
+        "letter.ö": {
+            "file": "letter.oe.wav",
+            "hash": "9bd40c9a7f96",
+            "at": "2026-09-20T19:25:21+00:00"
+        },
+        "letter.g": {
+            "file": "letter.g.wav",
+            "hash": "2a5a90caf3f4",
+            "at": "2026-09-20T19:25:37+00:00"
+        },
+        "letter.å": {
+            "file": "letter.aa.wav",
+            "hash": "7b21987bd361",
+            "at": "2026-09-20T19:25:53+00:00"
+        },
+        "letter.y": {
+            "file": "letter.y.wav",
+            "hash": "d6a440451e0f",
+            "at": "2026-09-20T19:26:09+00:00"
+        },
+        "letter.h": {
+            "file": "letter.h.wav",
+            "hash": "a14d96f02b01",
+            "at": "2026-09-20T19:27:26+00:00"
+        },
+        "letter.j": {
+            "file": "letter.j.wav",
+            "hash": "c057a9af4658",
+            "at": "2026-09-20T19:27:44+00:00"
+        },
+        "letter.b": {
+            "file": "letter.b.wav",
+            "hash": "9605adbff077",
+            "at": "2026-09-20T19:28:00+00:00"
+        },
+        "letter.x": {
+            "file": "letter.x.wav",
+            "hash": "03e99f2c469a",
+            "at": "2026-09-20T19:28:18+00:00"
+        },
+        "letter.c": {
+            "file": "letter.c.wav",
+            "hash": "87c0b67faed4",
+            "at": "2026-09-20T19:28:36+00:00"
+        },
+        "letter.z": {
+            "file": "letter.z.wav",
+            "hash": "3ca327273f68",
+            "at": "2026-09-20T19:28:50+00:00"
+        },
+        "letter.q": {
+            "file": "letter.q.wav",
+            "hash": "a563448dcfc9",
+            "at": "2026-09-20T19:29:08+00:00"
+        },
+        "letter.w": {
+            "file": "letter.w.wav",
+            "hash": "287832f78742",
+            "at": "2026-09-20T19:29:29+00:00"
+        }
+    }
+}

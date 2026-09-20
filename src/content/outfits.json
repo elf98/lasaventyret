@@ -1,8 +1,17 @@
 [
-  { "id": "cap",    "emoji": "🧢", "slot": "hat",   "stars": 2  },
-  { "id": "shades", "emoji": "🕶️", "slot": "eyes",  "stars": 5  },
-  { "id": "tophat", "emoji": "🎩", "slot": "hat",   "stars": 10 },
-  { "id": "wings",  "emoji": "🦋", "slot": "wings", "stars": 16 },
-  { "id": "crown",  "emoji": "👑", "slot": "hat",   "stars": 24 },
-  { "id": "rocket", "emoji": "🚀", "slot": "hand",  "stars": 34 }
+  {"id": "cap", "emoji": "🧢", "slot": "hat", "stars": 2},
+  {"id": "shades", "emoji": "🕶️", "slot": "eyes", "stars": 5},
+  {"id": "tophat", "emoji": "🎩", "slot": "hat", "stars": 10},
+  {"id": "wings", "emoji": "🦋", "slot": "wings", "stars": 16},
+  {"id": "crown", "emoji": "👑", "slot": "hat", "stars": 24},
+  {"id": "rocket", "emoji": "🚀", "slot": "hand", "stars": 34},
+  {"id": "bow", "emoji": "🎀", "slot": "hat", "stars": 50},
+  {"id": "scarf", "emoji": "🧣", "slot": "neck", "stars": 70},
+  {"id": "headphones", "emoji": "🎧", "slot": "hat", "stars": 95},
+  {"id": "goggles", "emoji": "🥽", "slot": "eyes", "stars": 125},
+  {"id": "guitar", "emoji": "🎸", "slot": "hand", "stars": 160},
+  {"id": "medal", "emoji": "🏅", "slot": "neck", "stars": 200},
+  {"id": "grad", "emoji": "🎓", "slot": "hat", "stars": 250},
+  {"id": "skateboard", "emoji": "🛹", "slot": "hand", "stars": 310},
+  {"id": "trophy", "emoji": "🏆", "slot": "hand", "stars": 380}
 ]

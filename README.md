@@ -58,9 +58,11 @@ Allt innehåll ligger i `src/content/*.json`. Ändra JSON, kör `npm run audio`,
 | `letters.json` | bokstäver i inlärningsordning, ljud (IPA), exempelord |
 | `words.json` | ord med emoji och ljudsekvens (`sounds`); `pair` = minimalt par i vokallängd (tak/tack), partnern läggs alltid bland alternativen i Vilket ord?; `decodable: false` = kluster/dubbelteckning, väntar på Verkstan; tom `emoji` = stavelse utan bild (bara riktiga småord) |
 | `phrases.json` | alla instruktioner, beröm (`praise_*`, dras ur en blandad kortlek utan upprepning), knappetiketter (id → text) |
-| `levels.json` | planeter: bokstäver, spel, vad som krävs för upplåsning, position på kartan |
+| `levels.json` | planeter: bokstäver, spel, vad som krävs för upplåsning, position på kartan, `zone` (område 1–3) och `line` (maskotens replik vid första besöket, för berättelsen framåt) |
+| `zones.json` | de tre områdena (Solsystemet, Vintergatan, Stjärnhavet): namn, färgton, raketdelen som blir belöningen och repliken när den sätts fast |
+| `templates.json` | meningsmallar för Meningsmaskinen: `{En djur} har {en sak}.` fylls med ord ur `slots`; `ett` listar ett-orden så artikeln blir rätt |
 | `mascots.json`, `names.json` | maskoter och namnförslag |
-| `outfits.json`, `stickers.json` | kläder (stjärntröskel) och klistermärken |
+| `outfits.json`, `stickers.json` | kläder (15 st, stjärntrösklar 2–380 så att de räcker hela resan; senast vunna plagget per plats visas) och klistermärken (sätts på raketen) |
 | `config.json` | barnets namn, uppgifter per pass, andel repetition, passlängd |
 | `sightwords.json` | ordbilder – **bara de allra vanligaste orden barnet känner igen direkt** (och, är, jag, det, hej, mamma, pappa); de/dem, mig/dig/sig och mycket är för svåra för en sexåring och ligger inte här. Ljudenliga småord (har, kan, inte ...) ligger i `words.json` och avkodas på Vardagsplaneten; Ordplaneten kör mest Vilket ord? (3 alternativ på lätt, annars 4) med ett memory per pass, påbörjade ord först |
 | `rhymes.json` | rimpar av ord-id (båda måste ha emoji) |
@@ -78,6 +80,17 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
 - `src/engine/sessionBuilder.ts` – bygger ett pass: varje bokstav i nivån minst en gång, resten
   viktat mot det svaga, plus ~25 % repetition från tidigare planeter (förfallna först). Ordandelen
   (Ljudtåget/Bygg ordet) växer från 25 % till 60 % i takt med att planetens bokstäver behärskas.
+  **Ljudlek invävd**: en uppgift per pass på bokstavsplaneterna (och på ordplaneterna tills Startrampen
+  är klar) är rim/första ljudet/sista ljudet/räkna ljuden över Startrampens ord med kända bokstäver,
+  så att fonologisk medvetenhet inte är frivillig. **Avkodning dubbelt** från åtta kända bokstäver
+  (`DECODING_BOOST_AT`, Marsverkstan): Läs och välj väger dubbelt i rotationen och Vilket ord? kommer i
+  läs-först-varianten (`variant: 'read'`: bilden syns, orden läses, inget ljud förrän efter valet);
+  minst hälften av ordspelen är då ren avkodning av skriven text (test i `granskning.test.ts`).
+- **Alternativ**: byggarna lägger rätt svar först och distraktorerna svårast först (upp till fyra,
+  `DISTRACTOR_POOL`); `src/engine/options.ts` bestämmer hur många som visas: tre på Lätt, fyra på
+  Medel/Svår, ett till efter tre rätt i rad, ett färre när de två senaste uppgifterna krävde flera
+  försök, och blandar dem. Allt som ritas måste gå via `shownTask`. En synlig rad (⚡ N) visas från tre
+  rätt i följd med egen fras vid 3, 5 och 8; raden bryts tyst, aldrig med straff.
   Ord väljs bara bland dem vars alla ljud barnet mött (`decodable: true`, kända bokstäver).
   Stavelser utan bild körs bara i Ljudtåget och är bara riktiga småord (sa, la, se); påhittade
   stavelser som "mi" är borttagna. Bildord varvar Bygg ordet och Ljudtåget. Så länge någon av
@@ -85,6 +98,12 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
 - `src/engine/unlock.ts` – en planet är klar vid 80 % behärskade bokstäver. Nästa planet öppnar redan
   när den föregående är halvvägs (`UNLOCK_AT`), så det finns oftast två att välja på och passen blir
   mindre enformiga; kartans lysande planet är fortfarande den första som inte är klar.
+  **Tvillingplaneterna är sidovägar** (`isSidePath`): de ligger inte i huvudkedjan utan hänger som
+  månar vid sin basplanet och öppnar först när paret förväxlats `CONTRAST_TRIGGER` (3) gånger
+  (`confusions`, både hörfel och läsfel där två ord skiljer sig i en bokstav). De lyser när det finns
+  tre nya förväxlingar sedan de senast spelades (`contrastBaseline`, `sidePathLit`) och slocknar när
+  de spelats. **Områden** (`zone`): när alla huvudkedjans planeter i ett område är klara hittas en
+  raketdel (`claimRocketParts`); lampan (område 3) ger finalen.
 - Två fel i rad på samma uppgift ger scaffolding (bara rätt bokstav visas, pekare, långsamt ljud).
 
 ## Spel
@@ -121,21 +140,44 @@ upp i planetrutan (långtryck på planeten). En planet är klar när en andel av
 berättelser 60 %, ljudlekar 40 %. Ordningen: Sol, Månen, Mars, Tvillingplaneten, Kometen, Ordplaneten, Ringplaneten, Prickplaneten, Racerbanan,
 Spegelplaneten, Vardagsplaneten, Bubbelplaneten (b/p), Ordfabriken, Trumplaneten (d/t), Rymdstationen,
 Gökplaneten (g/k), Robotplaneten, Dubbelplaneten, Stjärnfabriken, Turboverkstan, Småmeningar, Tokplaneten,
-Sagoplaneten. Kartan är 343 vw bred och panoreras med finger/mus eller pilknapparna.
+Meningsmaskinen (kind `templates`: nya meningar ur mallar, behärskning per mall), Tokplaneten, Sagoplaneten.
+Tvillingplaneterna (m/n, å/ä, b/d, b/p, d/t, g/k) ligger utanför kedjan som sidovägar. Kartan är 278 vw
+bred och panoreras med finger/mus eller pilknapparna.
+
+## Berättelse, karta och belöningar
+
+Ramberättelsen (`story_frame`): raketen har gått sönder och motorn, styrspaken och lampan ligger
+utspridda. Kartan har tre områden med egen färgton och namn; varje planet har en replik (`line`) som
+maskoten säger vid första besöket och som för handlingen framåt. Klart område = raketdel, som syns på
+raketen (`src/components/Rocket.tsx`) och i belöningen; tredje delen ger finalen (`FinaleScreen`).
+Från kartan nås **Bokstäverna** (`AlphabetWall`: alla bokstäver, behärskade lyser, tryck ger ljud och
+exempelord), **Raketen** (`RocketScreen`: klistermärkena sätts fast på raketen med tryck–tryck) och
+klistermärkesboken. Skattkistan varierar: klistermärke, en näve stjärnor eller båda.
+`npm run simulate` spelar hela resan med tre felnivåer och skriver pass per planet och spelfördelning.
 
 ## Svårighetsgrad och genvägar
 
 Föräldravyn: Lätt/Medel/Svår styr ordandel (25/45/60 % som grund), max stavelser utan bild (2/1/0) och
-ordspelens ordning. **Skrivstil** (VERSALER / gemener / blandat, `letterCase` i settings) styr hur ord
-visas i Läs och välj, Vilket ord?, meningar och berättelser; bokstavskorten visar alltid båda formerna,
-och memory parar alltid ihop versal med gemen. Blandat ger samma ord samma form varje gång. Planeter kan bockas som klara där, så att nästa låses upp direkt.
+ordspelens ordning. På Svår räknas stjärnorna på felfritt (annars "rätt inom två försök"). **Skrivstil**
+(`letterCase`: automatiskt / VERSALER / gemener / blandat) styr hur ord visas i Läs och välj, Vilket ord?,
+meningar och berättelser; automatiskt (standard, `caseStage` i `textCase.ts`) ger versaler tills
+Ordfabriken är klar, blandat tills Rymdstationen är klar, sedan gemener. Bokstavskorten visar alltid båda
+formerna, och memory parar alltid ihop versal med gemen. Blandat ger samma ord samma form varje gång.
+Planeter kan bockas som klara där, så att nästa låses upp direkt.
 
 ## Bokstavsljud
 
 Alla bokstäver via IPA-fonem; vokalerna som korta ljud (se ovan). Stopp-ljuden
-(p, t, k, b, d, g) blir aldrig bra i TTS. Spela in dem själv i föräldravyn (🎙️): inspelningen sparas i
-IndexedDB, går alltid före TTS och följer med i Exportera/Importera (base64) så att den kan flyttas från
-datorn till iPaden. Inspelning kräver https eller localhost.
+(p, t, k, b, d, g) blir aldrig bra i TTS. Spela in dem själv i föräldravyn (🎙️), helst alla 29:
+tystnaden före och efter klipps bort automatiskt (`src/audio/wav.ts`), vågformen visas med reglage för
+start och slut, klippet kodas som WAV och sparas (1) i IndexedDB på enheten och (2) **på servern** via
+`upload-recording.php` → `recorded/<id>.wav` + `recorded/index.json`. Appen läser indexet vid start
+(`loadServerRecordings`), så en inspelning gjord på datorn hörs på iPaden vid nästa start, utan
+export/import eller deploy. Prioritet: lokal inspelning > serverinspelning > TTS. I dev tar Vite-pluginen
+`scripts/recording-upload.ts` emot samma anrop och skriver till `public/recorded/`; `deploy.ps1`
+hämtar serverns `recorded/` före bygget så att inget skrivs över. Servern behöver php-fpm för
+`upload-recording.php` (se `deploy/apache-lasaventyret.conf`) och `recorded/` skrivbar för www-data.
+Inspelning kräver https eller localhost.
 
 ## Stjärnor och belöning
 
@@ -150,13 +192,15 @@ vagnens ljud spelats klart.
 ## Föräldravyn
 
 Utöver nivå, skrivstil och planetbockar visas **förväxlingar**: bokstavspar barnet blandat ihop
-(minst två gånger), vanligast först. Ett par högt upp pekar direkt på vilken tvillingplanet som
-behöver köras. Felen loggas i `confusions` när både rätt svar och det valda alternativet är
-bokstäver. Där finns också en påminnelse om att skriva dagens bokstäver på papper efter passet.
+(minst två gånger), vanligast först. Felen loggas i `confusions` när rätt svar och valet är bokstäver,
+och när två ord skiljer sig i exakt en bokstav (bil läst som pil ger b/p). Loggen tänder
+tvillingplaneterna på kartan. Där finns också en påminnelse om att skriva dagens bokstäver på papper efter passet.
 
 ## Progress
 
-Sparas i localStorage (`lasaventyret-progress-v1`, persist-version 2). Full spelinstruktion ges
+Sparas i localStorage (`lasaventyret-progress-v1`, persist-version 4: `contrastBaseline`, `rocketParts`,
+`rocketStickers`, `linesHeard`, `storyTold`; migreringen sätter baslinje för redan spelade
+tvillingplaneter och områden som redan är klara belönas vid nästa kartvisning). Full spelinstruktion ges
 bara de två första gångerna ett spel möts (`gamesSeen`), därefter alltid den korta cuen. Export/import som JSON finns i föräldravyn
 (håll in kugghjulet 3 s + räkneuppgift).
 

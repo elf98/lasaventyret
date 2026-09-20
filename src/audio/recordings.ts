@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
-import { letterSoundId } from '../content/audioIds'
+import { audioFileName, letterSoundId } from '../content/audioIds'
 import { audio } from './AudioManager'
 
 /** Egen inspelning av ett bokstavsljud (eller annat ljud-id). */
@@ -89,6 +89,75 @@ export async function startRecording(): Promise<Recorder> {
         }
         rec.stop()
       }),
+  }
+}
+
+/* ---------- Inspelningar på servern: spela in på datorn, hörs på iPaden utan export/import ---------- */
+
+interface ServerIndex {
+  items: Record<string, { file: string; hash: string }>
+}
+
+const serverIndexUrl = () => `${import.meta.env.BASE_URL}recorded/index.json`
+
+/**
+ * Hämtar listan över inspelningar som laddats upp till servern och låter dem gå före TTS-ljuden
+ * (men efter en lokal inspelning på samma enhet). Filerna cachas länge; ?v=hash ger ny URL vid ny inspelning.
+ */
+export async function loadServerRecordings(): Promise<string[]> {
+  try {
+    const res = await fetch(serverIndexUrl(), { cache: 'no-cache' })
+    if (!res.ok) return []
+    const index = (await res.json()) as ServerIndex
+    const ids: string[] = []
+    for (const [id, item] of Object.entries(index.items ?? {})) {
+      audio.setServerRecording(id, `${import.meta.env.BASE_URL}recorded/${item.file}?v=${item.hash}`, item.file.endsWith('.wav') ? 'wav' : 'mp3')
+      ids.push(id)
+    }
+    return ids
+  } catch {
+    return []
+  }
+}
+
+export async function listServerRecordingIds(): Promise<string[]> {
+  try {
+    const res = await fetch(serverIndexUrl(), { cache: 'no-cache' })
+    if (!res.ok) return []
+    return Object.keys(((await res.json()) as ServerIndex).items ?? {})
+  } catch {
+    return []
+  }
+}
+
+/**
+ * Laddar upp en inspelning (WAV) till servern. Samma adress tas emot av Vites dev-server (skriver till
+ * public/recorded/) och av upload-recording.php på servern. 'unavailable' = ingen mottagare där appen kör.
+ */
+export async function uploadRecording(id: string, blob: Blob): Promise<'saved' | 'unavailable'> {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}upload-recording.php?id=${encodeURIComponent(id)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'audio/wav', 'X-Recording-Key': 'lasaventyret' },
+      body: blob,
+    })
+    if (!res.ok) return 'unavailable'
+    const data = (await res.json()) as { ok?: boolean; file?: string; hash?: string }
+    if (!data.ok) return 'unavailable'
+    audio.setServerRecording(id, `${import.meta.env.BASE_URL}recorded/${data.file ?? audioFileName(id).replace(/\.mp3$/, '.wav')}?v=${data.hash ?? Date.now()}`, 'wav')
+    return 'saved'
+  } catch {
+    return 'unavailable'
+  }
+}
+
+export async function deleteServerRecording(id: string): Promise<boolean> {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}upload-recording.php?id=${encodeURIComponent(id)}`, { method: 'DELETE', headers: { 'X-Recording-Key': 'lasaventyret' } })
+    if (res.ok) audio.clearServerRecording(id)
+    return res.ok
+  } catch {
+    return false
   }
 }
 

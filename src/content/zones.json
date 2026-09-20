@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Solsystemet",
+    "color": "rgba(255, 170, 60, 0.10)",
+    "part": "motor",
+    "partEmoji": "🔥",
+    "partName": "motorn",
+    "done": "Motorn sitter fast! Hör du hur den brummar? Nu åker vi vidare, ut i Vintergatan!"
+  },
+  {
+    "id": 2,
+    "name": "Vintergatan",
+    "color": "rgba(120, 160, 255, 0.12)",
+    "part": "stick",
+    "partEmoji": "🕹️",
+    "partName": "styrspaken",
+    "done": "Styrspaken är på plats! Nu kan jag styra igen. Nästa stopp: Stjärnhavet!"
+  },
+  {
+    "id": 3,
+    "name": "Stjärnhavet",
+    "color": "rgba(200, 120, 255, 0.12)",
+    "part": "lamp",
+    "partEmoji": "🔦",
+    "partName": "lampan",
+    "done": "Lampan lyser! Raketen är hel! Du har läst dig genom hela rymden. Nu flyger vi hem!"
+  }
+]

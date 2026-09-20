@@ -7,13 +7,14 @@ import BigButton from '../components/BigButton'
 import StarRating from '../components/StarRating'
 import Starfield from '../components/Starfield'
 import { useCaseClass } from '../components/textCase'
-import { config, letterById, levelById, levels, outfits, praiseKeys, rhymes, sentenceById, sentences, sightwords, stickers, stories, storyById, wordById, words } from '../content'
+import { config, letterById, levelById, levels, outfits, praiseKeys, rhymes, sentenceById, sentences, sightwordById, sightwords, stickers, stories, storyById, wordById, words } from '../content'
 import { phraseId, wordId } from '../content/audioIds'
-import { bag, newId, pick } from '../engine/random'
+import { optionCount, shownTask } from '../engine/options'
+import { bag, newId, pick, seeded } from '../engine/random'
 import { sessionRating } from '../engine/rating'
 import { buildSession } from '../engine/sessionBuilder'
 import type { Task } from '../engine/types'
-import { diff } from '../engine/unlock'
+import { diff, isSidePath } from '../engine/unlock'
 import { AVAILABLE_GAMES } from '../games'
 import BuildWord from '../games/BuildWord'
 import CatchSound from '../games/CatchSound'
@@ -34,6 +35,9 @@ import { useSettings } from '../store/settings'
 /** Beröm i slumpad ordning utan upprepning, hela leken innan någon fras återkommer. */
 const nextPraise = bag(praiseKeys)
 
+/** Rader som får en egen fras. Ingen fras när raden bryts: en rad är en bonus, aldrig ett straff. */
+const STREAK_PHRASES: Record<number, string> = { 3: 'streak_3', 5: 'streak_5', 8: 'streak_8' }
+
 const GAMES = { 'catch-sound': CatchSound, 'sound-sort': SoundSort, 'read-word': ReadWord, 'first-sound': SoundHunt, 'last-sound': SoundHunt, 'count-sounds': CountSounds, 'sound-train': SoundTrain, 'build-word': BuildWord, 'which-word': WhichWord, 'sight-memory': SightMemory, 'rhyme-hunt': RhymeHunt, 'silly-sentences': SillySentences, story: StoryReader }
 
 /** Dev-genväg: ?task=<spel>:<mål> ger ett pass med exakt en uppgift. */
@@ -41,21 +45,21 @@ function devTask(): Task[] | null {
   if (!import.meta.env.DEV) return null
   const spec = new URLSearchParams(window.location.search).get('task')
   if (!spec) return null
-  const [game, targetId] = spec.split(':') as [Task['game'], string]
+  const [game, targetId, variant] = spec.split(':') as [Task['game'], string, string | undefined]
   const word = words.find((w) => w.id === targetId)
   const all = ['s', 'o', 'l', 'a', 'm', 'i', 'r', 'e']
-  const t: Task = { id: `dev-${spec}`, game, targetId, kind: 'word', options: [], isReview: false }
-  if (game === 'catch-sound') Object.assign(t, { kind: 'letter', options: [targetId, ...all.filter((x) => x !== targetId).slice(0, 3)] })
+  const t: Task = { id: `dev-${spec}`, game, targetId, kind: 'word', options: [], isReview: false, variant }
+  if (game === 'catch-sound') Object.assign(t, { kind: 'letter', options: [targetId, ...all.filter((x) => x !== targetId).slice(0, 4)] })
   else if (game === 'build-word' && word) t.options = [...word.sounds, ...all.filter((x) => !word.sounds.includes(x)).slice(0, 2)].sort(() => Math.random() - 0.5)
-  else if (game === 'sound-train' && word?.emoji) t.options = [targetId, ...words.filter((w) => w.emoji && w.id !== targetId).slice(0, 2).map((w) => w.id)]
+  else if ((game === 'sound-train' || game === 'read-word') && word?.emoji) t.options = [targetId, ...words.filter((w) => w.emoji && w.id !== targetId).slice(0, 4).map((w) => w.id)]
   else if (game === 'which-word' || game === 'sight-memory') {
     const sight = sightwords.some((s) => s.id === targetId)
     const pool = sight ? sightwords.map((s) => s.id) : words.map((w) => w.id)
-    Object.assign(t, { kind: sight ? 'sightword' : 'word', options: [targetId, ...pool.filter((x) => x !== targetId).slice(0, 2)] })
+    Object.assign(t, { kind: sight ? 'sightword' : 'word', options: [targetId, ...pool.filter((x) => x !== targetId).slice(0, game === 'sight-memory' ? 3 : 4)] })
   } else if (game === 'rhyme-hunt') {
     const pair = rhymes.find((p) => p.includes(targetId)) ?? [targetId, targetId]
     const partner = pair.find((x) => x !== targetId) ?? targetId
-    Object.assign(t, { options: [partner, ...words.filter((w) => w.emoji && !pair.includes(w.id)).slice(0, 2).map((w) => w.id)], answer: partner })
+    Object.assign(t, { options: [partner, ...words.filter((w) => w.emoji && !pair.includes(w.id)).slice(0, 4).map((w) => w.id)], answer: partner })
   } else if (game === 'silly-sentences') {
     const s = sentenceById.get(targetId)
     if (s) Object.assign(t, { kind: 'sentence', options: [s.picture, ...s.distractors], answer: s.picture })
@@ -76,6 +80,18 @@ function ProgressTrack({ total, index }: { total: number; index: number }) {
       ))}
     </div>
   )
+}
+
+/** Två ord av samma längd som skiljer sig i exakt en bokstav: bil/pil ger paret b/p. */
+function singleLetterDiff(a: string, b: string): [string, string] | null {
+  if (a.length !== b.length || a === b) return null
+  let at = -1
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] === b[i]) continue
+    if (at >= 0) return null
+    at = i
+  }
+  return at >= 0 ? [a[at], b[at]] : null
 }
 
 /** Kör ett pass: bygger uppgifter, växlar spel, bokför resultat och skickar till belöningen. */
@@ -102,21 +118,35 @@ export default function SessionScreen() {
   const [wrong, setWrong] = useState(0)
   const [done, setDone] = useState(0)
   const [correct, setCorrect] = useState(0)
-  /** Uppgifter lösta med högst ett fel: stjärnorna ska belöna att barnet vågar pröva, inte att det väntar. */
+  /** Uppgifter lösta med högst ett fel (på svår: felfritt): stjärnorna ska belöna att barnet vågar pröva. */
   const [good, setGood] = useState(0)
+  /** Rätt i följd utan fel: efter tre blir det ett alternativ till, och en liten rad syns. */
+  const [streak, setStreak] = useState(0)
+  const bestStreak = useRef(0)
+  /** Antal fel per avklarad uppgift: två uppgifter i rad med fel ger ett alternativ färre. */
+  const wrongs = useRef<number[]>([])
   const [celebrating, setCelebrating] = useState(false)
   /** Exempelordet som visas skrivet i berömmet, så att ljud, bokstav och ord knyts ihop visuellt. */
   const [praiseWord, setPraiseWord] = useState<string | null>(null)
   const caseClass = useCaseClass()
   const task = tasks[index]
+  // Antalet alternativ bestäms när uppgiften börjar, utifrån raden just då, och byts inte mitt i.
+  const shown = useMemo(() => {
+    if (!task) return task
+    const last = wrongs.current.slice(-2)
+    const struggling = last.length === 2 && last.every((w) => w > 0)
+    return shownTask(task, optionCount(task.game, difficulty, streak, struggling), seeded(index * 7919 + task.id.length))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, task])
   // Spel som redan fått sin fulla instruktion i detta pass: därefter kort cue.
   const explained = useRef(new Set<string>())
+  const seenKey = task ? `${task.game}${task.variant === 'read' ? ':read' : ''}` : ''
   // Full instruktion bara de två första gångerna ett spel möts – sedan räcker den korta cuen.
-  const brief = task ? explained.current.has(task.game) || (useProgress.getState().gamesSeen[task.game] ?? 0) > 2 : false
+  const brief = task ? explained.current.has(seenKey) || (useProgress.getState().gamesSeen[seenKey] ?? 0) > 2 : false
   useEffect(() => {
-    if (task && !explained.current.has(task.game)) useProgress.getState().seeGame(task.game)
-    if (task) explained.current.add(task.game)
-  }, [task])
+    if (task && !explained.current.has(seenKey)) useProgress.getState().seeGame(seenKey)
+    if (task) explained.current.add(seenKey)
+  }, [task, seenKey])
 
   useEffect(() => {
     if (tasks.length === 0) go('map')
@@ -127,8 +157,8 @@ export default function SessionScreen() {
   }, [tasks.length, go])
 
   useEffect(() => {
-    if (import.meta.env.DEV) (window as unknown as { __session?: unknown }).__session = { tasks, index, wrong, correct, good }
-  }, [tasks, index, wrong, correct, good])
+    if (import.meta.env.DEV) (window as unknown as { __session?: unknown }).__session = { tasks, index, wrong, correct, good, streak }
+  }, [tasks, index, wrong, correct, good, streak])
 
   const finish = (totalCorrect: number, totalGood: number) => {
     if (finished.current) return
@@ -137,6 +167,9 @@ export default function SessionScreen() {
     const p = useProgress.getState()
     const newlyCompleted = diff(meta.current.completedBefore, selectCompleted(p))
     if (newlyCompleted.length) p.markCompleted(newlyCompleted)
+    // Tvillingplaneten slocknar när den spelats: nya förväxlingar får tända den igen.
+    if (isSidePath(level)) p.settleContrast(level.id)
+    const newParts = useProgress.getState().claimRocketParts()
     const newlyUnlocked = diff(meta.current.unlockedBefore, selectUnlocked(useProgress.getState()))
     let sticker: string | null = null
     if (newlyCompleted.length > 0 || Math.random() < 0.3) {
@@ -148,7 +181,7 @@ export default function SessionScreen() {
     const newOutfit = outfits.find((o) => o.stars <= starsNow && !p.outfits.includes(o.id)) ?? null
     if (newOutfit) p.addOutfit(newOutfit.id)
     p.addSession({ id: meta.current.id, levelId: level.id, startedAt: meta.current.startedAt, endedAt: Date.now(), tasks: tasks.length, correct: totalCorrect, stars: rating, practiced: Array.from(new Set(tasks.map((t) => t.targetId))) })
-    finishSession({ levelId: level.id, stars: rating, correct: totalCorrect, tasks: tasks.length, sticker, newlyCompleted, newlyUnlocked, newOutfit: newOutfit?.id ?? null })
+    finishSession({ levelId: level.id, stars: rating, correct: totalCorrect, tasks: tasks.length, sticker, newlyCompleted, newlyUnlocked, newOutfit: newOutfit?.id ?? null, newParts, bestStreak: bestStreak.current })
   }
 
   const onSolved = async () => {
@@ -156,16 +189,23 @@ export default function SessionScreen() {
     const clean = wrong === 0
     useProgress.getState().recordResult({ taskId: task.id, targetId: task.targetId, kind: task.kind, clean, wrongTaps: wrong, scaffolded: wrong >= 3 }, meta.current.id)
     const totalCorrect = correct + (clean ? 1 : 0)
-    const totalGood = good + (wrong <= 1 ? 1 : 0)
+    // På svår nivå räknas bara felfritt: med fyra alternativ och ett struket efter första felet
+    // ger "rätt inom två försök" annars stjärnor åt ren gissning.
+    const totalGood = good + ((difficulty === 'hard' ? clean : wrong <= 1) ? 1 : 0)
+    const newStreak = clean ? streak + 1 : 0
+    bestStreak.current = Math.max(bestStreak.current, newStreak)
+    wrongs.current.push(wrong)
     setCorrect(totalCorrect)
     setGood(totalGood)
     setDone(done + 1)
+    setStreak(newStreak)
     setCelebrating(true)
     taps.current = []
     sfx.star()
     const example = task.kind === 'letter' ? letterById.get(task.targetId)?.example : undefined
     if (example) setPraiseWord(example)
-    const praise = phraseId(nextPraise())
+    const streakPhrase = STREAK_PHRASES[newStreak]
+    const praise = phraseId(streakPhrase ?? nextPraise())
     await audio.speak(example ? [praise, wordId(example)] : [praise])
     await wait(250)
     if (!alive.current) return
@@ -199,31 +239,52 @@ export default function SessionScreen() {
    */
   const eliminated = useMemo(() => {
     const pickable: Task['game'][] = ['catch-sound', 'which-word', 'read-word', 'sound-sort', 'first-sound', 'last-sound', 'count-sounds', 'rhyme-hunt', 'silly-sentences']
-    if (!task || wrong < 2 || !pickable.includes(task.game)) return []
-    const answer = task.answer ?? task.targetId
-    const wrongOptions = task.options.filter((o) => o !== answer)
+    if (!shown || wrong < 2 || !pickable.includes(shown.game)) return []
+    const answer = shown.answer ?? shown.targetId
+    const wrongOptions = shown.options.filter((o) => o !== answer)
     return wrongOptions.length >= 2 ? [wrongOptions[0]] : []
-  }, [task, wrong])
+  }, [shown, wrong])
 
-  /** Räknar felet och, när både rätt svar och valet är bokstäver, vilket par som blandades ihop. */
+  /**
+   * Räknar felet och vilket bokstavspar som blandades ihop: direkt när rätt svar och valet är
+   * bokstäver, och via orden när de skiljer sig i exakt en bokstav (bil läst som pil ger b/p).
+   * Loggen tänder tvillingplaneterna, så läsfelen måste räknas, inte bara hörfelen.
+   */
   const onWrongAnswer = (picked?: string) => {
     setWrong((w) => w + 1)
     const right = task?.answer ?? task?.targetId
-    if (picked && right && picked !== right && letterById.has(picked) && letterById.has(right)) useProgress.getState().recordConfusion(right, picked)
+    if (!picked || !right || picked === right) return
+    if (letterById.has(picked) && letterById.has(right)) {
+      useProgress.getState().recordConfusion(right, picked)
+      return
+    }
+    const text = (id: string) => wordById.get(id)?.text ?? sightwordById.get(id)?.text
+    const a = text(right)
+    const b = text(picked)
+    const pair = a && b ? singleLetterDiff(a.toLowerCase(), b.toLowerCase()) : null
+    if (pair && letterById.has(pair[0]) && letterById.has(pair[1])) useProgress.getState().recordConfusion(pair[0], pair[1])
   }
 
-  const Game = task ? GAMES[task.game] : null
+  const Game = shown ? GAMES[shown.game] : null
 
   return (
     <div className="screen">
       <Starfield count={40} />
       <div className="absolute top-3 right-4 left-4 z-20 flex items-center justify-between">
         <BigButton size="md" icon="🗺️" color="bg-black/40" speakId={phraseId('btn_home')} onPress={() => go('map')} label="Till kartan" />
-        <ProgressTrack total={tasks.length} index={index} />
+        <div className="flex items-center gap-3">
+          <ProgressTrack total={tasks.length} index={index} />
+          {streak >= 3 && (
+            <motion.div key={streak} initial={{ scale: 0.6 }} animate={{ scale: [0.6, 1.2, 1] }} transition={{ duration: 0.4 }} className="flex items-center gap-1 rounded-full bg-sun px-3 py-1 text-[22px] font-extrabold text-space" aria-label={`${streak} rätt i rad`}>
+              <span>⚡</span>
+              <span>{streak}</span>
+            </motion.div>
+          )}
+        </div>
         <StarRating value={sessionRating(good + (tasks.length - done), tasks.length)} />
       </div>
       <div className="absolute inset-0" onPointerDownCapture={onTap}>
-        {task && Game && <Game key={task.id} task={task} scaffold={wrong >= 3} eliminated={eliminated} celebrating={celebrating} brief={brief} onWrong={(picked?: string) => onWrongAnswer(picked)} onSolved={() => void onSolved()} />}
+        {shown && Game && <Game key={shown.id} task={shown} scaffold={wrong >= 3} eliminated={eliminated} celebrating={celebrating} brief={brief} onWrong={(picked?: string) => onWrongAnswer(picked)} onSolved={() => void onSolved()} />}
       </div>
       {praiseWord && celebrating && task && (
         <div className="pointer-events-none absolute inset-0 z-20 flex items-end justify-center pb-24">

@@ -11,6 +11,8 @@ import sightwordsJson from './sightwords.json'
 import sentencesJson from './sentences.json'
 import storiesJson from './stories.json'
 import rhymesJson from './rhymes.json'
+import zonesJson from './zones.json'
+import templatesJson from './templates.json'
 
 export interface Letter {
   id: string
@@ -109,7 +111,11 @@ export interface Level {
   emoji: string
   x: number
   y: number
-  kind: 'letters' | 'sightwords' | 'cluster' | 'words' | 'contrast' | 'sentences' | 'stories' | 'phonology'
+  kind: 'letters' | 'sightwords' | 'cluster' | 'words' | 'contrast' | 'sentences' | 'stories' | 'phonology' | 'templates'
+  /** Område på kartan (1–3). Varje område ger en raketdel när alla dess planeter i huvudkedjan är klara. */
+  zone: number
+  /** Maskotens replik när barnet kommer till planeten första gången: för berättelsen framåt. */
+  line: string
   letters: string[]
   /** kind 'words': exakt dessa ord-id (t.ex. korta ord, långa ord, dubbeltecknade, kluster). */
   words?: string[]
@@ -125,8 +131,27 @@ export interface Level {
 export interface Outfit {
   id: string
   emoji: string
-  slot: 'hat' | 'eyes' | 'wings' | 'hand'
+  slot: 'hat' | 'eyes' | 'wings' | 'hand' | 'neck'
   stars: number
+}
+
+/** Område på kartan: namn, färgton och raketdelen som blir belöningen när området är klart. */
+export interface Zone {
+  id: number
+  name: string
+  color: string
+  part: string
+  partEmoji: string
+  partName: string
+  /** Maskotens replik när delen sätts fast. */
+  done: string
+}
+
+/** Meningsmallar: "{En djur} har {en sak}." fylls med ord ur slots. `ett` listar ett-orden. */
+export interface Templates {
+  slots: Record<string, string[]>
+  ett: string[]
+  templates: { id: string; text: string }[]
 }
 
 export interface AppConfig {
@@ -149,6 +174,8 @@ export const sightwords = sightwordsJson as SightWord[]
 export const sentences = sentencesJson as Sentence[]
 export const stories = storiesJson as Story[]
 export const rhymes = rhymesJson as string[][]
+export const zones = zonesJson as Zone[]
+export const templates = templatesJson as Templates
 
 export const sightwordById = new Map(sightwords.map((w) => [w.id, w]))
 export const sentenceById = new Map(sentences.map((s) => [s.id, s]))

@@ -83,7 +83,7 @@ export default function ReadWord({ task, scaffold, eliminated = [], celebrating,
           </span>
         ))}
       </div>
-      <div className="flex items-center gap-8">
+      <div className={`flex items-center ${task.options.length > 4 ? 'gap-5' : 'gap-8'}`}>
         {task.options.map((id) => (
           <motion.button
             key={id}
@@ -93,9 +93,9 @@ export default function ReadWord({ task, scaffold, eliminated = [], celebrating,
             whileTap={{ scale: 0.92 }}
             animate={wobble === id ? { rotate: [0, -10, 10, -6, 6, 0] } : solved && id === task.targetId ? { scale: [1, 1.25, 1.15] } : { rotate: 0, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className={`flex h-44 w-44 items-center justify-center rounded-[36px] bg-white/90 shadow-[0_8px_0_rgba(0,0,0,0.25)] ${solved && id !== task.targetId ? 'opacity-30' : ''} ${eliminated.includes(id) ? 'pointer-events-none opacity-20' : ''}`}
+            className={`flex items-center justify-center rounded-[36px] bg-white/90 shadow-[0_8px_0_rgba(0,0,0,0.25)] ${task.options.length > 4 ? 'h-40 w-40' : 'h-44 w-44'} ${solved && id !== task.targetId ? 'opacity-30' : ''} ${eliminated.includes(id) ? 'pointer-events-none opacity-20' : ''}`}
           >
-            <span className="big-emoji text-[100px]">{wordById.get(id)?.emoji}</span>
+            <span className={`big-emoji ${task.options.length > 4 ? 'text-[88px]' : 'text-[100px]'}`}>{wordById.get(id)?.emoji}</span>
           </motion.button>
         ))}
       </div>

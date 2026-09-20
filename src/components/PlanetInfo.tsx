@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 import BigButton from './BigButton'
-import { letterById, sightwordById, stories, wordById, type Level } from '../content'
+import { letterById, sightwordById, stories, templates, wordById, type Level } from '../content'
 import { phraseId } from '../content/audioIds'
 import { STREAK_NEEDED } from '../engine/mastery'
 import type { ItemKind, MasteryItem } from '../engine/types'
-import { COMPLETE_SHARE, levelItems, levelProgress } from '../engine/unlock'
+import { COMPLETE_SHARE, isSidePath, levelItems, levelProgress } from '../engine/unlock'
 import { useProgress } from '../store/progress'
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
   onClose: () => void
 }
 
-const KIND_OF: Record<Level['kind'], ItemKind> = { letters: 'letter', sightwords: 'sightword', cluster: 'word', words: 'word', contrast: 'contrast', sentences: 'sentence', stories: 'story', phonology: 'phoneme' }
+const KIND_OF: Record<Level['kind'], ItemKind> = { letters: 'letter', sightwords: 'sightword', cluster: 'word', words: 'word', contrast: 'contrast', sentences: 'sentence', stories: 'story', phonology: 'phoneme', templates: 'sentence' }
 const NOUN: Record<Level['kind'], [string, string]> = {
   letters: ['bokstav', 'bokstäver'],
   sightwords: ['ordbild', 'ordbilder'],
@@ -25,6 +25,7 @@ const NOUN: Record<Level['kind'], [string, string]> = {
   sentences: ['mening', 'meningar'],
   stories: ['berättelse', 'berättelser'],
   phonology: ['rimord', 'rimord'],
+  templates: ['mall', 'mallar'],
 }
 
 /** Läsbar etikett för en mastery-nyckel (bokstav, ord, ordbild, berättelse). */
@@ -42,6 +43,8 @@ function labelFor(kind: Level['kind'], key: string): string {
       return (wordById.get(id)?.text ?? id).toUpperCase()
     case 'stories':
       return stories.find((s) => s.id === id)?.title ?? id
+    case 'templates':
+      return templates.templates.find((t) => `tpl:${t.id}` === id)?.text ?? id
     default:
       return id
   }
@@ -61,6 +64,7 @@ export default function PlanetInfo({ level, locked = false, onPlay, onClose }: P
   const status = (m: MasteryItem | undefined) => (m?.mastered ? 'done' : m && m.streak > 0 ? 'going' : m && m.attempts > 0 ? 'reset' : 'new')
   const remaining = Math.max(0, needed - lp.mastered)
   const bonus = level.requires.length === 0 && level.kind === 'phonology'
+  const side = isSidePath(level)
   const showChips = level.kind !== 'sentences' && items.length <= 40
 
   return (
@@ -81,6 +85,7 @@ export default function PlanetInfo({ level, locked = false, onPlay, onClose }: P
             <>
               <b>Klar när {needed} av {lp.total} {many} är behärskade.</b> Behärskad = {need} rätt i rad på första försöket, fördelade på minst två pass. Ett fel nollställer raden för den {one}en.
               {lp.complete ? <span> Planeten är klar.</span> : <span> Just nu: {lp.mastered} av {lp.total} behärskade, {remaining} kvar till klar.</span>}
+              {side && <span> Sidoväg: öppnar när {level.letters.join(' och ').toUpperCase()} blandats ihop tre gånger, och lyser igen vid nya förväxlingar.</span>}
             </>
           )}
         </div>
@@ -111,7 +116,7 @@ export default function PlanetInfo({ level, locked = false, onPlay, onClose }: P
 
         <div className="flex items-center justify-end gap-6 pt-2">
           <BigButton size="md" icon="✕" color="bg-gray-300" speakId={phraseId('btn_back')} onPress={onClose} label="Stäng" />
-          {locked ? <span className="text-[18px] text-gray-600">Låst: kom halvvägs på planeten före, så öppnar den här.</span> : <BigButton size="lg" icon="🚀" speakId={phraseId('btn_play')} onPress={onPlay} label="Spela" />}
+          {locked ? <span className="text-[18px] text-gray-600">{side ? 'Låst: öppnar bara om de två bokstäverna blandas ihop.' : 'Låst: kom halvvägs på planeten före, så öppnar den här.'}</span> : <BigButton size="lg" icon="🚀" speakId={phraseId('btn_play')} onPress={onPlay} label="Spela" />}
         </div>
       </motion.div>
     </div>

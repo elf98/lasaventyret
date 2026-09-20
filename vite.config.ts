@@ -4,11 +4,15 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import os from 'node:os'
 import path from 'node:path'
+import { recordingUpload } from './scripts/recording-upload'
 
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    // Tar emot inspelningar från föräldravyn i dev och skriver dem till public/recorded/ (samma
+    // adress som upload-recording.php på servern), så att en inspelning på datorn följer med i deployen.
+    recordingUpload(),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.svg', 'icons/*.png'],
@@ -38,7 +42,8 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         runtimeCaching: [
           {
-            urlPattern: ({ url }) => url.pathname.includes('/audio/') && url.pathname.endsWith('.mp3'),
+            // Även klippta bokstavsljud (.wav) och egna inspelningar (recorded/), annars saknas de offline.
+            urlPattern: ({ url }) => (url.pathname.includes('/audio/') || url.pathname.includes('/recorded/')) && /\.(mp3|wav)$/.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: 'lasaventyret-audio', expiration: { maxEntries: 800, maxAgeSeconds: 365 * 24 * 3600 } },
           },

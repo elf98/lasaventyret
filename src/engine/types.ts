@@ -48,6 +48,11 @@ export interface Task {
   answer?: string
   /** Bokstaven uppgiften handlar om när options är något annat (omvänd ljudsortering). */
   letter?: string
+  /**
+   * Variant av spelet: 'read' = Vilket ord? med bilden först och orden att läsa (inget ljud förrän
+   * efter valet); 'g|mall|ord|ord' = en mening genererad ur en mall (Meningsmaskinen).
+   */
+  variant?: string
   isReview: boolean
 }
 

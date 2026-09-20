@@ -67,8 +67,8 @@ describe('buildSession', () => {
     expect(bw!.options.length).toBeGreaterThan(w.sounds.length)
     const st = tasks.find((t) => t.game === 'sound-train' && words.find((x) => x.id === t.targetId)!.emoji !== '')
     if (st) {
-      expect(st.options).toContain(st.targetId)
-      expect(st.options).toHaveLength(3)
+      expect(st.options[0]).toBe(st.targetId)
+      expect(st.options.length).toBeGreaterThanOrEqual(3)
     }
   })
 

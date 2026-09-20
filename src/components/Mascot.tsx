@@ -64,10 +64,13 @@ export default function Mascot({ size = 140, mood = 'idle', pokeable = true, cla
     busy.current = false
   }
 
-  const hat = worn.find((o) => o.slot === 'hat')
-  const eyes = worn.find((o) => o.slot === 'eyes')
-  const wings = worn.find((o) => o.slot === 'wings')
-  const hand = worn.find((o) => o.slot === 'hand')
+  // Det senast förtjänade plagget per plats visas: annars satt kepsen kvar hur många hattar barnet än vann.
+  const latest = (slot: string) => [...worn].reverse().find((o) => o.slot === slot)
+  const hat = latest('hat')
+  const eyes = latest('eyes')
+  const wings = latest('wings')
+  const hand = latest('hand')
+  const neck = latest('neck')
 
   return (
     <motion.div
@@ -104,6 +107,11 @@ export default function Mascot({ size = 140, mood = 'idle', pokeable = true, cla
       {hand && (
         <span className="big-emoji absolute" style={{ fontSize: px * 0.34, right: -px * 0.12, bottom: px * 0.05 }}>
           {hand.emoji}
+        </span>
+      )}
+      {neck && (
+        <span className="big-emoji absolute" style={{ fontSize: px * 0.3, left: '50%', bottom: -px * 0.04, transform: 'translateX(-50%)' }}>
+          {neck.emoji}
         </span>
       )}
     </motion.div>

@@ -68,11 +68,12 @@ export default function RhymeHunt({ task, scaffold, eliminated = [], celebrating
         <span className="big-emoji text-[120px]">{target.emoji}</span>
         <span className="text-[40px] font-extrabold">{target.text}</span>
       </div>
-      <div className="flex items-center gap-8">
+      <div className={`flex items-center ${task.options.length > 3 ? 'gap-5' : 'gap-8'}`}>
         {task.options.map((id) => {
           const w = wordById.get(id)
           if (!w) return null
           const isAnswer = id === answer
+          const small = task.options.length > 3
           return (
             <motion.button
               key={id}
@@ -82,9 +83,9 @@ export default function RhymeHunt({ task, scaffold, eliminated = [], celebrating
               whileTap={{ scale: 0.92 }}
               animate={wobble === id ? { rotate: [0, -8, 8, -5, 5, 0] } : solved && isAnswer ? { scale: [1, 1.25, 1.15] } : scaffold && isAnswer && !solved ? { scale: [1, 1.08, 1] } : { rotate: 0, scale: 1 }}
               transition={{ duration: 0.5, repeat: scaffold && isAnswer && !solved ? Infinity : 0 }}
-              className={`relative flex h-48 w-48 flex-col items-center justify-center rounded-[36px] ${solved && isAnswer ? 'bg-sun' : 'bg-white/15'} ${(scaffold || solved) && !isAnswer ? 'opacity-30' : ''} ${scaffold && isAnswer && !solved ? 'glow' : ''} ${eliminated.includes(id) ? 'pointer-events-none opacity-20' : ''}`}
+              className={`relative flex flex-col items-center justify-center rounded-[36px] ${small ? 'h-40 w-40' : 'h-48 w-48'} ${solved && isAnswer ? 'bg-sun' : 'bg-white/15'} ${(scaffold || solved) && !isAnswer ? 'opacity-30' : ''} ${scaffold && isAnswer && !solved ? 'glow' : ''} ${eliminated.includes(id) ? 'pointer-events-none opacity-20' : ''}`}
             >
-              <span className="big-emoji text-[100px]">{w.emoji}</span>
+              <span className={`big-emoji ${small ? 'text-[80px]' : 'text-[100px]'}`}>{w.emoji}</span>
               <span className="text-[26px] font-bold">{w.text}</span>
             </motion.button>
           )

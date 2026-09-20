@@ -9,7 +9,8 @@
     "preview": "vite preview --host",
     "test": "vitest run",
     "audio": "tsx scripts/generate-audio.ts",
-    "audio:list": "tsx scripts/generate-audio.ts --list"
+    "audio:list": "tsx scripts/generate-audio.ts --list",
+    "simulate": "tsx scripts/simulate.ts"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.3",

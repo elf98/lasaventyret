@@ -1,7 +1,9 @@
-import type { GameId, Level, Sentence, SightWord, Story, Word } from '../content'
+import { templates, type GameId, type Level, type Sentence, type SightWord, type Story, type Word } from '../content'
+import { DISTRACTOR_POOL, sentenceOptions } from './builderUtils'
 import { masteryKey, weakness } from './mastery'
 import { shuffle, type Rng } from './random'
 import type { BuildInput } from './sessionBuilder'
+import { generateSentence, templateKey } from './templates'
 import type { ItemKind, Task } from './types'
 
 /** Svagast/osedd först, jämnt slumpad bland lika. */
@@ -25,42 +27,64 @@ function rankSightwords(list: SightWord[], input: BuildInput, rng: Rng): SightWo
 }
 
 /**
- * Ordplaneten: mest Vilket ord? (3 alternativ på lätt, annars 4), med Ordbilds-memory som
- * omväxling en gång per pass (två på lätt). Memoryt har fyra par.
+ * Ordplaneten: mest Vilket ord? med Ordbilds-memory som omväxling en gång per pass (två på lätt).
+ * Memoryt har fyra par. Vilket ord? bär fyra distraktorer; skärmen visar tre eller fyra alternativ.
  */
 export function buildSightwords(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   const ranked = rankSightwords(input.sightwords, input, rng)
   if (ranked.length < 4) return []
-  const optionCount = input.difficulty === 'easy' ? 3 : 4
   const memorySlots = !games.includes('sight-memory') ? [] : !games.includes('which-word') ? [...Array(input.count).keys()] : input.difficulty === 'easy' ? [2, 6] : [3]
   const tasks: Task[] = []
   for (let i = 0; i < input.count; i++) {
     const w: SightWord = ranked[i % ranked.length]
     const memory = memorySlots.includes(i)
     const others = shuffle(ranked.filter((o) => o.id !== w.id), rng)
-      .slice(0, memory ? 3 : optionCount - 1)
+      .slice(0, memory ? 3 : DISTRACTOR_POOL)
       .map((o) => o.id)
     tasks.push({
       id: `s${i}-${w.id}`,
       game: memory ? 'sight-memory' : 'which-word',
       targetId: w.id,
       kind: 'sightword',
-      options: memory ? [w.id, ...others] : shuffle([w.id, ...others], rng),
+      options: [w.id, ...others],
       isReview: false,
     })
   }
   return tasks
 }
 
-function sentenceTask(s: Sentence, i: number, rng: Rng): Task {
-  return { id: `m${i}-${s.id}`, game: 'silly-sentences', targetId: s.id, kind: 'sentence', options: shuffle([s.picture, ...s.distractors], rng), answer: s.picture, isReview: false }
+function sentenceTask(s: Sentence, i: number): Task {
+  return { id: `m${i}-${s.id}`, game: 'silly-sentences', targetId: s.id, kind: 'sentence', options: sentenceOptions(s), answer: s.picture, isReview: false }
 }
 
 /** Tokplaneten: läs meningen, välj rätt bild. Aldrig samma mening två gånger i ett pass. */
 export function buildSentences(input: BuildInput, _games: GameId[], rng: Rng): Task[] {
   const subset = input.level.sentences
   const ranked = rank(subset ? input.sentences.filter((s) => subset.includes(s.id)) : input.sentences, 'sentence', input, rng)
-  return ranked.slice(0, Math.min(input.count, ranked.length)).map((s, i) => sentenceTask(s, i, rng))
+  return ranked.slice(0, Math.min(input.count, ranked.length)).map((s, i) => sentenceTask(s, i))
+}
+
+/**
+ * Meningsmaskinen: varje uppgift är en ny mening ur en mall ("{En djur} har {en sak}."), fylld med
+ * ord barnet redan kan. Åttio meningar räcker inte till läsflyt; mallarna ger hundratals utan nytt
+ * ordförråd. Behärskningen lagras per mall, så planeten blir klar när hälften av mallarna sitter.
+ */
+export function buildTemplates(input: BuildInput, _games: GameId[], rng: Rng): Task[] {
+  const ranked = shuffle(templates.templates, rng).sort((a, b) => {
+    const ma = input.mastery[masteryKey('sentence', templateKey(a.id))]
+    const mb = input.mastery[masteryKey('sentence', templateKey(b.id))]
+    return weakness(mb) - weakness(ma) || (ma?.lastSeenAt ?? 0) - (mb?.lastSeenAt ?? 0)
+  })
+  const avoid = new Set<string>()
+  const tasks: Task[] = []
+  for (let i = 0; tasks.length < input.count && i < input.count * 2 && ranked.length; i++) {
+    const t = ranked[i % ranked.length]
+    const g = generateSentence(t.id, rng, avoid)
+    if (!g) continue
+    g.sentence.id.split('|').slice(2).forEach((id) => avoid.add(id))
+    tasks.push({ id: `g${i}-${t.id}`, game: 'silly-sentences', targetId: templateKey(t.id), kind: 'sentence', options: g.options, answer: g.sentence.picture, variant: g.sentence.id, isReview: false })
+  }
+  return tasks
 }
 
 /**
@@ -78,10 +102,10 @@ export function buildStories(input: BuildInput, games: GameId[], rng: Rng): Task
   const tasks: Task[] = []
   stories.forEach((st: Story, i) => {
     tasks.push({ id: `st${i}-${st.id}`, game: 'story', targetId: st.id, kind: 'story', options: st.questions[0].options, answer: String(st.questions[0].answer), isReview: false })
-    if (sentences[i]) tasks.push(sentenceTask(sentences[i], i, rng))
+    if (sentences[i]) tasks.push(sentenceTask(sentences[i], i))
   })
   // Fyll ut med meningar om berättelserna inte räcker till hela passet.
-  for (let i = stories.length; tasks.length < Math.ceil(input.count / 2) && i < sentences.length; i++) tasks.push(sentenceTask(sentences[i], i, rng))
+  for (let i = stories.length; tasks.length < Math.ceil(input.count / 2) && i < sentences.length; i++) tasks.push(sentenceTask(sentences[i], i))
   return tasks
 }
 
@@ -91,17 +115,29 @@ export function rhymeKey(text: string): string {
   return m ? m[0] : text.toLowerCase()
 }
 
+export interface PhonologyOpts {
+  /** Ord (med bild) att välja bland. */
+  pool: Word[]
+  /** Bokstäver barnet mött: bokstavsalternativen och svaret i första/sista ljudet måste finnas här. */
+  letters?: Set<string>
+  count: number
+  /** Ljudlekarnas ordning; passet varvar dem. */
+  order?: GameId[]
+}
+
+const PHONOLOGY_ORDER: GameId[] = ['rhyme-hunt', 'first-sound', 'count-sounds', 'last-sound']
+
 /**
- * Startrampen: fyra ljudlekar utan bokstavsläsning – Rimjakt, första ljudet, sista ljudet och
- * räkna ljuden. Att höra enskilda ljud i ord är grunden all ljudning vilar på, och det tränas
- * inte av att läsa hela ord. Typerna varvas så att samma förmåga övas från olika håll.
+ * Ljudlekar utan bokstavsläsning: Rimjakt, första ljudet, sista ljudet och räkna ljuden. Att höra
+ * enskilda ljud i ord är grunden all ljudning vilar på, och det tränas inte av att läsa hela ord.
+ * Används både på Startrampen (hela passet) och invävt i bokstavs- och ordplaneterna (en per pass).
  */
-export function buildPhonology(input: BuildInput, games: GameId[], rng: Rng): Task[] {
+export function phonologyTasks(input: BuildInput, games: GameId[], rng: Rng, opts: PhonologyOpts): Task[] {
   const byId = new Map(input.words.map((w) => [w.id, w]))
-  const curated = (input.level.words ?? []).map((id) => byId.get(id)).filter((w): w is Word => !!w && w.emoji !== '')
-  const pool = curated.length ? curated : input.words.filter((w) => w.emoji !== '')
+  const pool = opts.pool.filter((w) => w.emoji !== '')
+  const known = (s: string) => !opts.letters || opts.letters.has(s)
   // Räkna ljuden kräver att bokstäverna motsvarar ljuden (inte katt, sko, stjärna).
-  const countable = pool.filter((w) => w.decodable && !w.noBlend && w.sounds.length >= 2 && w.sounds.length <= 4)
+  const countable = pool.filter((w) => w.decodable && !w.noBlend && w.sounds.length >= 2 && w.sounds.length <= 4 && w.sounds.every(known))
   const tier = (w: Word) => {
     const m = input.mastery[masteryKey('phoneme', w.id)]
     return !m || m.attempts === 0 ? 1 : m.mastered ? 2 : m.streak > 0 ? 0 : 1
@@ -114,7 +150,7 @@ export function buildPhonology(input: BuildInput, games: GameId[], rng: Rng): Ta
     return w
   }
 
-  // Bara rimpar där båda orden ingår i planetens lista: annars lagras behärskningen på ord som
+  // Bara rimpar där båda orden ingår i listan: annars lagras behärskningen på ord som
   // levelItems aldrig räknar, och mätaren står stilla hur många rim barnet än klarar.
   const inPool = new Set(pool.map((w) => w.id))
   const pairs = input.rhymes.filter((p) => p.every((id) => byId.get(id)?.emoji && inPool.has(id)))
@@ -131,21 +167,21 @@ export function buildPhonology(input: BuildInput, games: GameId[], rng: Rng): Ta
     used.add(target)
     const distract = shuffle((fillers.length >= 2 ? fillers : input.words.filter((x) => x.emoji !== '' && !inPair.has(x.id))).filter((f) => f.emoji !== w.emoji && f.emoji !== byId.get(partner)?.emoji && rhymeKey(f.text) !== rhymeKey(w.text)), rng)
       .filter((f, k, arr) => arr.findIndex((x) => x.emoji === f.emoji) === k)
-      .slice(0, 2)
+      .slice(0, DISTRACTOR_POOL)
     if (distract.length < 2) return null
-    return { id: `r${i}-${target}`, game: 'rhyme-hunt', targetId: target, kind: 'phoneme', options: shuffle([partner, ...distract.map((d) => d.id)], rng), answer: partner, isReview: false }
+    return { id: `r${i}-${target}`, game: 'rhyme-hunt', targetId: target, kind: 'phoneme', options: [partner, ...distract.map((d) => d.id)], answer: partner, isReview: false }
   }
 
-  /** Bokstavsalternativ: två andra ljud som finns i samma position i andra ord, men inte i målordet. */
+  /** Bokstavsalternativ: andra ljud som finns i samma position i andra ord, men inte i målordet. */
   const letterTask = (i: number, first: boolean): Task | null => {
-    const w = take(() => true)
-    if (!w) return null
     const at = (x: Word) => (first ? x.sounds[0] : x.sounds[x.sounds.length - 1])
+    const w = take((x) => known(at(x)))
+    if (!w) return null
     const answer = at(w)
-    const others = [...new Set(pool.map(at))].filter((s) => s !== answer && !w.sounds.includes(s))
-    const picks = shuffle(others, rng).slice(0, 2)
+    const others = [...new Set(pool.map(at))].filter((s) => s !== answer && !w.sounds.includes(s) && known(s))
+    const picks = shuffle(others, rng).slice(0, DISTRACTOR_POOL)
     if (picks.length < 2) return null
-    return { id: `${first ? 'f' : 'l'}${i}-${w.id}`, game: first ? 'first-sound' : 'last-sound', targetId: w.id, kind: 'phoneme', options: shuffle([answer, ...picks], rng), answer, isReview: false }
+    return { id: `${first ? 'f' : 'l'}${i}-${w.id}`, game: first ? 'first-sound' : 'last-sound', targetId: w.id, kind: 'phoneme', options: [answer, ...picks], answer, isReview: false }
   }
 
   const countTask = (i: number): Task | null => {
@@ -156,15 +192,24 @@ export function buildPhonology(input: BuildInput, games: GameId[], rng: Rng): Ta
     return { id: `n${i}-${w.id}`, game: 'count-sounds', targetId: w.id, kind: 'phoneme', options: opts.sort((a, b) => a - b).map(String), answer: String(n), isReview: false }
   }
 
-  const order = (['rhyme-hunt', 'first-sound', 'count-sounds', 'last-sound'] as GameId[]).filter((g) => games.includes(g))
+  const order = (opts.order ?? PHONOLOGY_ORDER).filter((g) => games.includes(g))
   if (order.length === 0) return []
   const tasks: Task[] = []
-  for (let i = 0; tasks.length < input.count && i < input.count * 3; i++) {
-    const g = order[i % order.length]
+  const start = Math.floor(rng() * order.length)
+  for (let i = 0; tasks.length < opts.count && i < Math.max(opts.count * 3, order.length); i++) {
+    const g = order[(start + i) % order.length]
     const t = g === 'rhyme-hunt' ? rhymeTask(i) : g === 'count-sounds' ? countTask(i) : letterTask(i, g === 'first-sound')
     if (t) tasks.push(t)
   }
   return tasks
+}
+
+/** Startrampen: fyra ljudlekar över planetens kurerade ordlista (alla med bild). */
+export function buildPhonology(input: BuildInput, games: GameId[], rng: Rng): Task[] {
+  const byId = new Map(input.words.map((w) => [w.id, w]))
+  const curated = (input.level.words ?? []).map((id) => byId.get(id)).filter((w): w is Word => !!w && w.emoji !== '')
+  const pool = curated.length ? curated : input.words.filter((w) => w.emoji !== '')
+  return phonologyTasks(input, games, rng, { pool, count: input.count })
 }
 
 /** Ord med bild som innehåller exakt en av planetens två bokstäver (t.ex. m eller n, inte båda). */
@@ -207,6 +252,11 @@ export function buildContrast(input: BuildInput, games: GameId[], rng: Rng): Tas
   const has = (g: GameId) => games.includes(g)
   let n = 0
   const pictures = readable.length ? readable : pool
+  /** Bilddistraktorer: ord med den andra bokstaven först (svårast), sedan övriga. */
+  const pictureDistractors = (w: Word) => {
+    const cands = pictures.filter((x) => x.id !== w.id && x.emoji !== w.emoji)
+    return [...shuffle(cands.filter((x) => x.sounds.includes(other(w))), rng), ...shuffle(cands.filter((x) => !x.sounds.includes(other(w))), rng)].slice(0, DISTRACTOR_POOL)
+  }
   if (has('build-word') && readable.length) {
     const w = shuffle(readable, rng)[0]
     const extra = shuffle([...introduced].filter((x) => !w.sounds.includes(x) && x !== other(w)), rng)[0]
@@ -214,26 +264,27 @@ export function buildContrast(input: BuildInput, games: GameId[], rng: Rng): Tas
   }
   if (has('sound-train') && readable.length) {
     const w = shuffle(readable, rng)[0]
-    const others = shuffle(pictures.filter((x) => x.id !== w.id && x.emoji !== w.emoji), rng).slice(0, 2)
-    tasks.push({ id: `t-${w.id}`, game: 'sound-train', targetId: w.id, kind: 'word', options: shuffle([w.id, ...others.map((x) => x.id)], rng), isReview: false })
+    const others = pictureDistractors(w)
+    if (others.length >= 2) tasks.push({ id: `t-${w.id}`, game: 'sound-train', targetId: w.id, kind: 'word', options: [w.id, ...others.map((x) => x.id)], isReview: false })
   }
   if (has('read-word') && readable.length >= 3) {
     // Viktigast för b/d: ordet står skrivet och måste läsas, ingen ledtråd i örat.
     const w = shuffle(readable, rng)[0]
-    const others = shuffle(pictures.filter((x) => x.id !== w.id && x.emoji !== w.emoji), rng).slice(0, 2)
-    if (others.length === 2) tasks.push({ id: `d-${w.id}`, game: 'read-word', targetId: w.id, kind: 'word', options: shuffle([w.id, ...others.map((x) => x.id)], rng), isReview: false })
+    const others = pictureDistractors(w)
+    if (others.length >= 2) tasks.push({ id: `d-${w.id}`, game: 'read-word', targetId: w.id, kind: 'word', options: [w.id, ...others.map((x) => x.id)], isReview: false })
   }
   if (has('which-word') && readable.length >= 3) {
     const w = shuffle(readable, rng)[0]
-    const others = shuffle(readable.filter((x) => x.id !== w.id), rng).slice(0, 2)
-    tasks.push({ id: `w-${w.id}`, game: 'which-word', targetId: w.id, kind: 'word', options: shuffle([w.id, ...others.map((x) => x.id)], rng), isReview: false })
+    const cands = readable.filter((x) => x.id !== w.id)
+    const others = [...shuffle(cands.filter((x) => x.sounds.includes(other(w))), rng), ...shuffle(cands.filter((x) => !x.sounds.includes(other(w))), rng)].slice(0, DISTRACTOR_POOL)
+    tasks.push({ id: `w-${w.id}`, game: 'which-word', targetId: w.id, kind: 'word', options: [w.id, ...others.map((x) => x.id)], isReview: false })
   }
   if (has('sound-sort')) {
-    // Omvänd sortering: bokstaven visas, välj bland tre bilder den vars ord har ljudet.
+    // Omvänd sortering: bokstaven visas, välj bland bilder den vars ord har ljudet.
     const w = nextWord(n++)
     if (w) {
-      const distractors = shuffle(pool.filter((x) => x.sounds.includes(other(w)) && x.emoji !== w.emoji), rng).slice(0, 2)
-      if (distractors.length === 2) sorts.push({ id: `r-${w.id}`, game: 'sound-sort', targetId: w.id, kind: 'contrast', options: shuffle([w.id, ...distractors.map((x) => x.id)], rng), answer: w.id, letter: w.sounds.includes(a) ? a : b, isReview: false })
+      const distractors = shuffle(pool.filter((x) => x.sounds.includes(other(w)) && x.emoji !== w.emoji), rng).slice(0, DISTRACTOR_POOL)
+      if (distractors.length >= 2) sorts.push({ id: `r-${w.id}`, game: 'sound-sort', targetId: w.id, kind: 'contrast', options: [w.id, ...distractors.map((x) => x.id)], answer: w.id, letter: w.sounds.includes(a) ? a : b, isReview: false })
     }
     while (tasks.length + sorts.length < input.count) {
       const x = nextWord(n++)

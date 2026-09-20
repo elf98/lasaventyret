@@ -21,14 +21,14 @@ describe('planeter med andra slag', () => {
     expect(tasks.filter((t) => t.game === 'sight-memory')).toHaveLength(1)
     for (const t of tasks) {
       expect(t.kind).toBe('sightword')
-      expect(t.options).toHaveLength(4)
-      expect(new Set(t.options).size).toBe(4)
-      expect(t.options).toContain(t.targetId)
+      // Rätt svar först, sedan fyra distraktorer: skärmen visar tre eller fyra av dem.
+      expect(t.options).toHaveLength(t.game === 'sight-memory' ? 4 : 5)
+      expect(new Set(t.options).size).toBe(t.options.length)
+      expect(t.options[0]).toBe(t.targetId)
     }
-    // lätt nivå: tre alternativ och två memory
+    // lätt nivå: två memory
     const easy = build('ordplaneten', { difficulty: 'easy' })
     expect(easy.filter((t) => t.game === 'sight-memory')).toHaveLength(2)
-    for (const t of easy.filter((t) => t.game === 'which-word')) expect(t.options).toHaveLength(3)
   })
 
   it('Tvillingplaneten ger alltid sammanhang: inga ensamma bokstavsljud att gissa på', () => {
@@ -46,7 +46,7 @@ describe('planeter med andra slag', () => {
       expect(w.sounds.includes('m')).not.toBe(w.sounds.includes('n'))
       if (t.options.includes('m')) expect(t.answer).toBe(w.sounds.includes('m') ? 'm' : 'n')
       else {
-        expect(t.options).toHaveLength(3)
+        expect(t.options.length).toBeGreaterThanOrEqual(3)
         expect(t.answer).toBe(t.targetId)
         for (const id of t.options.filter((x) => x !== t.targetId)) expect(words.find((x) => x.id === id)!.sounds.includes(w.sounds.includes('m') ? 'n' : 'm')).toBe(true)
       }
@@ -63,8 +63,9 @@ describe('planeter med andra slag', () => {
     expect(new Set(tasks.map((t) => t.targetId)).size).toBe(8)
     for (const t of tasks) {
       expect(t.game).toBe('silly-sentences')
-      expect(t.options).toContain(t.answer)
-      expect(t.options).toHaveLength(3)
+      expect(t.options[0]).toBe(t.answer)
+      expect(t.options.length).toBeGreaterThanOrEqual(3)
+      expect(new Set(t.options).size).toBe(t.options.length)
     }
   })
 
@@ -93,7 +94,7 @@ describe('planeter med andra slag', () => {
         expect(rhymes.some((p) => p.includes(t.targetId) && p.includes(t.answer!))).toBe(true)
         for (const o of t.options.filter((x) => x !== t.answer)) expect(rhymeKey(words.find((x) => x.id === o)!.text)).not.toBe(rhymeKey(w.text))
       } else if (t.game === 'first-sound' || t.game === 'last-sound') {
-        expect(t.options).toHaveLength(3)
+        expect(t.options.length).toBeGreaterThanOrEqual(3)
         expect(t.answer).toBe(t.game === 'first-sound' ? w.sounds[0] : w.sounds[w.sounds.length - 1])
         // fel bokstäver får inte finnas i ordet alls
         for (const o of t.options.filter((x) => x !== t.answer)) expect(w.sounds).not.toContain(o)
@@ -165,7 +166,8 @@ describe('ordbilder och vardagsord', () => {
     const tasks = build('vardagsplaneten')
     expect(tasks).toHaveLength(8)
     expect(new Set(tasks.map((t) => t.game)).size).toBeGreaterThan(1)
-    for (const t of tasks) {
+    // Passets invävda ljudlek (kind phoneme) tar ord från Startrampen, inte från planetens lista.
+    for (const t of tasks.filter((x) => x.kind !== 'phoneme')) {
       expect(lvl.words).toContain(t.targetId)
       expect(['sound-train', 'build-word', 'which-word']).toContain(t.game)
     }

@@ -2309,8 +2309,8 @@
     },
     "phrase.story_reread": {
       "file": "phrase.story_reread.mp3",
-      "hash": "550fb924b534",
-      "text": "Bra! Läs nu hela berättelsen en gång till för dig själv."
+      "hash": "ff3565021b61",
+      "text": "Bra! Läs nu hela berättelsen högt för den som sitter med dig."
     },
     "sentence.katt_bok": {
       "file": "sentence.katt_bok.mp3",
@@ -3086,6 +3086,241 @@
       "file": "level.gokplaneten.goal.mp3",
       "hash": "b2b47d0d9369",
       "text": "Här övar vi g och k. Lägg handen på halsen: g surrar, k är bara en puff. Gök har båda! Lyssna på ordet och välj rätt bokstav."
+    },
+    "phrase.side_locked": {
+      "file": "phrase.side_locked.mp3",
+      "hash": "83b2ad437fe2",
+      "text": "Den här lilla planeten öppnar bara om du behöver öva mer på två bokstäver. Just nu behöver du inte det!"
+    },
+    "phrase.side_lit": {
+      "file": "phrase.side_lit.mp3",
+      "hash": "c9014ccc0b3a",
+      "text": "Titta, en liten planet lyser! Där kan du öva på två bokstäver som är lätta att blanda ihop."
+    },
+    "phrase.story_frame": {
+      "file": "phrase.story_frame.mp3",
+      "hash": "fd0573e54213",
+      "text": "Oj! Min raket har gått sönder. Motorn, styrspaken och lampan flög iväg ut i rymden. Hjälp mig hitta dem! Varje gång vi klarar ett helt område hittar vi en del."
+    },
+    "phrase.story_home": {
+      "file": "phrase.story_home.mp3",
+      "hash": "e7045ca827db",
+      "text": "Vi är hemma! Tack för hjälpen, Oscar! Nu kan du läsa!"
+    },
+    "phrase.zone_part": {
+      "file": "phrase.zone_part.mp3",
+      "hash": "04c718c090f4",
+      "text": "Titta! En del till raketen!"
+    },
+    "phrase.streak_3": {
+      "file": "phrase.streak_3.mp3",
+      "hash": "f78190d1b66a",
+      "text": "Tre rätt i rad! Nu blir det lite klurigare."
+    },
+    "phrase.streak_5": {
+      "file": "phrase.streak_5.mp3",
+      "hash": "3fedfc50e3a2",
+      "text": "Fem i rad! Du är i full fart!"
+    },
+    "phrase.streak_8": {
+      "file": "phrase.streak_8.mp3",
+      "hash": "a6321fe4ba98",
+      "text": "Åtta i rad! Helt otroligt!"
+    },
+    "phrase.chest_stars": {
+      "file": "phrase.chest_stars.mp3",
+      "hash": "4ee772dab61f",
+      "text": "Stjärnor! Titta så många!"
+    },
+    "phrase.chest_both": {
+      "file": "phrase.chest_both.mp3",
+      "hash": "39f57a25650f",
+      "text": "Ett klistermärke OCH stjärnor! Vilken tur!"
+    },
+    "phrase.alphabet_intro": {
+      "file": "phrase.alphabet_intro.mp3",
+      "hash": "f6641637c049",
+      "text": "Här är alla bokstäver. De som lyser kan du! Tryck på en bokstav för att höra den."
+    },
+    "phrase.rocket_intro": {
+      "file": "phrase.rocket_intro.mp3",
+      "hash": "9f529cc57cd8",
+      "text": "Här är raketen! Tryck på ett klistermärke och sedan på raketen, så sitter det fast."
+    },
+    "phrase.rocket_empty": {
+      "file": "phrase.rocket_empty.mp3",
+      "hash": "b0b4ceba71ca",
+      "text": "Raketen är tom än. Spela så får du klistermärken att sätta på den!"
+    },
+    "phrase.read_which_intro": {
+      "file": "phrase.read_which_intro.mp3",
+      "hash": "9bf4ef4f3a3d",
+      "text": "Titta på bilden. Vilket ord är det? Läs orden och tryck på rätt."
+    },
+    "phrase.cue_read_which": {
+      "file": "phrase.cue_read_which.mp3",
+      "hash": "b428b41e0b72",
+      "text": "Vilket ord är bilden?"
+    },
+    "phrase.btn_alphabet": {
+      "file": "phrase.btn_alphabet.mp3",
+      "hash": "82dc67f9b492",
+      "text": "Bokstäverna"
+    },
+    "phrase.btn_rocket": {
+      "file": "phrase.btn_rocket.mp3",
+      "hash": "fc9212826d18",
+      "text": "Raketen"
+    },
+    "level.startrampen.line": {
+      "file": "level.startrampen.line.mp3",
+      "hash": "a5a1fe892ea0",
+      "text": "Startrampen! Här värmer vi upp öronen innan vi ger oss ut i rymden."
+    },
+    "level.solplaneten.line": {
+      "file": "level.solplaneten.line.mp3",
+      "hash": "a1b057d96f23",
+      "text": "Solplaneten! Här är det varmt. Jag såg gnistor från motorn åt det här hållet."
+    },
+    "level.manen.line": {
+      "file": "level.manen.line.mp3",
+      "hash": "9b95f874ab9e",
+      "text": "Månen! Titta, ett spår i månsanden. Motorn måste ha studsat här."
+    },
+    "level.marsverkstan.line": {
+      "file": "level.marsverkstan.line.mp3",
+      "hash": "be8d7f9035f7",
+      "text": "Marsverkstan! Här finns verktyg. Bra, dem behöver vi när vi hittar motorn."
+    },
+    "level.tvillingplaneten.line": {
+      "file": "level.tvillingplaneten.line.mp3",
+      "hash": "e945e91f95a5",
+      "text": "Tvillingplaneten! Två som ser lika ut och låter nästan lika. Här får öronen jobba."
+    },
+    "level.kometen.line": {
+      "file": "level.kometen.line.mp3",
+      "hash": "a242d3f20eeb",
+      "text": "Kometen! Håll i dig, den susar fram. Jag ser något som glimmar i svansen."
+    },
+    "level.ordplaneten.line": {
+      "file": "level.ordplaneten.line.mp3",
+      "hash": "a1a919d54f53",
+      "text": "Ordplaneten! Det som glimmade var motorn! Klara den här planeten, så sätter vi fast den."
+    },
+    "level.ringplaneten.line": {
+      "file": "level.ringplaneten.line.mp3",
+      "hash": "b5b27856444e",
+      "text": "Ringplaneten! Styrspaken kan ha fastnat i ringarna. Vi letar!"
+    },
+    "level.prickplaneten.line": {
+      "file": "level.prickplaneten.line.mp3",
+      "hash": "410fd6b4e3ff",
+      "text": "Prickplaneten! Prickar och ringar överallt. Titta noga på bokstäverna."
+    },
+    "level.racerbanan.line": {
+      "file": "level.racerbanan.line.mp3",
+      "hash": "11f5cb10cb33",
+      "text": "Rymdracerbanan! Vroom! Här går allt fort. Håll utkik efter styrspaken."
+    },
+    "level.spegelplaneten.line": {
+      "file": "level.spegelplaneten.line.mp3",
+      "hash": "1ede3d7a1c4b",
+      "text": "Spegelplaneten! Allt är spegelvänt här. Se upp så du inte läser baklänges."
+    },
+    "level.vardagsplaneten.line": {
+      "file": "level.vardagsplaneten.line.mp3",
+      "hash": "dd1449a4a8e2",
+      "text": "Vardagsplaneten! Små ord överallt, precis som hemma. Någon här har sett styrspaken."
+    },
+    "level.bubbelplaneten.line": {
+      "file": "level.bubbelplaneten.line.mp3",
+      "hash": "96e35a1ae4d9",
+      "text": "Bubbelplaneten! Bubblor som brister: b och p. Känn på halsen om det surrar."
+    },
+    "level.ordfabriken.line": {
+      "file": "level.ordfabriken.line.mp3",
+      "hash": "27481cfbb3e5",
+      "text": "Ordfabriken! Här byggs ord på löpande band. Styrspaken kanske ligger på lagret."
+    },
+    "level.trumplaneten.line": {
+      "file": "level.trumplaneten.line.mp3",
+      "hash": "070424ba781a",
+      "text": "Trumplaneten! Dunk och tick. Här skiljer vi d från t."
+    },
+    "level.rymdstationen.line": {
+      "file": "level.rymdstationen.line.mp3",
+      "hash": "2a9a294a207a",
+      "text": "Rymdstationen! Långa ord och långa korridorer. Jag tror styrspaken är här inne!"
+    },
+    "level.gokplaneten.line": {
+      "file": "level.gokplaneten.line.mp3",
+      "hash": "168fbe2a7502",
+      "text": "Gökplaneten! Gök gök! Här bor både g och k."
+    },
+    "level.robotplaneten.line": {
+      "file": "level.robotplaneten.line.mp3",
+      "hash": "a24921fc7a16",
+      "text": "Robotplaneten! Robotarna har hittat styrspaken! Klara planeten, så skruvar de fast den."
+    },
+    "level.dubbelplaneten.line": {
+      "file": "level.dubbelplaneten.line.mp3",
+      "hash": "53755ceac119",
+      "text": "Dubbelplaneten! Allt finns två gånger här. Lampan måste finnas någonstans i Stjärnhavet."
+    },
+    "level.stjarnfabriken.line": {
+      "file": "level.stjarnfabriken.line.mp3",
+      "hash": "a83b4ad3d7a5",
+      "text": "Stjärnfabriken! Här görs stjärnorna. Jag ser något lysa där borta, är det vår lampa?"
+    },
+    "level.verkstan.line": {
+      "file": "level.verkstan.line.mp3",
+      "hash": "c9730762b2a7",
+      "text": "Turboverkstan! De svåraste orden. Här putsar vi lampans glas tills det glänser."
+    },
+    "level.smameningar.line": {
+      "file": "level.smameningar.line.mp3",
+      "hash": "ec0d41e3dee9",
+      "text": "Småmeningar! Nu läser du hela meningar. Lampan är nära, jag känner det."
+    },
+    "level.meningsmaskinen": {
+      "file": "level.meningsmaskinen.mp3",
+      "hash": "176ba1d2f7dd",
+      "text": "Meningsmaskinen"
+    },
+    "level.meningsmaskinen.goal": {
+      "file": "level.meningsmaskinen.goal.mp3",
+      "hash": "9b4337a03ebb",
+      "text": "Här hittar maskinen på nya meningar hela tiden av ord du redan kan. Läs meningen och välj bilden som passar."
+    },
+    "level.meningsmaskinen.line": {
+      "file": "level.meningsmaskinen.line.mp3",
+      "hash": "817c496b2703",
+      "text": "Meningsmaskinen! Den hittar på nya meningar hela tiden. Läs så många du orkar!"
+    },
+    "level.tokplaneten.line": {
+      "file": "level.tokplaneten.line.mp3",
+      "hash": "66c37b549bbf",
+      "text": "Tokplaneten! Allt är tokigt här. En haj med hatt! Lampan är bakom nästa planet."
+    },
+    "level.sagoplaneten.line": {
+      "file": "level.sagoplaneten.line.mp3",
+      "hash": "1efae991b14f",
+      "text": "Sagoplaneten! Här finns lampan! Läs sagorna, så sätter vi fast den och flyger hem."
+    },
+    "zone.1.done": {
+      "file": "zone.1.done.mp3",
+      "hash": "8130550bcd5c",
+      "text": "Motorn sitter fast! Hör du hur den brummar? Nu åker vi vidare, ut i Vintergatan!"
+    },
+    "zone.2.done": {
+      "file": "zone.2.done.mp3",
+      "hash": "c248fd2024d5",
+      "text": "Styrspaken är på plats! Nu kan jag styra igen. Nästa stopp: Stjärnhavet!"
+    },
+    "zone.3.done": {
+      "file": "zone.3.done.mp3",
+      "hash": "e19a49747492",
+      "text": "Lampan lyser! Raketen är hel! Du har läst dig genom hela rymden. Nu flyger vi hem!"
     }
   }
 }

@@ -7,6 +7,7 @@ import { letters, levels, words } from '../content'
 import { masteryKey, weakness } from '../engine/mastery'
 import { levelProgress } from '../engine/unlock'
 import { useApp } from '../store/app'
+import { caseStage } from '../components/textCase'
 import { useProgress, type ProgressData } from '../store/progress'
 import { useSettings } from '../store/settings'
 
@@ -187,9 +188,12 @@ export default function ParentScreen() {
 
         <section>
           <h2 className="mb-3 text-[24px] font-bold">Skrivstil</h2>
-          <p className="mb-2 text-[15px] text-gray-500">Versaler är lättast att skilja åt i början. Böcker och skyltar använder gemener, så byt när läsningen sitter. Bokstavskorten visar alltid båda.</p>
+          <p className="mb-2 text-[15px] text-gray-500">
+            Versaler är lättast att skilja åt i början. Böcker och skyltar använder gemener, så appen byter själv: blandat när Ordfabriken är klar, små bokstäver när Rymdstationen är klar.
+            Just nu: {caseStage(p) === 'upper' ? 'STORA' : caseStage(p) === 'mixed' ? 'blandat' : 'små'}. Bokstavskorten visar alltid båda.
+          </p>
           <div className="flex flex-wrap gap-6 text-[20px]">
-            {([['upper', 'STORA bokstäver'], ['lower', 'små bokstäver'], ['mixed', 'Blandat']] as const).map(([v, label]) => (
+            {([['auto', 'Automatiskt (rekommenderas)'], ['upper', 'STORA bokstäver'], ['lower', 'små bokstäver'], ['mixed', 'Blandat']] as const).map(([v, label]) => (
               <label key={v} className="flex items-center gap-2">
                 <input type="radio" name="letterCase" className="h-6 w-6" checked={settings.letterCase === v} onChange={() => settings.setLetterCase(v)} />
                 {label}
@@ -220,7 +224,10 @@ export default function ParentScreen() {
 
         <section>
           <h2 className="mb-3 text-[24px] font-bold">Bokstavsljud</h2>
-          <p className="mb-2 text-[15px] text-gray-500">TTS-rösten klarar p, t, k, b, d, g dåligt. Spela in ljuden själv, de används då i alla spel.</p>
+          <p className="mb-2 text-[15px] text-gray-500">
+            Spela in alla 29 ljud med din egen röst, gärna här på datorn: tystnaden klipps bort automatiskt och inspelningen laddas upp till servern, så att iPaden
+            använder den vid nästa start utan export/import. Bokstavsljudet barnet hör hundratals gånger blir dess inre bild av ljudet.
+          </p>
           <button type="button" onClick={() => setView('record')} className="rounded-full bg-red-600 px-5 py-2 font-bold text-white">🎙️ Spela in bokstavsljud</button>
         </section>
 
@@ -229,8 +236,9 @@ export default function ParentScreen() {
         <section>
           <h2 className="mb-3 text-[24px] font-bold">Förväxlingar</h2>
           <p className="mb-2 text-[15px] text-gray-500">
-            Bokstavspar som blandats ihop, vanligast först. Ett par högt upp betyder att just den skillnaden behöver övas: kör Tvillingplaneten (m/n) eller
-            Spegelplaneten (b/d), eller spela in de två ljuden med din egen röst.
+            Bokstavspar som blandats ihop, vanligast först: både hörfel (fel bokstav vald) och läsfel (bil läst som pil). Efter tre förväxlingar av ett par
+            tänds parets tvillingplanet på kartan som en sidoväg; den slocknar när den spelats och tänds igen vid nya förväxlingar. Ingen tvillingplanet ligger
+            längre i huvudkedjan.
           </p>
           {confusions.length === 0 ? (
             <p className="text-gray-600">Inga förväxlingar registrerade än.</p>

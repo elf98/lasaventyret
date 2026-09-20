@@ -103,7 +103,7 @@ export default function SoundSort({ task, scaffold, eliminated = [], celebrating
           <span className="big-emoji text-[130px]">{word?.emoji}</span>
         </motion.button>
       )}
-      <div className={`flex items-center ${reverse ? 'gap-10' : 'gap-16'}`}>
+      <div className={`flex items-center ${reverse ? (task.options.length > 4 ? 'gap-5' : 'gap-10') : 'gap-16'}`}>
         {task.options.map((id) => (
           <motion.button
             key={id}
@@ -113,9 +113,9 @@ export default function SoundSort({ task, scaffold, eliminated = [], celebrating
             whileTap={{ scale: 0.92 }}
             animate={optionAnim(id)}
             transition={{ duration: 0.5, repeat: scaffold && id === answer && !solved ? Infinity : 0 }}
-            className={reverse ? `${optionClass(id)} flex h-44 w-44 items-center justify-center rounded-[36px] bg-white/90 shadow-[0_8px_0_rgba(0,0,0,0.25)]` : optionClass(id)}
+            className={reverse ? `${optionClass(id)} flex items-center justify-center rounded-[36px] bg-white/90 shadow-[0_8px_0_rgba(0,0,0,0.25)] ${task.options.length > 4 ? 'h-40 w-40' : 'h-44 w-44'}` : optionClass(id)}
           >
-            {reverse ? <span className="big-emoji text-[100px]">{wordById.get(id)?.emoji}</span> : <LetterCard letterId={id} size={170} />}
+            {reverse ? <span className={`big-emoji ${task.options.length > 4 ? 'text-[88px]' : 'text-[100px]'}`}>{wordById.get(id)?.emoji}</span> : <LetterCard letterId={id} size={170} />}
             {pointer(id)}
           </motion.button>
         ))}

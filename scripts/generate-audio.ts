@@ -14,8 +14,8 @@ import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { config, letters, levels, mascots, names, phrases, sentences, sightwords, stories, tokenize, words } from '../src/content'
-import { audioFileName, letterSoundId, levelGoalId, levelNameId, mascotIntroId, nameHelloId, nameId, phraseId, sentenceId, sightWordId, storyQuestionId, storySentenceId, storyTitleId, tokenId, wordId } from '../src/content/audioIds'
+import { config, letters, levels, mascots, names, phrases, sentences, sightwords, stories, templates, tokenize, words, zones } from '../src/content'
+import { audioFileName, letterSoundId, levelGoalId, levelLineId, levelNameId, mascotIntroId, nameHelloId, nameId, phraseId, sentenceId, sightWordId, storyQuestionId, storySentenceId, storyTitleId, tokenId, wordId, zoneDoneId } from '../src/content/audioIds'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const outDir = path.join(root, 'public', 'audio')
@@ -135,7 +135,9 @@ function collect(): Item[] {
   for (const l of levels) {
     items.push({ id: levelNameId(l.id), text: l.name, inner: say(l.name) })
     if (l.goal) items.push({ id: levelGoalId(l.id), text: l.goal, inner: say(l.goal) })
+    if (l.line) items.push({ id: levelLineId(l.id), text: l.line, inner: say(l.line) })
   }
+  for (const z of zones) items.push({ id: zoneDoneId(z.id), text: z.done, inner: say(z.done) })
   for (const m of mascots) items.push({ id: mascotIntroId(m.id), text: m.intro, inner: say(m.intro) })
   for (const n of names) {
     items.push({ id: nameId(n.id), text: n.text, inner: say(n.text) })
@@ -155,6 +157,8 @@ function collect(): Item[] {
     })
     st.questions.forEach((q, i) => items.push({ id: storyQuestionId(st.id, i), text: q.text, inner: say(q.text) }))
   }
+  // Meningsmallarnas fasta ord (har, ser, åker ...) läses också ord för ord; luckorna fylls med ord som har eget ljud.
+  for (const t of templates.templates) tokenize(t.text.replace(/\{[^}]*\}/g, ' ')).forEach((x) => tokens.add(x))
   // Ord-för-ord-läsning: varje unikt ord i meningar och berättelser, lite långsamt.
   for (const t of [...tokens].sort()) items.push({ id: tokenId(t), text: t, inner: say(t, '-20%', true) })
   return items
