@@ -254,7 +254,8 @@ export default function MapScreen() {
           <motion.div
             className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
             initial={false}
-            animate={{ left: `${mascotAt.x - (flying ? 0 : 7)}vw`, top: `${mascotAt.y + (flying ? -14 : 16)}%`, scale: flying ? 0.7 : 1 }}
+            // Vilar snett ovanför planeten: under den ligger mätaren och stjärnorna, som maskoten annars täckte.
+            animate={{ left: `${mascotAt.x + (flying ? 0 : 8)}vw`, top: `${mascotAt.y - (flying ? 14 : 17)}%`, scale: flying ? 0.7 : 1 }}
             transition={{ duration: 1.4, ease: 'easeInOut' }}
           >
             <Mascot size={130} mood={flying ? 'celebrate' : 'idle'} pokeable={!flying} />
