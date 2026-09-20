@@ -200,12 +200,35 @@
     ]
   },
   {
+    "id": "prickplaneten",
+    "name": "Prickplaneten",
+    "goal": "Här övar vi å och ä. De ser nästan likadana ut: å har en ring ovanpå, ä har två prickar. Lyssna på ordet: båt eller bär?",
+    "emoji": "🔵",
+    "kind": "contrast",
+    "letters": [
+      "å",
+      "ä"
+    ],
+    "games": [
+      "sound-sort",
+      "read-word",
+      "build-word",
+      "which-word",
+      "sound-train"
+    ],
+    "requires": [
+      "ringplaneten"
+    ],
+    "x": 120,
+    "y": 38
+  },
+  {
     "id": "racerbanan",
     "name": "Rymdracerbanan",
     "goal": "Här lär vi oss ljuden för Y, H, J och B.",
     "emoji": "🏁",
-    "x": 120,
-    "y": 38,
+    "x": 134,
+    "y": 70,
     "kind": "letters",
     "letters": [
       "y",
@@ -221,7 +244,7 @@
       "which-word"
     ],
     "requires": [
-      "ringplaneten"
+      "prickplaneten"
     ]
   },
   {
@@ -244,8 +267,8 @@
     "requires": [
       "racerbanan"
     ],
-    "x": 134,
-    "y": 70
+    "x": 148,
+    "y": 38
   },
   {
     "id": "vardagsplaneten",
@@ -286,16 +309,16 @@
     "requires": [
       "spegelplaneten"
     ],
-    "x": 148,
-    "y": 38
+    "x": 162,
+    "y": 70
   },
   {
     "id": "ordfabriken",
     "name": "Ordfabriken",
     "goal": "Här läser vi korta ord med tre ljud, som sol, mus och båt. Alla bokstäver kan vi redan.",
     "emoji": "🏭",
-    "x": 162,
-    "y": 70,
+    "x": 176,
+    "y": 38,
     "kind": "words",
     "letters": [],
     "words": [
@@ -335,8 +358,8 @@
     "name": "Rymdstationen",
     "goal": "Här läser vi längre ord med fyra ljud eller fler, som tomat, kanin och cykel.",
     "emoji": "🛰️",
-    "x": 176,
-    "y": 38,
+    "x": 190,
+    "y": 70,
     "kind": "words",
     "letters": [],
     "words": [
@@ -372,8 +395,8 @@
     "name": "Robotplaneten",
     "goal": "Här lär vi oss de ovanliga bokstäverna X, C, Z, Q och W.",
     "emoji": "🤖",
-    "x": 190,
-    "y": 70,
+    "x": 204,
+    "y": 38,
     "kind": "letters",
     "letters": [
       "x",
@@ -398,8 +421,8 @@
     "name": "Dubbelplaneten",
     "goal": "Här lär vi oss vad dubbla bokstäver gör. En konsonant efter vokalen ger ett långt ljud: tak, glas, mat. Två konsonanter gör vokalen kort: tack, glass, matt.",
     "emoji": "🎱",
-    "x": 204,
-    "y": 38,
+    "x": 218,
+    "y": 70,
     "kind": "words",
     "letters": [],
     "words": [
@@ -442,8 +465,8 @@
     "name": "Stjärnfabriken",
     "goal": "Här läser vi ord som börjar med två konsonanter ihop, som sko, stol och bro.",
     "emoji": "✨",
-    "x": 218,
-    "y": 70,
+    "x": 232,
+    "y": 38,
     "kind": "words",
     "letters": [],
     "words": [
@@ -476,8 +499,8 @@
     "name": "Turboverkstan",
     "goal": "Turboverkstan: här blandas alla svåra ord, dubbla bokstäver, kluster och sj-ljud.",
     "emoji": "🔧",
-    "x": 232,
-    "y": 38,
+    "x": 246,
+    "y": 70,
     "kind": "cluster",
     "letters": [],
     "games": [
@@ -495,8 +518,8 @@
     "name": "Småmeningar",
     "goal": "Här läser vi korta meningar med tre eller fyra ord och väljer bilden som passar.",
     "emoji": "💬",
-    "x": 246,
-    "y": 70,
+    "x": 260,
+    "y": 38,
     "kind": "sentences",
     "letters": [],
     "sentences": [
@@ -535,8 +558,8 @@
     "name": "Tokplaneten",
     "goal": "Här läser vi lite längre tokiga meningar och väljer bilden som passar.",
     "emoji": "🤪",
-    "x": 260,
-    "y": 38,
+    "x": 274,
+    "y": 70,
     "kind": "sentences",
     "letters": [],
     "sentences": [
@@ -572,8 +595,8 @@
     "name": "Sagoplaneten",
     "goal": "Här läser vi små berättelser och svarar på en fråga.",
     "emoji": "📖",
-    "x": 274,
-    "y": 70,
+    "x": 288,
+    "y": 38,
     "kind": "stories",
     "letters": [],
     "games": [

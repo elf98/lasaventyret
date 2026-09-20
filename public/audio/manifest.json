@@ -3046,6 +3046,16 @@
       "file": "phrase.or.mp3",
       "hash": "542162e0c5e7",
       "text": "eller"
+    },
+    "level.prickplaneten": {
+      "file": "level.prickplaneten.mp3",
+      "hash": "a08b82e0bd17",
+      "text": "Prickplaneten"
+    },
+    "level.prickplaneten.goal": {
+      "file": "level.prickplaneten.goal.mp3",
+      "hash": "095b66d83e46",
+      "text": "Här övar vi å och ä. De ser nästan likadana ut: å har en ring ovanpå, ä har två prickar. Lyssna på ordet: båt eller bär?"
     }
   }
 }

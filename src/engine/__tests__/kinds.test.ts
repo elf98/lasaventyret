@@ -307,7 +307,7 @@ describe('ljudmanifestet', () => {
 
 describe('omvänd ljudsortering', () => {
   it('bär med sig planetens bokstav i stället för att gissa den ur ordet', () => {
-    for (const id of ['tvillingplaneten', 'spegelplaneten']) {
+    for (const id of ['tvillingplaneten', 'spegelplaneten', 'prickplaneten']) {
       const pair = levels.find((l) => l.id === id)!.letters
       for (let seed = 1; seed <= 8; seed++) {
         const reverse = build(id, { rng: seeded(seed) }).filter((t) => t.game === 'sound-sort' && t.answer === t.targetId)
