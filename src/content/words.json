@@ -73,7 +73,6 @@
   {"id": "bebis", "text": "bebis", "emoji": "👶", "sounds": ["b", "e", "b", "i", "s"], "decodable": true},
   {"id": "jojo", "text": "jojo", "emoji": "🪀", "sounds": ["j", "o", "j", "o"], "decodable": true},
   {"id": "yxa", "text": "yxa", "emoji": "🪓", "sounds": ["y", "x", "a"], "decodable": true},
-  {"id": "box", "text": "box", "emoji": "📦", "sounds": ["b", "o", "x"], "decodable": true},
   {"id": "sax", "text": "sax", "emoji": "✂️", "sounds": ["s", "a", "x"], "decodable": true},
   {"id": "sex", "text": "sex", "emoji": "6️⃣", "sounds": ["s", "e", "x"], "decodable": true},
   {"id": "taxi", "text": "taxi", "emoji": "🚕", "sounds": ["t", "a", "x", "i"], "decodable": true},

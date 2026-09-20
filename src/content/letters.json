@@ -23,7 +23,7 @@
   { "id": "h", "order": 22, "type": "consonant", "continuous": true , "ipa": "hɑːv", "rate": "-35%", "cut": { "end": "voiced" }, "example": "hus" },
   { "id": "j", "order": 23, "type": "consonant", "continuous": true , "ipa": "jjj", "cut": { "keep": 0.55 }, "example": "jul" },
   { "id": "b", "order": 24, "type": "consonant", "continuous": false, "ipa": "bə", "example": "bil" },
-  { "id": "x", "order": 25, "type": "consonant", "continuous": false, "ipa": "ks", "example": "box" },
+  { "id": "x", "order": 25, "type": "consonant", "continuous": false, "ipa": "ks", "example": "sax" },
   { "id": "c", "order": 26, "type": "consonant", "continuous": true , "ipa": "s", "example": "cykel" },
   { "id": "z", "order": 27, "type": "consonant", "continuous": true , "ipa": "s", "example": "zebra" },
   { "id": "q", "order": 28, "type": "consonant", "continuous": false, "ipa": "kə", "example": "quiz" },
