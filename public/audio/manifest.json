@@ -3056,6 +3056,36 @@
       "file": "level.prickplaneten.goal.mp3",
       "hash": "095b66d83e46",
       "text": "Här övar vi å och ä. De ser nästan likadana ut: å har en ring ovanpå, ä har två prickar. Lyssna på ordet: båt eller bär?"
+    },
+    "level.bubbelplaneten": {
+      "file": "level.bubbelplaneten.mp3",
+      "hash": "c64094817134",
+      "text": "Bubbelplaneten"
+    },
+    "level.bubbelplaneten.goal": {
+      "file": "level.bubbelplaneten.goal.mp3",
+      "hash": "afbff092b897",
+      "text": "Här övar vi b och p. Lägg handen på halsen: b surrar, p är bara en puff. Och titta noga, p är ett b uppochner. Lyssna på ordet och välj rätt bokstav."
+    },
+    "level.trumplaneten": {
+      "file": "level.trumplaneten.mp3",
+      "hash": "464f22253e22",
+      "text": "Trumplaneten"
+    },
+    "level.trumplaneten.goal": {
+      "file": "level.trumplaneten.goal.mp3",
+      "hash": "4a0f871cdb6d",
+      "text": "Här övar vi d och t. Lägg handen på halsen: d surrar, t är bara ett tick. Lyssna på ordet och välj rätt bokstav."
+    },
+    "level.gokplaneten": {
+      "file": "level.gokplaneten.mp3",
+      "hash": "44d0deb98dbd",
+      "text": "Gökplaneten"
+    },
+    "level.gokplaneten.goal": {
+      "file": "level.gokplaneten.goal.mp3",
+      "hash": "b2b47d0d9369",
+      "text": "Här övar vi g och k. Lägg handen på halsen: g surrar, k är bara en puff. Gök har båda! Lyssna på ordet och välj rätt bokstav."
     }
   }
 }

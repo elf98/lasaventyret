@@ -313,12 +313,35 @@
     "y": 70
   },
   {
+    "id": "bubbelplaneten",
+    "name": "Bubbelplaneten",
+    "goal": "Här övar vi b och p. Lägg handen på halsen: b surrar, p är bara en puff. Och titta noga, p är ett b uppochner. Lyssna på ordet och välj rätt bokstav.",
+    "emoji": "🧼",
+    "kind": "contrast",
+    "letters": [
+      "b",
+      "p"
+    ],
+    "games": [
+      "sound-sort",
+      "read-word",
+      "build-word",
+      "which-word",
+      "sound-train"
+    ],
+    "requires": [
+      "vardagsplaneten"
+    ],
+    "x": 176,
+    "y": 38
+  },
+  {
     "id": "ordfabriken",
     "name": "Ordfabriken",
     "goal": "Här läser vi korta ord med tre ljud, som sol, mus och båt. Alla bokstäver kan vi redan.",
     "emoji": "🏭",
-    "x": 176,
-    "y": 38,
+    "x": 190,
+    "y": 70,
     "kind": "words",
     "letters": [],
     "words": [
@@ -350,15 +373,38 @@
       "which-word"
     ],
     "requires": [
-      "vardagsplaneten"
+      "bubbelplaneten"
     ]
+  },
+  {
+    "id": "trumplaneten",
+    "name": "Trumplaneten",
+    "goal": "Här övar vi d och t. Lägg handen på halsen: d surrar, t är bara ett tick. Lyssna på ordet och välj rätt bokstav.",
+    "emoji": "🥁",
+    "kind": "contrast",
+    "letters": [
+      "d",
+      "t"
+    ],
+    "games": [
+      "sound-sort",
+      "read-word",
+      "build-word",
+      "which-word",
+      "sound-train"
+    ],
+    "requires": [
+      "ordfabriken"
+    ],
+    "x": 204,
+    "y": 38
   },
   {
     "id": "rymdstationen",
     "name": "Rymdstationen",
     "goal": "Här läser vi längre ord med fyra ljud eller fler, som tomat, kanin och cykel.",
     "emoji": "🛰️",
-    "x": 190,
+    "x": 218,
     "y": 70,
     "kind": "words",
     "letters": [],
@@ -387,16 +433,39 @@
       "which-word"
     ],
     "requires": [
-      "ordfabriken"
+      "trumplaneten"
     ]
+  },
+  {
+    "id": "gokplaneten",
+    "name": "Gökplaneten",
+    "goal": "Här övar vi g och k. Lägg handen på halsen: g surrar, k är bara en puff. Gök har båda! Lyssna på ordet och välj rätt bokstav.",
+    "emoji": "🐦",
+    "kind": "contrast",
+    "letters": [
+      "g",
+      "k"
+    ],
+    "games": [
+      "sound-sort",
+      "read-word",
+      "build-word",
+      "which-word",
+      "sound-train"
+    ],
+    "requires": [
+      "rymdstationen"
+    ],
+    "x": 232,
+    "y": 38
   },
   {
     "id": "robotplaneten",
     "name": "Robotplaneten",
     "goal": "Här lär vi oss de ovanliga bokstäverna X, C, Z, Q och W.",
     "emoji": "🤖",
-    "x": 204,
-    "y": 38,
+    "x": 246,
+    "y": 70,
     "kind": "letters",
     "letters": [
       "x",
@@ -413,7 +482,7 @@
       "which-word"
     ],
     "requires": [
-      "rymdstationen"
+      "gokplaneten"
     ]
   },
   {
@@ -421,8 +490,8 @@
     "name": "Dubbelplaneten",
     "goal": "Här lär vi oss vad dubbla bokstäver gör. En konsonant efter vokalen ger ett långt ljud: tak, glas, mat. Två konsonanter gör vokalen kort: tack, glass, matt.",
     "emoji": "🎱",
-    "x": 218,
-    "y": 70,
+    "x": 260,
+    "y": 38,
     "kind": "words",
     "letters": [],
     "words": [
@@ -465,8 +534,8 @@
     "name": "Stjärnfabriken",
     "goal": "Här läser vi ord som börjar med två konsonanter ihop, som sko, stol och bro.",
     "emoji": "✨",
-    "x": 232,
-    "y": 38,
+    "x": 274,
+    "y": 70,
     "kind": "words",
     "letters": [],
     "words": [
@@ -499,8 +568,8 @@
     "name": "Turboverkstan",
     "goal": "Turboverkstan: här blandas alla svåra ord, dubbla bokstäver, kluster och sj-ljud.",
     "emoji": "🔧",
-    "x": 246,
-    "y": 70,
+    "x": 288,
+    "y": 38,
     "kind": "cluster",
     "letters": [],
     "games": [
@@ -518,8 +587,8 @@
     "name": "Småmeningar",
     "goal": "Här läser vi korta meningar med tre eller fyra ord och väljer bilden som passar.",
     "emoji": "💬",
-    "x": 260,
-    "y": 38,
+    "x": 302,
+    "y": 70,
     "kind": "sentences",
     "letters": [],
     "sentences": [
@@ -558,8 +627,8 @@
     "name": "Tokplaneten",
     "goal": "Här läser vi lite längre tokiga meningar och väljer bilden som passar.",
     "emoji": "🤪",
-    "x": 274,
-    "y": 70,
+    "x": 316,
+    "y": 38,
     "kind": "sentences",
     "letters": [],
     "sentences": [
@@ -595,8 +664,8 @@
     "name": "Sagoplaneten",
     "goal": "Här läser vi små berättelser och svarar på en fråga.",
     "emoji": "📖",
-    "x": 288,
-    "y": 38,
+    "x": 330,
+    "y": 70,
     "kind": "stories",
     "letters": [],
     "games": [

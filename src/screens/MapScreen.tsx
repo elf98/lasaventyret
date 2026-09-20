@@ -22,7 +22,7 @@ import { levelGoalId } from '../content/audioIds'
 import ParentGate from './ParentGate'
 
 /** Kartans bredd i vw; planeternas x anges i vw i levels.json. */
-const MAP_WIDTH = 301
+const MAP_WIDTH = 343
 
 function today(): string {
   const d = new Date()

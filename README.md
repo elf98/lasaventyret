@@ -108,7 +108,7 @@ passbyggaren och i `SessionScreen.tsx`, och lista spelet på planeterna i `level
 
 ## Planeter och klarkrav
 
-`levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `contrast` (Tvillingplaneten m/n, Spegelplaneten b/d och Prickplaneten å/ä; ingen Fånga ljudet här – ett ensamt m/n går inte att avgöra utan jämförelse, så varje uppgift ger sammanhang:
+`levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `contrast` (tvillingplaneter: m/n, b/d, å/ä, b/p, d/t, g/k; ingen Fånga ljudet här – ett ensamt m/n går inte att avgöra utan jämförelse, så varje uppgift ger sammanhang:
 Fånga ljudet med bara de två + Ljudsortering: hör ordet, se bilden, välj bokstaven; egen räkning per ord), `words` (given ordlista: Vardagsplaneten
 22 vanliga småord utan bild, Ordfabriken korta ord, Rymdstationen långa ord, Dubbelplaneten dubbeltecknade och vokallängd,
 Stjärnfabriken kluster; ord utan bild körs i Ljudtåget, Bygg ordet och Vilket ord?), `cluster`
@@ -117,9 +117,9 @@ Tokplaneten de längre), `stories`, `phonology` (Startrampen, bonus: fyra ljudle
 upp i planetrutan (långtryck på planeten). En planet är klar när en andel av dess innehåll behärskas
 (`src/engine/unlock.ts`): bokstäver 80 %, ordbilder 80 %, ordlistor 70 %, kluster 50 %, meningar 50 %,
 berättelser 60 %, ljudlekar 40 %. Ordningen: Sol, Månen, Mars, Tvillingplaneten, Kometen, Ordplaneten, Ringplaneten, Prickplaneten, Racerbanan,
-Spegelplaneten, Vardagsplaneten, Ordfabriken,
-Rymdstationen, Robotplaneten, Dubbelplaneten, Stjärnfabriken, Turboverkstan, Småmeningar, Tokplaneten,
-Sagoplaneten. Kartan är 301 vw bred och panoreras med finger/mus eller pilknapparna.
+Spegelplaneten, Vardagsplaneten, Bubbelplaneten (b/p), Ordfabriken, Trumplaneten (d/t), Rymdstationen,
+Gökplaneten (g/k), Robotplaneten, Dubbelplaneten, Stjärnfabriken, Turboverkstan, Småmeningar, Tokplaneten,
+Sagoplaneten. Kartan är 343 vw bred och panoreras med finger/mus eller pilknapparna.
 
 ## Svårighetsgrad och genvägar
 

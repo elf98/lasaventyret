@@ -21,7 +21,7 @@ export const COMPLETE_SHARE: Record<Level['kind'], number> = {
   sightwords: 0.75,
   cluster: 0.35,
   words: 0.6,
-  contrast: 0.5,
+  contrast: 0.4,
   sentences: 0.5,
   stories: 0.5,
   phonology: 0.4,
