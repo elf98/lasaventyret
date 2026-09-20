@@ -39,7 +39,14 @@ export default function SoundSort({ task, scaffold, eliminated = [], celebrating
 
   useEffect(() => {
     audio.preload(reverse ? [letterSoundId(letter), ...task.options.map(wordId)] : [wordId(task.targetId), ...task.options.map(letterSoundId)])
-    void audio.speak(reverse ? [phraseId(brief ? 'cue_sort_reverse' : 'sort_reverse_intro'), letterSoundId(letter)] : [phraseId(brief ? 'cue_sort' : 'sort_intro'), wordId(task.targetId)])
+    // Frasen namnger inte bokstäverna: de två ljuden spelas ur uppgiften, så samma spel funkar för
+    // m/n på Tvillingplaneten och b/d på Spegelplaneten ("Hör du mmm eller nnn? – mus").
+    const [a, b] = task.options
+    void audio.speak(
+      reverse
+        ? [phraseId(brief ? 'cue_sort_reverse' : 'sort_reverse_intro'), letterSoundId(letter)]
+        : [phraseId(brief ? 'cue_sort' : 'sort_intro'), letterSoundId(a), phraseId('or'), letterSoundId(b), wordId(task.targetId)],
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task.targetId])
 

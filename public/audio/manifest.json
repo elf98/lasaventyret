@@ -2124,13 +2124,13 @@
     },
     "phrase.sort_intro": {
       "file": "phrase.sort_intro.mp3",
-      "hash": "a64dab999b80",
-      "text": "Lyssna på ordet och titta på bilden. Hör du m eller n? Tryck på rätt bokstav."
+      "hash": "c05823c85001",
+      "text": "Lyssna på ordet och titta på bilden. Hör du"
     },
     "phrase.cue_sort": {
       "file": "phrase.cue_sort.mp3",
-      "hash": "e70701836392",
-      "text": "M eller n?"
+      "hash": "033652c93533",
+      "text": "Hör du"
     },
     "phrase.not_in_word": {
       "file": "phrase.not_in_word.mp3",
@@ -3046,6 +3046,11 @@
       "file": "word.bock.mp3",
       "hash": "c90e4fe76eb1",
       "text": "bock"
+    },
+    "phrase.or": {
+      "file": "phrase.or.mp3",
+      "hash": "542162e0c5e7",
+      "text": "eller"
     }
   }
 }
