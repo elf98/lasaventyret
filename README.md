@@ -82,7 +82,9 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
   Stavelser utan bild körs bara i Ljudtåget och är bara riktiga småord (sa, la, se); påhittade
   stavelser som "mi" är borttagna. Bildord varvar Bygg ordet och Ljudtåget. Så länge någon av
   planetens bokstäver är obehärskad prioriteras den i passet och trängs inte ut av ordandelen.
-- `src/engine/unlock.ts` – en planet är klar vid 80 % behärskade bokstäver; nästa låses upp.
+- `src/engine/unlock.ts` – en planet är klar vid 80 % behärskade bokstäver. Nästa planet öppnar redan
+  när den föregående är halvvägs (`UNLOCK_AT`), så det finns oftast två att välja på och passen blir
+  mindre enformiga; kartans lysande planet är fortfarande den första som inte är klar.
 - Två fel i rad på samma uppgift ger scaffolding (bara rätt bokstav visas, pekare, långsamt ljud).
 
 ## Spel

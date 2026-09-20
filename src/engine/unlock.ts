@@ -75,9 +75,21 @@ export function completedLevels(levels: Level[], mastery: Record<string, Mastery
   return levels.filter((l) => levelProgress(l, mastery).complete).map((l) => l.id)
 }
 
-/** En nivå är upplåst när alla nivåer den kräver är klara. */
-export function unlockedLevels(levels: Level[], completed: string[]): string[] {
-  return levels.filter((l) => l.requires.every((r) => completed.includes(r))).map((l) => l.id)
+/** Så långt måste föregående planet ha kommit för att nästa ska öppna: halvvägs räcker. */
+export const UNLOCK_AT = 0.5
+
+/**
+ * En nivå är upplåst när varje nivå den kräver antingen är klar eller kommit halvvägs. Då finns
+ * oftast två planeter att välja på, och ett pass behöver inte bli åtta uppgifter av samma sort.
+ */
+export function unlockedLevels(levels: Level[], completed: string[], mastery: Record<string, MasteryItem> = {}): string[] {
+  const byId = new Map(levels.map((l) => [l.id, l]))
+  const open = (id: string) => {
+    if (completed.includes(id)) return true
+    const lvl = byId.get(id)
+    return !!lvl && levelProgress(lvl, mastery).partial >= UNLOCK_AT
+  }
+  return levels.filter((l) => l.requires.every(open)).map((l) => l.id)
 }
 
 export function diff(before: string[], after: string[]): string[] {

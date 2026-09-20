@@ -132,5 +132,5 @@ export function selectCompleted(s: ProgressData): string[] {
 }
 
 export function selectUnlocked(s: ProgressData): string[] {
-  return unlockedLevels(levels, selectCompleted(s))
+  return unlockedLevels(levels, selectCompleted(s), s.mastery)
 }

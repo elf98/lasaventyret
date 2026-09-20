@@ -5,7 +5,7 @@ import { applyResult, masteryKey, newItem } from '../mastery'
 import { seeded } from '../random'
 import { buildSession, type BuildInput } from '../sessionBuilder'
 import type { MasteryItem } from '../types'
-import { levelProgress } from '../unlock'
+import { levelProgress, unlockedLevels } from '../unlock'
 
 const ALL: BuildInput['availableGames'] = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story']
 const lvl = (id: string) => levels.find((l) => l.id === id)!
@@ -370,5 +370,26 @@ describe('mätaren och repetitionen', () => {
         }
       }
     }
+  })
+})
+
+describe('upplåsning', () => {
+  it('nästa planet öppnar när den föregående är halvvägs, inte först när den är klar', () => {
+    const sol = lvl0('solplaneten')
+    const none: Record<string, MasteryItem> = {}
+    expect(unlockedLevels(levels, [], none)).not.toContain('manen')
+    // Två av fyra bokstäver behärskade = halvvägs.
+    const half: Record<string, MasteryItem> = {}
+    for (const x of sol.letters.slice(0, 2)) {
+      let m = newItem(x, 'letter', 0)
+      m = applyResult(m, true, 'p1', 1)
+      m = applyResult(m, true, 'p1', 2)
+      m = applyResult(m, true, 'p2', 3)
+      half[x] = m
+    }
+    expect(levelProgress(sol, half).complete).toBe(false)
+    expect(unlockedLevels(levels, [], half)).toContain('manen')
+    // men inte planeten efter den
+    expect(unlockedLevels(levels, [], half)).not.toContain('marsverkstan')
   })
 })

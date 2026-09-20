@@ -111,7 +111,7 @@ export default function PlanetInfo({ level, locked = false, onPlay, onClose }: P
 
         <div className="flex items-center justify-end gap-6 pt-2">
           <BigButton size="md" icon="✕" color="bg-gray-300" speakId={phraseId('btn_back')} onPress={onClose} label="Stäng" />
-          {locked ? <span className="text-[18px] text-gray-600">Låst: klara planeten före den här först.</span> : <BigButton size="lg" icon="🚀" speakId={phraseId('btn_play')} onPress={onPlay} label="Spela" />}
+          {locked ? <span className="text-[18px] text-gray-600">Låst: kom halvvägs på planeten före, så öppnar den här.</span> : <BigButton size="lg" icon="🚀" speakId={phraseId('btn_play')} onPress={onPlay} label="Spela" />}
         </div>
       </motion.div>
     </div>
