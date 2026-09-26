@@ -7,7 +7,7 @@ import { buildSession, type BuildInput } from '../sessionBuilder'
 import type { MasteryItem } from '../types'
 import { levelProgress, unlockedLevels } from '../unlock'
 
-const ALL: BuildInput['availableGames'] = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story']
+const ALL: BuildInput['availableGames'] = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'sound-riddle', 'sound-band', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story']
 const lvl = (id: string) => levels.find((l) => l.id === id)!
 const lvl0 = lvl
 const build = (levelId: string, over: Partial<BuildInput> = {}) =>
@@ -86,10 +86,15 @@ describe('planeter med andra slag', () => {
     expect(tasks.length).toBeGreaterThanOrEqual(6)
     expect(new Set(tasks.map((t) => t.game)).size).toBeGreaterThanOrEqual(3)
     for (const t of tasks) {
-      expect(t.kind).toBe('phoneme')
-      expect(t.options).toContain(t.answer)
       const w = words.find((x) => x.id === t.targetId)!
       expect(w.emoji).not.toBe('')
+      if (t.game === 'sound-riddle') {
+        expect(t.kind).toBe('blend')
+        expect(t.options[0]).toBe(t.targetId)
+        continue
+      }
+      expect(t.kind).toBe('phoneme')
+      expect(t.options).toContain(t.answer)
       if (t.game === 'rhyme-hunt') {
         expect(rhymes.some((p) => p.includes(t.targetId) && p.includes(t.answer!))).toBe(true)
         for (const o of t.options.filter((x) => x !== t.answer)) expect(rhymeKey(words.find((x) => x.id === o)!.text)).not.toBe(rhymeKey(w.text))
@@ -116,9 +121,21 @@ describe('planeter med andra slag', () => {
     }
   })
 
-  it('svår nivå ger fler ord än lätt på Kometen', () => {
-    const easy = build('kometen', { difficulty: 'easy' }).filter((t) => t.kind === 'word').length
-    const hard = build('kometen', { difficulty: 'hard' }).filter((t) => t.kind === 'word').length
+  it('svår nivå ger fler ord än lätt på Kometen när bokstäverna sitter', () => {
+    // Med obehärskade bokstäver skyddas bokstavsuppgifterna på alla nivåer; skillnaden syns i ett
+    // längre pass när de tidigare planeterna sitter och Kometen är halvvägs.
+    const mastery: Record<string, MasteryItem> = {}
+    for (const l of levels.slice(0, levels.findIndex((x) => x.id === 'kometen') + 1)) {
+      for (const x of l.id === 'kometen' ? l.letters.slice(0, 2) : l.letters) {
+        let m = newItem(x, 'letter', 0)
+        m = applyResult(m, true, 'a', 1)
+        m = applyResult(m, true, 'b', 2)
+        m = applyResult(m, true, 'c', 3)
+        mastery[x] = m
+      }
+    }
+    const easy = build('kometen', { difficulty: 'easy', mastery, count: 12 }).filter((t) => t.kind === 'word').length
+    const hard = build('kometen', { difficulty: 'hard', mastery, count: 12 }).filter((t) => t.kind === 'word').length
     expect(hard).toBeGreaterThan(easy)
   })
 })
@@ -166,10 +183,10 @@ describe('ordbilder och vardagsord', () => {
     const tasks = build('vardagsplaneten')
     expect(tasks).toHaveLength(8)
     expect(new Set(tasks.map((t) => t.game)).size).toBeGreaterThan(1)
-    // Passets invävda ljudlek (kind phoneme) tar ord från Startrampen, inte från planetens lista.
-    for (const t of tasks.filter((x) => x.kind !== 'phoneme')) {
+    // Passets invävda ljudlek (kind phoneme) och Ordgåta (kind blend) tar bildord, inte planetens lista.
+    for (const t of tasks.filter((x) => x.kind !== 'phoneme' && x.kind !== 'blend')) {
       expect(lvl.words).toContain(t.targetId)
-      expect(['sound-train', 'build-word', 'which-word']).toContain(t.game)
+      expect(['sound-train', 'sound-band', 'build-word', 'which-word']).toContain(t.game)
     }
   })
 })

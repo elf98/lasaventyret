@@ -100,6 +100,8 @@ export type GameId =
   | 'build-word'
   | 'which-word'
   | 'sound-train'
+  | 'sound-riddle'
+  | 'sound-band'
   | 'rhyme-hunt'
   | 'sight-memory'
   | 'silly-sentences'

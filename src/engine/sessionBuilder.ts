@@ -1,6 +1,6 @@
 import type { GameId, Level, Sentence, SightWord, Story, Word } from '../content'
-import { DISTRACTOR_POOL, interleave, letterOptions, spreadOut, wordOptions } from './builderUtils'
-import { buildContrast, buildPhonology, buildSentences, buildSightwords, buildStories, buildTemplates, phonologyTasks } from './kindBuilders'
+import { blendTier, DISTRACTOR_POOL, interleave, letterOptions, spreadOut, wordOptions } from './builderUtils'
+import { buildContrast, buildPhonology, buildSentences, buildSightwords, buildStories, buildTemplates, phonologyTasks, riddleTask } from './kindBuilders'
 import { isDue, masteryKey, weakness } from './mastery'
 import { shuffle, weightedPick, type Rng } from './random'
 import type { MasteryItem, Task } from './types'
@@ -45,20 +45,20 @@ export const DIFFICULTY: Record<Difficulty, { wordShare: number; maxSyllables: n
   easy: {
     wordShare: 0.25,
     maxSyllables: 2,
-    wordGames: [g('sound-train'), g('build-word'), g('read-word'), g('which-word')],
-    boosted: [g('sound-train'), g('read-word'), g('build-word'), g('read-word'), g('which-word', 'read')],
+    wordGames: [g('sound-band'), g('sound-train'), g('build-word'), g('read-word'), g('which-word')],
+    boosted: [g('sound-band'), g('read-word'), g('sound-train'), g('build-word'), g('read-word'), g('which-word', 'read')],
   },
   normal: {
     wordShare: 0.45,
     maxSyllables: 1,
-    wordGames: [g('build-word'), g('read-word'), g('sound-train'), g('which-word')],
-    boosted: [g('read-word'), g('build-word'), g('read-word'), g('which-word', 'read'), g('sound-train'), g('which-word')],
+    wordGames: [g('sound-band'), g('build-word'), g('read-word'), g('sound-train'), g('which-word')],
+    boosted: [g('sound-band'), g('read-word'), g('build-word'), g('read-word'), g('which-word', 'read'), g('sound-train'), g('which-word')],
   },
   hard: {
     wordShare: 0.6,
     maxSyllables: 0,
-    wordGames: [g('read-word'), g('build-word'), g('which-word'), g('sound-train')],
-    boosted: [g('read-word'), g('which-word', 'read'), g('read-word'), g('build-word'), g('which-word'), g('sound-train')],
+    wordGames: [g('read-word'), g('sound-band'), g('build-word'), g('which-word'), g('sound-train')],
+    boosted: [g('read-word'), g('which-word', 'read'), g('sound-band'), g('read-word'), g('build-word'), g('which-word'), g('sound-train')],
   },
 }
 
@@ -66,9 +66,11 @@ export const DIFFICULTY: Record<Difficulty, { wordShare: number; maxSyllables: n
 export const DECODING_BOOST_AT = 8
 
 const LETTER_GAMES: GameId[] = ['catch-sound']
-const WORD_GAMES: GameId[] = ['sound-train', 'build-word', 'which-word', 'read-word']
+const WORD_GAMES: GameId[] = ['sound-train', 'sound-band', 'build-word', 'which-word', 'read-word']
 /** Spel som fungerar utan bild (vardagsord som "har", "inte"). Läs och välj och läs-först-varianten kräver bild. */
-const NO_PICTURE_GAMES: GameId[] = ['sound-train', 'build-word', 'which-word']
+const NO_PICTURE_GAMES: GameId[] = ['sound-train', 'sound-band', 'build-word', 'which-word']
+/** Så många ord i Ordgåtan som ska behärskas innan den slutar vävas in i varje pass. */
+export const BLEND_GOAL = 8
 const PHONOLOGY_GAMES: GameId[] = ['rhyme-hunt', 'first-sound', 'last-sound', 'count-sounds']
 
 export function buildSession(input: BuildInput): Task[] {
@@ -164,6 +166,21 @@ function wovenPhonology(input: BuildInput, introduced: Set<string>, rng: Rng): T
   return phonologyTasks(input, games, rng, { pool, letters: introduced, count: 1 })
 }
 
+/**
+ * Ordgåtan invävd: en per pass på bokstavs- och ordplaneterna tills BLEND_GOAL ord smälts ihop
+ * rätt. Sammanljudning är den vanligaste knäcken när ljuden sitter, och den tränas inte av att
+ * appen ljudar ihop åt barnet. Bara ord med kända bokstäver, lättast ljudbara först.
+ */
+function wovenRiddle(input: BuildInput, introduced: Set<string>, rng: Rng): Task[] {
+  if (!input.availableGames.includes('sound-riddle')) return []
+  if (input.level.kind !== 'letters' && input.level.kind !== 'words') return []
+  const mastered = Object.values(input.mastery).filter((m) => m.kind === 'blend' && m.mastered).length
+  if (mastered >= BLEND_GOAL) return []
+  const pool = input.words.filter((w) => w.emoji !== '' && w.sounds.every((s) => introduced.has(s)))
+  const t = riddleTask(input, pool, new Set(), rng, 0)
+  return t ? [t] : []
+}
+
 /** Bokstavsplaneter, ordplaneter (kind words: given lista) och Verkstan: bokstavsuppgifter + ord + repetition. */
 function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   const { level, mastery, now } = input
@@ -171,7 +188,10 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   const letterGames = games.filter((g) => LETTER_GAMES.includes(g))
   const introduced = introducedLetters(input)
   const boosted = introduced.size >= DECODING_BOOST_AT
-  const wordGames = (boosted ? diff.boosted : diff.wordGames).filter((wg) => games.includes(wg.game) && WORD_GAMES.includes(wg.game))
+  // Ljudbandet tar en plats i rotationen så länge sammanljudningen tränas; när den sitter lämnar det
+  // den förstärkta rotationen åt ren avkodning igen.
+  const blending = Object.values(mastery).filter((m) => m.kind === 'blend' && m.mastered).length < BLEND_GOAL
+  const wordGames = (boosted ? diff.boosted : diff.wordGames).filter((wg) => games.includes(wg.game) && WORD_GAMES.includes(wg.game) && (wg.game !== 'sound-band' || blending || !boosted))
 
   const poolIds = level.letters
 
@@ -185,7 +205,7 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   }
   if (wordGames.length === 0) wordPool = []
 
-  const phonology = wovenPhonology(input, introduced, rng)
+  const phonology = [...wovenPhonology(input, introduced, rng), ...wovenRiddle(input, introduced, rng)]
   const count = Math.max(1, input.count - phonology.length)
 
   const masteredRatio = poolIds.length === 0 ? 1 : poolIds.filter((id) => mastery[id]?.mastered).length / poolIds.length
@@ -226,12 +246,13 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   reviewCandidates.slice(0, reviewCount).forEach((m) => letterTargets.push({ id: m.id, review: true }))
 
   // Påbörjade ord (rätt men inte behärskade) först så att de blir klara, sedan nya, sist behärskade.
+  // Bland lika: lättast ljudbara först (hållbara ljud, få ljud) tills sammanljudningen sitter.
   const tier = (m: MasteryItem | undefined) => (!m || m.attempts === 0 ? 1 : m.mastered ? 2 : m.streak > 0 ? 0 : 1)
   const rank = (list: Word[]) =>
     shuffle(list, rng).sort((a, b) => {
       const ma = mastery[masteryKey('word', a.id)]
       const mb = mastery[masteryKey('word', b.id)]
-      return tier(ma) - tier(mb) || weakness(mb) - weakness(ma) || (ma?.lastSeenAt ?? 0) - (mb?.lastSeenAt ?? 0)
+      return tier(ma) - tier(mb) || (blending ? blendTier(a) - blendTier(b) : 0) || weakness(mb) - weakness(ma) || (ma?.lastSeenAt ?? 0) - (mb?.lastSeenAt ?? 0)
     })
   const rankedPictures = rank(wordPool.filter((w) => w.emoji !== ''))
   const rankedSyllables = curated ? rank(plain) : rank(plain).slice(0, diff.maxSyllables)
@@ -263,7 +284,7 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   })
 
   const tasks = interleave(letterTasks, wordTasks)
-  // Ljudleken mitt i passet: aldrig först (då hinner barnet inte in i spelet), aldrig sist.
-  if (phonology.length) tasks.splice(Math.max(1, Math.floor(tasks.length / 2)), 0, ...phonology)
+  // Ljudleken och Ordgåtan utspridda i passet: aldrig först (då hinner barnet inte in i spelet), aldrig sist.
+  phonology.forEach((t, i) => tasks.splice(Math.min(tasks.length - 1, Math.max(1, Math.floor(((i + 1) * tasks.length) / (phonology.length + 1)))), 0, t))
   return tasks
 }

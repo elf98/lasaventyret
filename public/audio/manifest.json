@@ -1879,8 +1879,8 @@
     },
     "level.startrampen.goal": {
       "file": "level.startrampen.goal.mp3",
-      "hash": "d41ee69810b7",
-      "text": "Här leker vi med ljud: rim, första ljudet, sista ljudet och hur många ljud ett ord har. Inget att läsa, bara lyssna. Bonusplanet som alltid är öppen."
+      "hash": "1740d0641d77",
+      "text": "Här leker vi med ljud: rim, första ljudet, sista ljudet, ord i bitar och hur många ljud ett ord har. Inget att läsa, bara lyssna. Bonusplanet som alltid är öppen."
     },
     "level.solplaneten.goal": {
       "file": "level.solplaneten.goal.mp3",
@@ -2937,11 +2937,6 @@
       "hash": "04fa734b671c",
       "text": "ödlan"
     },
-    "word.i": {
-      "file": "word.i.mp3",
-      "hash": "cf2dc5e6ac33",
-      "text": "i"
-    },
     "word.att": {
       "file": "word.att.mp3",
       "hash": "6619e13dfbc9",
@@ -3086,11 +3081,6 @@
       "file": "level.gokplaneten.goal.mp3",
       "hash": "b2b47d0d9369",
       "text": "Här övar vi g och k. Lägg handen på halsen: g surrar, k är bara en puff. Gök har båda! Lyssna på ordet och välj rätt bokstav."
-    },
-    "phrase.side_locked": {
-      "file": "phrase.side_locked.mp3",
-      "hash": "83b2ad437fe2",
-      "text": "Den här lilla planeten öppnar bara om du behöver öva mer på två bokstäver. Just nu behöver du inte det!"
     },
     "phrase.side_lit": {
       "file": "phrase.side_lit.mp3",
@@ -3321,6 +3311,46 @@
       "file": "zone.3.done.mp3",
       "hash": "e19a49747492",
       "text": "Lampan lyser! Raketen är hel! Du har läst dig genom hela rymden. Nu flyger vi hem!"
+    },
+    "phrase.riddle_intro": {
+      "file": "phrase.riddle_intro.mp3",
+      "hash": "f6c6a7fcfdca",
+      "text": "Ordgåtan! Jag säger ett ord i bitar. Vilket ord är det? Tryck på bilden."
+    },
+    "phrase.cue_riddle": {
+      "file": "phrase.cue_riddle.mp3",
+      "hash": "e95e0218ce26",
+      "text": "Vilket ord är det?"
+    },
+    "phrase.riddle_again": {
+      "file": "phrase.riddle_again.mp3",
+      "hash": "4240ee593a5e",
+      "text": "Lyssna igen, lite långsammare."
+    },
+    "phrase.riddle_yes": {
+      "file": "phrase.riddle_yes.mp3",
+      "hash": "f3fa09a982fd",
+      "text": "Ja! Det blev"
+    },
+    "phrase.band_intro": {
+      "file": "phrase.band_intro.mp3",
+      "hash": "db3d7157a92c",
+      "text": "Ljudbandet! Sätt fingret på första bokstaven och dra åt höger. Ljuda med medan du drar!"
+    },
+    "phrase.cue_band": {
+      "file": "phrase.cue_band.mp3",
+      "hash": "51e92fcee92b",
+      "text": "Dra fingret och ljuda med!"
+    },
+    "phrase.band_lift": {
+      "file": "phrase.band_lift.mp3",
+      "hash": "798c7315cc39",
+      "text": "Oj, fingret släppte. Sätt det på första bokstaven och dra hela vägen."
+    },
+    "phrase.blend_faster": {
+      "file": "phrase.blend_faster.mp3",
+      "hash": "7c9cbb33c865",
+      "text": "Och snabbare:"
     }
   }
 }

@@ -86,6 +86,10 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
   (`DECODING_BOOST_AT`, Marsverkstan): Läs och välj väger dubbelt i rotationen och Vilket ord? kommer i
   läs-först-varianten (`variant: 'read'`: bilden syns, orden läses, inget ljud förrän efter valet);
   minst hälften av ordspelen är då ren avkodning av skriven text (test i `granskning.test.ts`).
+  **Sammanljudning**: tills `BLEND_GOAL` ord klarats i Ordgåtan rankas orden efter `blendTier`
+  (hållbara ljud och få ljud först, stoppljud p/t/k/b/d/g i början sist), Ordgåtan vävs in en per pass
+  och Ljudbandet ligger först i ordrotationen. Bygg ordet modellerar sammanljudningen två gånger:
+  utdragen med luft, sedan snabbt, sedan ordet.
 - **Alternativ**: byggarna lägger rätt svar först och distraktorerna svårast först (upp till fyra,
   `DISTRACTOR_POOL`); `src/engine/options.ts` bestämmer hur många som visas: tre på Lätt, fyra på
   Medel/Svår, ett till efter tre rätt i rad, ett färre när de två senaste uppgifterna krävde flera
@@ -99,10 +103,10 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
   när den föregående är halvvägs (`UNLOCK_AT`), så det finns oftast två att välja på och passen blir
   mindre enformiga; kartans lysande planet är fortfarande den första som inte är klar.
   **Tvillingplaneterna är sidovägar** (`isSidePath`): de ligger inte i huvudkedjan utan hänger som
-  månar vid sin basplanet och öppnar först när paret förväxlats `CONTRAST_TRIGGER` (3) gånger
-  (`confusions`, både hörfel och läsfel där två ord skiljer sig i en bokstav). De lyser när det finns
-  tre nya förväxlingar sedan de senast spelades (`contrastBaseline`, `sidePathLit`) och slocknar när
-  de spelats. **Områden** (`zone`): när alla huvudkedjans planeter i ett område är klara hittas en
+  månar bredvid sin basplanet och öppnar som andra planeter (basplaneten halvvägs), så att en vuxen
+  kan skicka dit barnet så fort förväxlingen syns. De **lyser** när paret förväxlats `CONTRAST_TRIGGER`
+  (3) gånger sedan de senast spelades (`confusions`, både hörfel och läsfel där två ord skiljer sig i
+  en bokstav; `contrastBaseline`, `sidePathLit`) och slocknar när de spelats. **Områden** (`zone`): när alla huvudkedjans planeter i ett område är klara hittas en
   raketdel (`claimRocketParts`); lampan (område 3) ger finalen.
 - Två fel i rad på samma uppgift ger scaffolding (bara rätt bokstav visas, pekare, långsamt ljud).
 
@@ -115,6 +119,8 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
 | Räkna ljuden | `src/games/CountSounds.tsx` | hör ordet, välj hur många ljud det har; prickarna tänds när ordet ljudas |
 | Ljudsortering | `src/games/SoundSort.tsx` | m eller n: hör ordet, se bilden, tryck på bokstaven som finns i ordet |
 | Ljudtåget | `src/games/SoundTrain.tsx` | ljuda ihop i ordning, sedan välja rätt bild. Ordet sägs först EFTER bildvalet: barnet ska göra syntesen själv |
+| Ordgåtan | `src/games/SoundRiddle.tsx` | ordet hörs i bitar (ljuden med luft emellan, 650/500/350 ms efter nivå, mindre när ordet redan klarats), barnet väljer bilden. Ren sammanljudning utan bokstäver; egen mastery-kind `blend`. Vävs in en per pass på bokstavs- och ordplaneter tills `BLEND_GOAL` (8) ord smälts ihop, och ligger i Startrampens rotation. Fel: ljuden igen med mer luft; hjälp: krympande luft och sedan ordet |
+| Ljudbandet | `src/games/SoundBand.tsx` | bokstäverna sitter kant i kant, barnet drar fingret i en obruten rörelse från första till sista bokstaven och ljudar med; varje bokstav ljuder när fingret når den (på Svår ljuder inget: bara fingret och barnets röst). Ordet sägs INTE efter draget: barnet väljer bilden själv (distraktorer med samma första ljud eller längd), ordet kommer som bekräftelse. Släpp innan slutet = börja om, inget fel. I ordrotationen på alla bokstavs-, ord- och klusterplaneter |
 | Bygg ordet | `src/games/BuildWord.tsx` | dra/tryck brickor till rutor, ordet ljudas ihop |
 | Läs och välj | `src/games/ReadWord.tsx` | ordet står skrivet, tre bilder, ordet läses INTE upp: ren avkodning. Efter två fel ljudas ordet fram |
 | Vilket ord? | `src/games/WhichWord.tsx` | hör ett ord, välj rätt skrivet ord; alternativen liknar målordet (mus/mun/mor) så hela ordet måste läsas |
@@ -131,7 +137,7 @@ passbyggaren och i `SessionScreen.tsx`, och lista spelet på planeterna i `level
 
 `levels.json` har `kind`: `letters` (bokstäver + ord), `sightwords`, `contrast` (tvillingplaneter: m/n, b/d, å/ä, b/p, d/t, g/k; ingen Fånga ljudet här – ett ensamt m/n går inte att avgöra utan jämförelse, så varje uppgift ger sammanhang:
 Fånga ljudet med bara de två + Ljudsortering: hör ordet, se bilden, välj bokstaven; egen räkning per ord), `words` (given ordlista: Vardagsplaneten
-22 vanliga småord utan bild, Ordfabriken korta ord, Rymdstationen långa ord, Dubbelplaneten dubbeltecknade och vokallängd,
+21 vanliga småord utan bild, Ordfabriken korta ord, Rymdstationen långa ord, Dubbelplaneten dubbeltecknade och vokallängd,
 Stjärnfabriken kluster; ord utan bild körs i Ljudtåget, Bygg ordet och Vilket ord?), `cluster`
 (Turboverkstan: alla ord med `decodable: false`), `sentences` (med `sentences`-urval: Småmeningar de korta,
 Tokplaneten de längre), `stories`, `phonology` (Startrampen, bonus: fyra ljudlekar över en kurerad ordlista). Varje planet har ett `goal` som läses

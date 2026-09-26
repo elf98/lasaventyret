@@ -181,7 +181,7 @@ export default function MapScreen() {
     if (flying || suppressTap.current) return
     if (!unlocked.includes(level.id)) {
       sfx.soft()
-      void audio.speak(phraseId(isSidePath(level) ? 'side_locked' : 'level_locked'))
+      void audio.speak(phraseId('level_locked'))
       return
     }
     void flyTo(level)

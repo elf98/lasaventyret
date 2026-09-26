@@ -14,10 +14,15 @@ New-Item -ItemType Directory -Force public/recorded | Out-Null
 cmd /c "scp -q ""${server}:${remote}/recorded/*"" public/recorded/ 2>nul"
 
 if (-not $SkipBuild) {
-    # Dropbox kan låsa filer i dist/ ett ögonblick (EPERM); försök en gång till.
-    npm run build
-    if ($LASTEXITCODE -ne 0) { Start-Sleep -Seconds 3; npm run build }
-    if ($LASTEXITCODE -ne 0) { throw 'Bygget misslyckades' }
+    # Dropbox (eller indexeraren) låser ofta dist/audio och dist/recorded ett tag när Vite ska tömma
+    # dist/ (EPERM). Försök upp till fem gånger med några sekunders paus emellan.
+    $ok = $false
+    for ($i = 1; $i -le 5 -and -not $ok; $i++) {
+        if ($i -gt 1) { Write-Host "Bygget fick EPERM, försök $i ..." -ForegroundColor Yellow; Start-Sleep -Seconds 4 }
+        npm run build
+        $ok = ($LASTEXITCODE -eq 0)
+    }
+    if (-not $ok) { throw 'Bygget misslyckades' }
 }
 if (-not (Test-Path 'dist/index.html')) { throw 'dist/ saknas' }
 

@@ -3,12 +3,13 @@ import { levels, rhymes, sentences, sightwords, stories, templates, words, zones
 import { applyResult, masteryKey, newItem } from '../mastery'
 import { optionCount, shownTask } from '../options'
 import { seeded } from '../random'
-import { buildSession, DECODING_BOOST_AT, type BuildInput } from '../sessionBuilder'
+import { blendTier } from '../builderUtils'
+import { BLEND_GOAL, buildSession, DECODING_BOOST_AT, type BuildInput } from '../sessionBuilder'
 import { generateSentence, renderGenerated, templateKey } from '../templates'
 import type { MasteryItem, Task } from '../types'
 import { completedZones, CONTRAST_TRIGGER, isMain, isSidePath, levelProgress, sidePathLit, unlockedLevels } from '../unlock'
 
-const ALL: BuildInput['availableGames'] = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story']
+const ALL: BuildInput['availableGames'] = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'sound-riddle', 'sound-band', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story']
 const lvl = (id: string) => levels.find((l) => l.id === id)!
 const build = (levelId: string, over: Partial<BuildInput> = {}) =>
   buildSession({ level: lvl(levelId), levels, mastery: {}, words, sightwords, sentences, stories, rhymes, now: 0, count: 8, reviewShare: 0.25, availableGames: ALL, difficulty: 'normal', rng: seeded(3), ...over })
@@ -57,18 +58,65 @@ describe('A1: ljudlek invävd i passet', () => {
   })
 })
 
+describe('Sammanljudning: Ordgåtan och Ljudbandet', () => {
+  it('lättast ljudbara ord först: få hållbara ljud före stoppljud', () => {
+    const w = (id: string) => words.find((x) => x.id === id)!
+    expect(blendTier(w('is'))).toBeLessThan(blendTier(w('sol')))
+    expect(blendTier(w('sol'))).toBeLessThan(blendTier(w('pil')))
+    expect(blendTier(w('mus'))).toBeLessThan(blendTier(w('tomat')))
+  })
+
+  it('en Ordgåta per pass på bokstavs- och ordplaneter tills åtta ord smälts ihop, bara kända bokstäver', () => {
+    for (const id of ['manen', 'marsverkstan', 'kometen', 'ordfabriken']) {
+      for (let seed = 1; seed <= 5; seed++) {
+        const tasks = build(id, { rng: seeded(seed), mastery: knownThrough(id) })
+        const riddles = tasks.filter((t) => t.game === 'sound-riddle')
+        expect(riddles, `${id} seed ${seed}`).toHaveLength(1)
+        expect(tasks[0].game).not.toBe('sound-riddle')
+        expect(tasks).toHaveLength(8)
+        const known = new Set(levels.slice(0, levels.findIndex((x) => x.id === id) + 1).flatMap((l) => l.letters))
+        const w = words.find((x) => x.id === riddles[0].targetId)!
+        expect(riddles[0].kind).toBe('blend')
+        expect(w.emoji).toBeTruthy()
+        for (const s of w.sounds) expect(known, `${id}: ${w.id} har okänd bokstav ${s}`).toContain(s)
+        expect(riddles[0].options[0]).toBe(w.id)
+        expect(riddles[0].options.length).toBeGreaterThanOrEqual(3)
+      }
+    }
+    const mastery = knownThrough('kometen')
+    for (const id of ['sol', 'mus', 'ris', 'ros', 'orm', 'is', 'arm', 'mor']) mastery[masteryKey('blend', id)] = mastered(id, 'blend')
+    expect(Object.values(mastery).filter((m) => m.kind === 'blend' && m.mastered).length).toBe(BLEND_GOAL)
+    expect(build('kometen', { mastery }).some((t) => t.game === 'sound-riddle')).toBe(false)
+  })
+
+  it('Ljudbandet ligger i ordrotationen och räknas som ordläsning', () => {
+    let bands = 0
+    for (const id of ['manen', 'kometen', 'ordfabriken', 'vardagsplaneten']) {
+      for (let seed = 1; seed <= 6; seed++) {
+        for (const t of build(id, { rng: seeded(seed), mastery: knownThrough(id) }).filter((x) => x.game === 'sound-band')) {
+          bands++
+          expect(t.kind).toBe('word')
+          const w = words.find((x) => x.id === t.targetId)!
+          if (w.emoji) expect(t.options[0]).toBe(w.id)
+          else expect(t.options).toEqual([])
+        }
+      }
+    }
+    expect(bands).toBeGreaterThan(6)
+  })
+})
+
 describe('A2: tvillingplaneterna är sidovägar', () => {
-  it('huvudkedjan går förbi dem, och de öppnar först efter tre förväxlingar av paret', () => {
+  it('huvudkedjan går förbi dem, och de är öppna så fort basplaneten är halvvägs', () => {
     for (const l of levels.filter(isMain)) for (const r of l.requires) expect(isSidePath(lvl(r)), `${l.id} kräver sidovägen ${r}`).toBe(false)
     const mastery = knownThrough('marsverkstan')
     const completed = ['solplaneten', 'manen', 'marsverkstan']
-    expect(unlockedLevels(levels, completed, mastery, {})).not.toContain('tvillingplaneten')
-    expect(unlockedLevels(levels, completed, mastery, { 'm>n': 2 })).not.toContain('tvillingplaneten')
-    expect(unlockedLevels(levels, completed, mastery, { 'm>n': 2, 'n>m': 1 })).toContain('tvillingplaneten')
+    // Öppen utan förväxlingar: en vuxen som ser förväxlingen före loggen ska kunna skicka dit barnet.
+    expect(unlockedLevels(levels, completed, mastery)).toContain('tvillingplaneten')
     // men inte innan basplaneten är halvvägs
-    expect(unlockedLevels(levels, [], {}, { 'm>n': 5 })).not.toContain('tvillingplaneten')
+    expect(unlockedLevels(levels, [], {})).not.toContain('tvillingplaneten')
     // Kometen öppnar utan Tvillingplaneten
-    expect(unlockedLevels(levels, completed, mastery, {})).toContain('kometen')
+    expect(unlockedLevels(levels, completed, mastery)).toContain('kometen')
   })
 
   it('lyser vid nya förväxlingar utöver baslinjen, och slocknar när den spelats', () => {

@@ -1,9 +1,22 @@
-import { levels, type GameId, type Sentence, type Word } from '../content'
+import { letterById, levels, type GameId, type Sentence, type Word } from '../content'
 import { shuffle, type Rng } from './random'
 import type { Task } from './types'
 
 /** Hur många distraktorer en uppgift bär med sig. Skärmen visar 2–4 av dem beroende på nivå och rad. */
 export const DISTRACTOR_POOL = 4
+
+/**
+ * Hur lätt ordet är att ljuda ihop. Hållbara ljud (s, m, l, vokaler) går att dra ut i ett andetag så att
+ * ordet stiger fram ("sssooolll"); stoppljud (p, t, k, b, d, g) kan inte dras ut och får lätt en vokal
+ * på köpet som bryter sammansmältningen. Lägre = lättare: alla ljud hållbara och få ljud först,
+ * hållbart första ljud sedan, stoppljud i början sist. Används för Ordgåtan, Ljudbandet och ordvalet.
+ */
+export function blendTier(w: Word): number {
+  const cont = (s: string) => letterById.get(s)?.continuous !== false
+  const all = w.sounds.every(cont)
+  const onset = cont(w.sounds[0])
+  return (all ? 0 : onset ? 1 : 2) * 10 + Math.min(9, w.sounds.length)
+}
 
 /** Bokstavspar som har en egen tvillingplanet (m/n, b/d ...): de svåraste distraktorerna för varandra. */
 const CONTRAST_PAIRS: string[][] = levels.filter((l) => l.kind === 'contrast').map((l) => l.letters)
@@ -51,8 +64,21 @@ export function wordOptions(game: GameId, w: Word, allWords: Word[], knownWords:
     }
     return [w.id, ...picks.map((o) => o.id)]
   }
-  // sound-train: bildval efter ljudningen (tomt för stavelser utan bild)
+  // sound-train: bildval efter ljudningen (tomt för stavelser utan bild).
+  // sound-riddle/sound-band: bilder där de svåraste delar första ljud eller längd med ordet (mus/mun/mor),
+  // så att hela ordet måste smältas ihop och inte bara första ljudet höras.
   if (w.emoji === '') return []
+  if (game === 'sound-riddle' || game === 'sound-band') {
+    const cands = allWords.filter((o) => o.emoji !== '' && o.id !== w.id && o.emoji !== w.emoji)
+    const near = shuffle(cands.filter((o) => o.sounds[0] === w.sounds[0] || o.sounds.length === w.sounds.length), rng)
+    const far = shuffle(cands.filter((o) => !near.includes(o)), rng)
+    const picks: Word[] = []
+    for (const o of [...near, ...far]) {
+      if (picks.length >= DISTRACTOR_POOL) break
+      if (!picks.some((p) => p.emoji === o.emoji)) picks.push(o)
+    }
+    return [w.id, ...picks.map((o) => o.id)]
+  }
   const others = shuffle(allWords.filter((o) => o.emoji !== '' && o.id !== w.id && o.emoji !== w.emoji), rng)
   const distinct: Word[] = []
   for (const o of others) if (!distinct.some((d) => d.emoji === o.emoji) && distinct.length < DISTRACTOR_POOL) distinct.push(o)

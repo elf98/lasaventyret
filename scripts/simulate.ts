@@ -6,7 +6,7 @@ import { buildSession } from '../src/engine/sessionBuilder'
 import type { MasteryItem } from '../src/engine/types'
 import { completedLevels, completedZones, isMain, isSidePath, pairConfusions, sidePathLit, unlockedLevels } from '../src/engine/unlock'
 
-const ALL = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story'] as const
+const ALL = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'sound-riddle', 'sound-band', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story'] as const
 
 function run(errorRate: number, seed: number) {
   const rng = seeded(seed)
@@ -21,7 +21,7 @@ function run(errorRate: number, seed: number) {
   let sideVisits = 0
   const last = [...levels].reverse().find(isMain)!
   while (!completed.includes(last.id) && passes < 500) {
-    const unlocked = unlockedLevels(levels, completed, mastery, confusions)
+    const unlocked = unlockedLevels(levels, completed, mastery)
     const lit = levels.filter((l) => isSidePath(l) && unlocked.includes(l.id) && sidePathLit(l, confusions, baseline))
     const current = lit[0] ?? levels.find((l) => isMain(l) && unlocked.includes(l.id) && !completed.includes(l.id)) ?? last
     if (isSidePath(current)) sideVisits++

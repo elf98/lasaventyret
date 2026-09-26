@@ -61,12 +61,16 @@ export default function BuildWord({ task, scaffold, celebrating, brief, onWrong,
     alive.current = false
   }, [])
 
+  // Sammanljudningen modelleras två gånger: först utdragen med luft mellan ljuden, sedan snabbt utan
+  // luft, och först då ordet. Så hör barnet ordet stiga fram ur ljuden i stället för att få det serverat.
   const finish = async () => {
     setDone(true)
-    await audio.speakEach([phraseId('build_blend'), ...sounds.map(letterSoundId), wordId(task.targetId)], (i) => {
+    const ids = sounds.map(letterSoundId)
+    const ok = await audio.speakEach([phraseId('build_blend'), ...ids], (i) => setBlend(i - 1 >= 0 ? i - 1 : -1), 320)
+    if (ok) await audio.speakEach([phraseId('blend_faster'), ...ids, wordId(task.targetId)], (i) => {
       setBlend(i - 1 >= 0 && i - 1 < sounds.length ? i - 1 : -1)
       if (i === sounds.length + 1) sfx.tada()
-    })
+    }, 40)
     setBlend(-1)
     if (alive.current) onSolved()
   }

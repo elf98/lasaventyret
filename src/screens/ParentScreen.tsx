@@ -5,6 +5,7 @@ import CustomWords from './CustomWords'
 import { exportCustomWords, importCustomWords, type CustomWord } from '../content/custom'
 import { letters, levels, words } from '../content'
 import { masteryKey, weakness } from '../engine/mastery'
+import { BLEND_GOAL } from '../engine/sessionBuilder'
 import { levelProgress } from '../engine/unlock'
 import { useApp } from '../store/app'
 import { caseStage } from '../components/textCase'
@@ -102,6 +103,20 @@ export default function ParentScreen() {
             })}
           </div>
           <p className="mt-2 text-[15px] text-gray-500">Grå = inte tränad, orange = fel senast, gul = på gång, grön = behärskad (3 rätt i rad över minst 2 pass).</p>
+        </section>
+
+        <section>
+          <h2 className="mb-3 text-[24px] font-bold">Sammanljudning</h2>
+          {(() => {
+            const blend = Object.values(p.mastery).filter((m) => m.kind === 'blend')
+            const done = blend.filter((m) => m.mastered).length
+            return (
+              <p className="text-gray-600">
+                Ordgåtan (ordet hörs i bitar, barnet väljer bilden) vävs in i varje pass tills {BLEND_GOAL} ord smälts ihop rätt: just nu {done} av {BLEND_GOAL}, {blend.length} ord prövade.
+                Ljudbandet (dra fingret under bokstäverna och ljuda med) ligger i ordrotationen på alla bokstavs- och ordplaneter. Vid bordet: dra ut ljuden utan paus, "sssooolll", och börja med ord utan p, t, k, b, d, g.
+              </p>
+            )
+          })()}
         </section>
 
         <section>
@@ -236,9 +251,9 @@ export default function ParentScreen() {
         <section>
           <h2 className="mb-3 text-[24px] font-bold">Förväxlingar</h2>
           <p className="mb-2 text-[15px] text-gray-500">
-            Bokstavspar som blandats ihop, vanligast först: både hörfel (fel bokstav vald) och läsfel (bil läst som pil). Efter tre förväxlingar av ett par
-            tänds parets tvillingplanet på kartan som en sidoväg; den slocknar när den spelats och tänds igen vid nya förväxlingar. Ingen tvillingplanet ligger
-            längre i huvudkedjan.
+            Bokstavspar som blandats ihop, vanligast först: både hörfel (fel bokstav vald) och läsfel (bil läst som pil). Tvillingplaneterna ligger som månar
+            utanför huvudkedjan och är alltid öppna att spela; efter tre förväxlingar av ett par lyser parets måne på kartan, slocknar när den spelats och
+            lyser igen vid nya förväxlingar. Ser du förväxlingen före loggen: skicka dit barnet direkt.
           </p>
           {confusions.length === 0 ? (
             <p className="text-gray-600">Inga förväxlingar registrerade än.</p>

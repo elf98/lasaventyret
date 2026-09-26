@@ -6,7 +6,7 @@ const DAY = 86_400_000
  * Nyckel i mastery-tabellen. Bokstäver lagras som sitt id ("s"), andra
  * slag får prefix ("w:sol") så att ordet "ö" inte krockar med bokstaven ö.
  */
-const PREFIX: Record<ItemKind, string> = { letter: '', word: 'w:', sightword: 'sw:', sentence: 'se:', story: 'st:', contrast: 'c:', phoneme: 'ph:' }
+const PREFIX: Record<ItemKind, string> = { letter: '', word: 'w:', sightword: 'sw:', sentence: 'se:', story: 'st:', contrast: 'c:', phoneme: 'ph:', blend: 'bl:' }
 
 export function masteryKey(kind: ItemKind, id: string): string {
   return PREFIX[kind] + id
@@ -31,7 +31,7 @@ export function newItem(id: string, kind: ItemKind, now: number): MasteryItem {
 }
 
 /** Rätt i rad som krävs per slag. Bokstäver och ljudade ord tre; ordbilder, meningar och berättelser två. */
-export const STREAK_NEEDED: Record<ItemKind, number> = { letter: 3, word: 3, sightword: 2, sentence: 2, story: 2, contrast: 2, phoneme: 2 }
+export const STREAK_NEEDED: Record<ItemKind, number> = { letter: 3, word: 3, sightword: 2, sentence: 2, story: 2, contrast: 2, phoneme: 2, blend: 2 }
 
 /**
  * Behärskat = tillräckligt många rätt i rad (STREAK_NEEDED), och de rätta svaren är spridda

@@ -114,7 +114,6 @@
   {"id": "med", "text": "med", "emoji": "", "sounds": ["m", "e", "d"], "decodable": true},
   {"id": "här", "text": "här", "emoji": "", "sounds": ["h", "ä", "r"], "decodable": true},
   {"id": "nu", "text": "nu", "emoji": "", "sounds": ["n", "u"], "decodable": true},
-  {"id": "i", "text": "i", "emoji": "", "sounds": ["i"], "decodable": true},
   {"id": "att", "text": "att", "emoji": "", "sounds": ["a", "t", "t"], "decodable": false},
   {"id": "så", "text": "så", "emoji": "", "sounds": ["s", "å"], "decodable": true},
   {"id": "för", "text": "för", "emoji": "", "sounds": ["f", "ö", "r"], "decodable": true},

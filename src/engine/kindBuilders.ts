@@ -1,5 +1,5 @@
 import { templates, type GameId, type Level, type Sentence, type SightWord, type Story, type Word } from '../content'
-import { DISTRACTOR_POOL, sentenceOptions } from './builderUtils'
+import { blendTier, DISTRACTOR_POOL, sentenceOptions, wordOptions } from './builderUtils'
 import { masteryKey, weakness } from './mastery'
 import { shuffle, type Rng } from './random'
 import type { BuildInput } from './sessionBuilder'
@@ -125,7 +125,28 @@ export interface PhonologyOpts {
   order?: GameId[]
 }
 
-const PHONOLOGY_ORDER: GameId[] = ['rhyme-hunt', 'first-sound', 'count-sounds', 'last-sound']
+const PHONOLOGY_ORDER: GameId[] = ['rhyme-hunt', 'first-sound', 'sound-riddle', 'count-sounds', 'last-sound']
+
+/**
+ * Ordgåtan: ordet hörs i bitar (ljuden med mellanrum) och barnet väljer bilden. Ren sammanljudning
+ * utan bokstäver, det första steget när barnet kan ljuden men inte får ihop dem. Lättast ljudbara
+ * ord först (blendTier): två hållbara ljud, sedan tre, stoppljud i början sist. Egen mastery-kind
+ * `blend`, så att Ordgåtan kan vävas in i passen tills sammanljudningen sitter.
+ */
+export function riddleTask(input: BuildInput, pool: Word[], used: Set<string>, rng: Rng, i: number): Task | null {
+  const cands = pool.filter((w) => w.emoji !== '' && w.decodable && !w.noBlend && w.sounds.length >= 2 && w.sounds.length <= 4 && !used.has(w.id))
+  if (cands.length < 3) return null
+  const tier = (w: Word) => {
+    const m = input.mastery[masteryKey('blend', w.id)]
+    return !m || m.attempts === 0 ? 1 : m.mastered ? 2 : m.streak > 0 ? 0 : 1
+  }
+  const ranked = shuffle(cands, rng).sort((a, b) => tier(a) - tier(b) || blendTier(a) - blendTier(b) || (input.mastery[masteryKey('blend', a.id)]?.lastSeenAt ?? 0) - (input.mastery[masteryKey('blend', b.id)]?.lastSeenAt ?? 0))
+  const w = ranked[0]
+  used.add(w.id)
+  const options = wordOptions('sound-riddle', w, input.words, pool, [], rng)
+  if (options.length < 3) return null
+  return { id: `q${i}-${w.id}`, game: 'sound-riddle', targetId: w.id, kind: 'blend', options, isReview: false }
+}
 
 /**
  * Ljudlekar utan bokstavsläsning: Rimjakt, första ljudet, sista ljudet och räkna ljuden. Att höra
@@ -198,7 +219,7 @@ export function phonologyTasks(input: BuildInput, games: GameId[], rng: Rng, opt
   const start = Math.floor(rng() * order.length)
   for (let i = 0; tasks.length < opts.count && i < Math.max(opts.count * 3, order.length); i++) {
     const g = order[(start + i) % order.length]
-    const t = g === 'rhyme-hunt' ? rhymeTask(i) : g === 'count-sounds' ? countTask(i) : letterTask(i, g === 'first-sound')
+    const t = g === 'rhyme-hunt' ? rhymeTask(i) : g === 'count-sounds' ? countTask(i) : g === 'sound-riddle' ? riddleTask(input, pool.filter((w) => w.sounds.every(known)), used, rng, i) : letterTask(i, g === 'first-sound')
     if (t) tasks.push(t)
   }
   return tasks

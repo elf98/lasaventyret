@@ -26,6 +26,8 @@ import ReadWord from '../games/ReadWord'
 import SoundHunt from '../games/SoundHunt'
 import SoundSort from '../games/SoundSort'
 import SoundTrain from '../games/SoundTrain'
+import SoundRiddle from '../games/SoundRiddle'
+import SoundBand from '../games/SoundBand'
 import StoryReader from '../games/StoryReader'
 import WhichWord from '../games/WhichWord'
 import { useApp } from '../store/app'
@@ -38,7 +40,7 @@ const nextPraise = bag(praiseKeys)
 /** Rader som får en egen fras. Ingen fras när raden bryts: en rad är en bonus, aldrig ett straff. */
 const STREAK_PHRASES: Record<number, string> = { 3: 'streak_3', 5: 'streak_5', 8: 'streak_8' }
 
-const GAMES = { 'catch-sound': CatchSound, 'sound-sort': SoundSort, 'read-word': ReadWord, 'first-sound': SoundHunt, 'last-sound': SoundHunt, 'count-sounds': CountSounds, 'sound-train': SoundTrain, 'build-word': BuildWord, 'which-word': WhichWord, 'sight-memory': SightMemory, 'rhyme-hunt': RhymeHunt, 'silly-sentences': SillySentences, story: StoryReader }
+const GAMES = { 'catch-sound': CatchSound, 'sound-sort': SoundSort, 'read-word': ReadWord, 'first-sound': SoundHunt, 'last-sound': SoundHunt, 'count-sounds': CountSounds, 'sound-train': SoundTrain, 'sound-riddle': SoundRiddle, 'sound-band': SoundBand, 'build-word': BuildWord, 'which-word': WhichWord, 'sight-memory': SightMemory, 'rhyme-hunt': RhymeHunt, 'silly-sentences': SillySentences, story: StoryReader }
 
 /** Dev-genväg: ?task=<spel>:<mål> ger ett pass med exakt en uppgift. */
 function devTask(): Task[] | null {
@@ -51,7 +53,7 @@ function devTask(): Task[] | null {
   const t: Task = { id: `dev-${spec}`, game, targetId, kind: 'word', options: [], isReview: false, variant }
   if (game === 'catch-sound') Object.assign(t, { kind: 'letter', options: [targetId, ...all.filter((x) => x !== targetId).slice(0, 4)] })
   else if (game === 'build-word' && word) t.options = [...word.sounds, ...all.filter((x) => !word.sounds.includes(x)).slice(0, 2)].sort(() => Math.random() - 0.5)
-  else if ((game === 'sound-train' || game === 'read-word') && word?.emoji) t.options = [targetId, ...words.filter((w) => w.emoji && w.id !== targetId).slice(0, 4).map((w) => w.id)]
+  else if ((game === 'sound-train' || game === 'read-word' || game === 'sound-band' || game === 'sound-riddle') && word?.emoji) t.options = [targetId, ...words.filter((w) => w.emoji && w.id !== targetId).slice(0, 4).map((w) => w.id)]
   else if (game === 'which-word' || game === 'sight-memory') {
     const sight = sightwords.some((s) => s.id === targetId)
     const pool = sight ? sightwords.map((s) => s.id) : words.map((w) => w.id)
@@ -238,7 +240,7 @@ export default function SessionScreen() {
    * Strykningen gäller bara spel där alternativen är hela svar (inte brickor, vagnar eller memorykort).
    */
   const eliminated = useMemo(() => {
-    const pickable: Task['game'][] = ['catch-sound', 'which-word', 'read-word', 'sound-sort', 'first-sound', 'last-sound', 'count-sounds', 'rhyme-hunt', 'silly-sentences']
+    const pickable: Task['game'][] = ['catch-sound', 'which-word', 'read-word', 'sound-sort', 'sound-riddle', 'sound-band', 'first-sound', 'last-sound', 'count-sounds', 'rhyme-hunt', 'silly-sentences']
     if (!shown || wrong < 2 || !pickable.includes(shown.game)) return []
     const answer = shown.answer ?? shown.targetId
     const wrongOptions = shown.options.filter((o) => o !== answer)

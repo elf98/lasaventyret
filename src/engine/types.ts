@@ -2,7 +2,8 @@ import type { GameId } from '../content'
 
 /** contrast = ordet i ljudsorteringen (m eller n?), egen räkning skild från ordets läsbehärskning. */
 /** phoneme = ljudlekarna på Startrampen (rim, första/sista ljud, antal ljud) – hörförmåga, inte läsning. */
-export type ItemKind = 'letter' | 'word' | 'sightword' | 'sentence' | 'story' | 'contrast' | 'phoneme'
+/** blend = Ordgåtan: ljuden hörs i bitar och ska smältas ihop till ordet – sammanljudning utan bokstäver. */
+export type ItemKind = 'letter' | 'word' | 'sightword' | 'sentence' | 'story' | 'contrast' | 'phoneme' | 'blend'
 
 export interface MasteryItem {
   id: string

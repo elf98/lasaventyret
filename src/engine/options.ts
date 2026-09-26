@@ -4,7 +4,7 @@ import type { Difficulty } from './sessionBuilder'
 import type { Task } from './types'
 
 /** Spel där alternativen är hela svar som kan bli fler eller färre. Brickor, vagnar, memory och sagofrågor rörs inte. */
-const TRIMMABLE: GameId[] = ['catch-sound', 'read-word', 'which-word', 'sound-train', 'rhyme-hunt', 'first-sound', 'last-sound', 'silly-sentences', 'sound-sort']
+const TRIMMABLE: GameId[] = ['catch-sound', 'read-word', 'which-word', 'sound-train', 'sound-riddle', 'sound-band', 'rhyme-hunt', 'first-sound', 'last-sound', 'silly-sentences', 'sound-sort']
 
 /** Så många alternativ som visas som grund: tre på lätt, fyra annars. Fånga ljudet har alltid fyra farkoster. */
 function baseCount(game: GameId, difficulty: Difficulty): number {

@@ -141,7 +141,6 @@
   "cue_sort_reverse": "Vilken bild har",
   "not_in_word": "Nej, i ordet finns inget",
   "or": "eller",
-  "side_locked": "Den här lilla planeten öppnar bara om du behöver öva mer på två bokstäver. Just nu behöver du inte det!",
   "side_lit": "Titta, en liten planet lyser! Där kan du öva på två bokstäver som är lätta att blanda ihop.",
   "story_frame": "Oj! Min raket har gått sönder. Motorn, styrspaken och lampan flög iväg ut i rymden. Hjälp mig hitta dem! Varje gång vi klarar ett helt område hittar vi en del.",
   "story_home": "Vi är hemma! Tack för hjälpen, {name}! Nu kan du läsa!",
@@ -157,5 +156,13 @@
   "read_which_intro": "Titta på bilden. Vilket ord är det? Läs orden och tryck på rätt.",
   "cue_read_which": "Vilket ord är bilden?",
   "btn_alphabet": "Bokstäverna",
-  "btn_rocket": "Raketen"
+  "btn_rocket": "Raketen",
+  "riddle_intro": "Ordgåtan! Jag säger ett ord i bitar. Vilket ord är det? Tryck på bilden.",
+  "cue_riddle": "Vilket ord är det?",
+  "riddle_again": "Lyssna igen, lite långsammare.",
+  "riddle_yes": "Ja! Det blev",
+  "band_intro": "Ljudbandet! Sätt fingret på första bokstaven och dra åt höger. Ljuda med medan du drar!",
+  "cue_band": "Dra fingret och ljuda med!",
+  "band_lift": "Oj, fingret släppte. Sätt det på första bokstaven och dra hela vägen.",
+  "blend_faster": "Och snabbare:"
 }

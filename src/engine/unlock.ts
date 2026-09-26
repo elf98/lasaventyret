@@ -29,7 +29,7 @@ export const COMPLETE_SHARE: Record<Level['kind'], number> = {
   templates: 0.5,
 }
 
-/** Tvillingplaneterna ligger vid sidan av huvudkedjan och öppnar bara när paret faktiskt förväxlas. */
+/** Tvillingplaneterna ligger vid sidan av huvudkedjan; de lyser när paret förväxlas men är alltid öppna att spela. */
 export const isSidePath = (l: Level) => l.kind === 'contrast'
 /** Startrampen: alltid öppen, inget krav. */
 export const isBonus = (l: Level) => l.requires.length === 0 && l.kind === 'phonology'
@@ -101,20 +101,18 @@ export function pairConfusions(pair: string[], confusions: Record<string, number
 /**
  * En nivå är upplåst när varje nivå den kräver antingen är klar eller kommit halvvägs. Då finns
  * oftast två planeter att välja på, och ett pass behöver inte bli åtta uppgifter av samma sort.
- * Tvillingplaneterna kräver dessutom att paret förväxlats: diskriminationsträning är bortkastad
- * tid om förväxlingen inte finns. En gång öppnad förblir den öppen (förväxlingarna räknas aldrig ner).
+ * Tvillingplaneterna öppnar på samma villkor som andra (basplaneten halvvägs): förväxlingarna styr
+ * bara om de LYSER (sidePathLit). En vuxen som ser förväxlingen tidigare än loggen ska kunna skicka
+ * barnet dit direkt.
  */
-export function unlockedLevels(levels: Level[], completed: string[], mastery: Record<string, MasteryItem> = {}, confusions: Record<string, number> = {}): string[] {
+export function unlockedLevels(levels: Level[], completed: string[], mastery: Record<string, MasteryItem> = {}): string[] {
   const byId = new Map(levels.map((l) => [l.id, l]))
   const open = (id: string) => {
     if (completed.includes(id)) return true
     const lvl = byId.get(id)
     return !!lvl && levelProgress(lvl, mastery).partial >= UNLOCK_AT
   }
-  return levels
-    .filter((l) => l.requires.every(open))
-    .filter((l) => !isSidePath(l) || completed.includes(l.id) || pairConfusions(l.letters, confusions) >= CONTRAST_TRIGGER)
-    .map((l) => l.id)
+  return levels.filter((l) => l.requires.every(open)).map((l) => l.id)
 }
 
 /**

@@ -85,7 +85,7 @@ export default function PlanetInfo({ level, locked = false, onPlay, onClose }: P
             <>
               <b>Klar när {needed} av {lp.total} {many} är behärskade.</b> Behärskad = {need} rätt i rad på första försöket, fördelade på minst två pass. Ett fel nollställer raden för den {one}en.
               {lp.complete ? <span> Planeten är klar.</span> : <span> Just nu: {lp.mastered} av {lp.total} behärskade, {remaining} kvar till klar.</span>}
-              {side && <span> Sidoväg: öppnar när {level.letters.join(' och ').toUpperCase()} blandats ihop tre gånger, och lyser igen vid nya förväxlingar.</span>}
+              {side && <span> Sidoväg utanför kedjan: alltid öppen när planeten bredvid är halvvägs. Lyser på kartan när {level.letters.join(' och ').toUpperCase()} blandats ihop tre gånger sedan den senast spelades.</span>}
             </>
           )}
         </div>
@@ -116,7 +116,7 @@ export default function PlanetInfo({ level, locked = false, onPlay, onClose }: P
 
         <div className="flex items-center justify-end gap-6 pt-2">
           <BigButton size="md" icon="✕" color="bg-gray-300" speakId={phraseId('btn_back')} onPress={onClose} label="Stäng" />
-          {locked ? <span className="text-[18px] text-gray-600">{side ? 'Låst: öppnar bara om de två bokstäverna blandas ihop.' : 'Låst: kom halvvägs på planeten före, så öppnar den här.'}</span> : <BigButton size="lg" icon="🚀" speakId={phraseId('btn_play')} onPress={onPlay} label="Spela" />}
+          {locked ? <span className="text-[18px] text-gray-600">Låst: kom halvvägs på planeten före, så öppnar den här.</span> : <BigButton size="lg" icon="🚀" speakId={phraseId('btn_play')} onPress={onPlay} label="Spela" />}
         </div>
       </motion.div>
     </div>
