@@ -89,6 +89,18 @@ body {
 }
 .glow { animation: glow 1.8s ease-in-out infinite; border-radius: 9999px; }
 
+/* Klistermärke som just satts på raketen: poppar in. Ren CSS, inte Web Animations: WebKit lät
+   framer-motions inmontering stanna osynlig tills sidan laddades om. */
+@keyframes sticker-pop {
+  from { transform: scale(0); }
+  60% { transform: scale(1.25); }
+  to { transform: scale(1); }
+}
+.sticker-pop {
+  animation: sticker-pop 0.35s ease-out both;
+  will-change: transform;
+}
+
 .big-emoji {
   line-height: 1;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));

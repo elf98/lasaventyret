@@ -80,10 +80,14 @@ export default function RocketScreen() {
       </div>
 
       {/* Raketen: tryck sätter fast det valda klistermärket där fingret är. */}
+      {/* Glöden ligger i ett eget lager bakom raketen: när den slocknar ska inte raketens eget lager ritas om
+          (WebKit tappade annars nyss fastsatta klistermärken tills sidan laddades om). Inmonteringen är ren
+          CSS-animation av samma skäl. */}
       <div ref={board} onPointerDown={tapBoard} className={`relative z-10 ${selected !== null ? 'cursor-crosshair' : ''}`} role="presentation">
-        <Rocket parts={parts} size={Math.min(560, window.innerHeight * 0.8)} className={selected !== null ? 'glow rounded-full' : ''} />
+        {selected !== null && <div className="glow pointer-events-none absolute inset-0" aria-hidden="true" />}
+        <Rocket parts={parts} size={Math.min(560, window.innerHeight * 0.8)} />
         {placed.map((p) => (
-          <motion.button
+          <button
             key={p.index}
             type="button"
             aria-label={`klistermärke ${stickers[p.index]} på raketen`}
@@ -92,13 +96,11 @@ export default function RocketScreen() {
               sfx.soft()
               remove(p.index)
             }}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 text-[52px] leading-none"
+            className="sticker-pop absolute -translate-x-1/2 -translate-y-1/2 text-[52px] leading-none"
             style={{ left: `${p.x}%`, top: `${p.y}%` }}
           >
             {stickers[p.index]}
-          </motion.button>
+          </button>
         ))}
       </div>
 
