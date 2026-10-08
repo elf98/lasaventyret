@@ -21,6 +21,8 @@ export interface Letter {
   continuous: boolean
   ipa: string
   example: string
+  /** Munhjälp för tvillingparen ("Läpparna ihop"): sägs efter ett fel i Hör du? så att skillnaden får ett kroppsligt fäste. */
+  hint?: string
   /** Läs detta som vanlig text i stället för IPA (t.ex. "e": bokstavsnamnet lät bäst). */
   say?: string
   /** Rå SSML i stället för IPA/text (t.ex. say-as characters för bokstavsnamnet). */

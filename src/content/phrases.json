@@ -164,5 +164,8 @@
   "band_intro": "Ljudbandet! Sätt fingret på första bokstaven och dra åt höger. Ljuda med medan du drar!",
   "cue_band": "Dra fingret och ljuda med!",
   "band_lift": "Oj, fingret släppte. Sätt det på första bokstaven och dra hela vägen.",
-  "blend_faster": "Och snabbare:"
+  "blend_faster": "Och snabbare:",
+  "sort_listen_close": "Lyssna noga på skillnaden.",
+  "sort_tap_ear": "Tryck på örat och lyssna en gång till. Välj sedan.",
+  "sort_comes_back": "Det ordet kommer tillbaka om en liten stund."
 }

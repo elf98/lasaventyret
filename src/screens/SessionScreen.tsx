@@ -111,7 +111,7 @@ export default function SessionScreen() {
   const alive = useRef(true)
   const finished = useRef(false)
   const meta = useRef({ id: newId(), startedAt: Date.now(), completedBefore: selectCompleted(useProgress.getState()), unlockedBefore: selectUnlocked(useProgress.getState()) })
-  const [tasks] = useState<Task[]>(
+  const [tasks, setTasks] = useState<Task[]>(
     () =>
       devTask() ??
       buildSession({ level, levels, mastery: useProgress.getState().mastery, words, sightwords, sentences, stories, rhymes, now: Date.now(), count: tasksPerSession, reviewShare: config.reviewShare, availableGames: AVAILABLE_GAMES, difficulty }),
@@ -162,10 +162,10 @@ export default function SessionScreen() {
     if (import.meta.env.DEV) (window as unknown as { __session?: unknown }).__session = { tasks, index, wrong, correct, good, streak }
   }, [tasks, index, wrong, correct, good, streak])
 
-  const finish = (totalCorrect: number, totalGood: number) => {
+  const finish = (totalCorrect: number, totalGood: number, all: Task[]) => {
     if (finished.current) return
     finished.current = true
-    const rating = sessionRating(totalGood, tasks.length)
+    const rating = sessionRating(totalGood, all.length)
     const p = useProgress.getState()
     const newlyCompleted = diff(meta.current.completedBefore, selectCompleted(p))
     if (newlyCompleted.length) p.markCompleted(newlyCompleted)
@@ -182,8 +182,8 @@ export default function SessionScreen() {
     const starsNow = useProgress.getState().stars
     const newOutfit = outfits.find((o) => o.stars <= starsNow && !p.outfits.includes(o.id)) ?? null
     if (newOutfit) p.addOutfit(newOutfit.id)
-    p.addSession({ id: meta.current.id, levelId: level.id, startedAt: meta.current.startedAt, endedAt: Date.now(), tasks: tasks.length, correct: totalCorrect, stars: rating, practiced: Array.from(new Set(tasks.map((t) => t.targetId))) })
-    finishSession({ levelId: level.id, stars: rating, correct: totalCorrect, tasks: tasks.length, sticker, newlyCompleted, newlyUnlocked, newOutfit: newOutfit?.id ?? null, newParts, bestStreak: bestStreak.current })
+    p.addSession({ id: meta.current.id, levelId: level.id, startedAt: meta.current.startedAt, endedAt: Date.now(), tasks: all.length, correct: totalCorrect, stars: rating, practiced: Array.from(new Set(all.map((t) => t.targetId))) })
+    finishSession({ levelId: level.id, stars: rating, correct: totalCorrect, tasks: all.length, sticker, newlyCompleted, newlyUnlocked, newOutfit: newOutfit?.id ?? null, newParts, bestStreak: bestStreak.current })
   }
 
   const onSolved = async () => {
@@ -191,9 +191,14 @@ export default function SessionScreen() {
     const clean = wrong === 0
     useProgress.getState().recordResult({ taskId: task.id, targetId: task.targetId, kind: task.kind, clean, wrongTaps: wrong, scaffolded: wrong >= 3 }, meta.current.id)
     const totalCorrect = correct + (clean ? 1 : 0)
-    // På svår nivå räknas bara felfritt: med fyra alternativ och ett struket efter första felet
-    // ger "rätt inom två försök" annars stjärnor åt ren gissning.
-    const totalGood = good + ((difficulty === 'hard' ? clean : wrong <= 1) ? 1 : 0)
+    // Bara felfritt räknas till stjärnorna: "rätt inom två försök" gav tre stjärnor trots fel svar,
+    // och med två alternativ är andra trycket gratis.
+    const totalGood = good + (clean ? 1 : 0)
+    // Hör du? med två bokstäver: ett fel ger ordet en gång till senare i passet, så att det syns om
+    // lyssningsmomentet gav något. Högst en repris per ord.
+    const retry = task.game === 'sound-sort' && task.letter === undefined && !clean && !task.id.startsWith('retry-') && !tasks.some((t) => t.id === `retry-${task.id}`)
+    const all = retry ? [...tasks, { ...task, id: `retry-${task.id}` }] : tasks
+    if (retry) setTasks(all)
     const newStreak = clean ? streak + 1 : 0
     bestStreak.current = Math.max(bestStreak.current, newStreak)
     wrongs.current.push(wrong)
@@ -211,12 +216,12 @@ export default function SessionScreen() {
     await audio.speak(example ? [praise, wordId(example)] : [praise])
     await wait(250)
     if (!alive.current) return
-    if (index + 1 < tasks.length) {
+    if (index + 1 < all.length) {
       setIndex(index + 1)
       setWrong(0)
       setPraiseWord(null)
       setCelebrating(false)
-    } else finish(totalCorrect, totalGood)
+    } else finish(totalCorrect, totalGood, all)
   }
 
   // Frenetiskt tryckande (fyra tryck på en sekund) ger en kort paus där inga tryck når spelet.

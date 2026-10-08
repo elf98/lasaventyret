@@ -3351,6 +3351,71 @@
       "file": "phrase.blend_faster.mp3",
       "hash": "7c9cbb33c865",
       "text": "Och snabbare:"
+    },
+    "letter.m.hint": {
+      "file": "letter.m.hint.mp3",
+      "hash": "692bb4cc4c94",
+      "text": "Läpparna ihop, och det surrar i näsan."
+    },
+    "letter.n.hint": {
+      "file": "letter.n.hint.mp3",
+      "hash": "658b30aafb12",
+      "text": "Tungan bakom tänderna, och det surrar i näsan."
+    },
+    "letter.t.hint": {
+      "file": "letter.t.hint.mp3",
+      "hash": "98aa952b8e52",
+      "text": "Tungan bakom tänderna, bara ett tick. Inget surr."
+    },
+    "letter.p.hint": {
+      "file": "letter.p.hint.mp3",
+      "hash": "15412755581e",
+      "text": "Läpparna ihop, bara en puff. Inget surr."
+    },
+    "letter.ä.hint": {
+      "file": "letter.ae.hint.mp3",
+      "hash": "e795e1cf1d19",
+      "text": "Munnen bred, som i bär."
+    },
+    "letter.k.hint": {
+      "file": "letter.k.hint.mp3",
+      "hash": "5a666627d750",
+      "text": "Långt bak i munnen, bara en puff. Inget surr."
+    },
+    "letter.d.hint": {
+      "file": "letter.d.hint.mp3",
+      "hash": "6a54788a0a0e",
+      "text": "Tungan bakom tänderna, och det surrar i halsen."
+    },
+    "letter.g.hint": {
+      "file": "letter.g.hint.mp3",
+      "hash": "bb98081d7c2b",
+      "text": "Långt bak i munnen, och det surrar i halsen."
+    },
+    "letter.å.hint": {
+      "file": "letter.aa.hint.mp3",
+      "hash": "01518e1dbef2",
+      "text": "Munnen rund som en ring, som i båt."
+    },
+    "letter.b.hint": {
+      "file": "letter.b.hint.mp3",
+      "hash": "1c541a42ca41",
+      "text": "Läpparna ihop, och det surrar i halsen. Känn med handen."
+    },
+    "phrase.sort_listen_close": {
+      "file": "phrase.sort_listen_close.mp3",
+      "hash": "dac0984e3bb2",
+      "text": "Lyssna noga på skillnaden."
+    },
+    "phrase.sort_tap_ear": {
+      "file": "phrase.sort_tap_ear.mp3",
+      "hash": "72c7e7bd6d62",
+      "text": "Tryck på örat och lyssna en gång till. Välj sedan."
+    },
+    "phrase.sort_comes_back": {
+      "file": "phrase.sort_comes_back.mp3",
+      "hash": "97bf8879e2c7",
+      "text": "Det ordet kommer tillbaka om en liten stund."
     }
   }
 }

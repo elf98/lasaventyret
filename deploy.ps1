@@ -18,7 +18,8 @@ if (-not $SkipBuild) {
     # dist/ (EPERM). Försök upp till fem gånger med några sekunders paus emellan.
     $ok = $false
     for ($i = 1; $i -le 5 -and -not $ok; $i++) {
-        if ($i -gt 1) { Write-Host "Bygget fick EPERM, försök $i ..." -ForegroundColor Yellow; Start-Sleep -Seconds 4 }
+        # ASCII i texten: PowerShell 5.1 laser filen som ANSI och forvanskar a/o med prickar.
+        if ($i -gt 1) { Write-Host "Bygget fick EPERM, nytt forsok $i ..." -ForegroundColor Yellow; Start-Sleep -Seconds 4 }
         npm run build
         $ok = ($LASTEXITCODE -eq 0)
     }

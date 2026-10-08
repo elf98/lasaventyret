@@ -117,7 +117,7 @@ Nytt ord: lägg till en rad i `words.json` med `id`, `text`, `emoji`, `sounds` o
 | Fånga ljudet | `src/games/CatchSound.tsx` | bokstav–ljud; bokstäverna flyger nästan dubbelt så långsamt på Lätt |
 | Första ljudet / Sista ljudet | `src/games/SoundHunt.tsx` | hör ordet, välj bokstaven för första respektive sista ljudet (ingen läsning) |
 | Räkna ljuden | `src/games/CountSounds.tsx` | hör ordet, välj hur många ljud det har; prickarna tänds när ordet ljudas |
-| Ljudsortering | `src/games/SoundSort.tsx` | m eller n: hör ordet, se bilden, tryck på bokstaven som finns i ordet |
+| Ljudsortering (Hör du?) | `src/games/SoundSort.tsx` | m eller n: hör ordet, se bilden, tryck på bokstaven som finns i ordet. Fel med två bokstäver låser knapparna och ger ett lyssningsmoment: fel ljud, rätt ljud i ordet, munhjälpen (`hint` i letters.json, t.ex. "Läpparna ihop"), och sedan måste barnet trycka på örat och höra ordet igen innan det får välja. Ordet kommer tillbaka en gång senare i passet |
 | Ljudtåget | `src/games/SoundTrain.tsx` | ljuda ihop i ordning, sedan välja rätt bild. Ordet sägs först EFTER bildvalet: barnet ska göra syntesen själv |
 | Ordgåtan | `src/games/SoundRiddle.tsx` | ordet hörs i bitar (ljuden med luft emellan, 650/500/350 ms efter nivå, mindre när ordet redan klarats), barnet väljer bilden. Ren sammanljudning utan bokstäver; egen mastery-kind `blend`. Vävs in en per pass på bokstavs- och ordplaneter tills `BLEND_GOAL` (8) ord smälts ihop, och ligger i Startrampens rotation. Fel: ljuden igen med mer luft; hjälp: krympande luft och sedan ordet |
 | Ljudbandet | `src/games/SoundBand.tsx` | bokstäverna sitter kant i kant, barnet drar fingret i en obruten rörelse från första till sista bokstaven och ljudar med; varje bokstav ljuder när fingret når den (på Svår ljuder inget: bara fingret och barnets röst). Ordet sägs INTE efter draget: barnet väljer bilden själv (distraktorer med samma första ljud eller längd), ordet kommer som bekräftelse. Släpp innan slutet = börja om, inget fel. I ordrotationen på alla bokstavs-, ord- och klusterplaneter |
@@ -187,9 +187,9 @@ Inspelning kräver https eller localhost.
 
 ## Stjärnor och belöning
 
-Varje pass ger 1–3 stjärnor (`src/engine/rating.ts`): 3 = alla uppgifter lösta med högst ett fel,
-2 = högst två uppgifter som krävde fler försök, annars 1. Måttet är "rätt inom två försök", inte
-felfritt, så att det lönar sig att våga pröva. Behärskning (mastery) kräver fortfarande felfritt. Under passet visas hur många stjärnor som fortfarande går
+Varje pass ger 1–3 stjärnor (`src/engine/rating.ts`): 3 = alla uppgifter felfria, 2 = högst två
+uppgifter med fel, annars 1. (Var "rätt inom två försök", men det gav tre stjärnor trots fel svar,
+och med två alternativ är andra trycket gratis.) Behärskning (mastery) kräver också felfritt. Under passet visas hur många stjärnor som fortfarande går
 att få. Klädtrösklarna i `outfits.json` är satta efter den skalan; gamla sparfiler (version 1, stjärnor
 per uppgift) skalas ner med 5 vid migrering och import. Tre tryck på 1,2 sekunder ger en kort paus
 ("Lugn! Lyssna först") där inga tryck når spelet, och i Ljudtåget räknas nästa vagn först när förra

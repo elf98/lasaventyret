@@ -4,6 +4,7 @@
  * matchar det appen frågar efter.
  */
 export const letterSoundId = (letterId: string) => `letter.${letterId}`
+export const letterHintId = (letterId: string) => `letter.${letterId}.hint`
 export const wordId = (id: string) => `word.${id}`
 export const phraseId = (key: string) => `phrase.${key}`
 export const levelNameId = (levelId: string) => `level.${levelId}`

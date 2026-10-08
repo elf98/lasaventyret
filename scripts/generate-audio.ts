@@ -15,7 +15,7 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { config, letters, levels, mascots, names, phrases, sentences, sightwords, stories, templates, tokenize, words, zones } from '../src/content'
-import { audioFileName, letterSoundId, levelGoalId, levelLineId, levelNameId, mascotIntroId, nameHelloId, nameId, phraseId, sentenceId, sightWordId, storyQuestionId, storySentenceId, storyTitleId, tokenId, wordId, zoneDoneId } from '../src/content/audioIds'
+import { audioFileName, letterHintId, letterSoundId, levelGoalId, levelLineId, levelNameId, mascotIntroId, nameHelloId, nameId, phraseId, sentenceId, sightWordId, storyQuestionId, storySentenceId, storyTitleId, tokenId, wordId, zoneDoneId } from '../src/content/audioIds'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const outDir = path.join(root, 'public', 'audio')
@@ -121,6 +121,7 @@ function collect(): Item[] {
       cut: l.cut,
       voice: l.voice,
     })
+  for (const l of letters) if (l.hint) items.push({ id: letterHintId(l.id), text: l.hint, inner: say(l.hint) })
   for (const w of words)
     items.push({
       id: wordId(w.id),
