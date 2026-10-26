@@ -104,7 +104,8 @@ export default function RocketScreen() {
         ))}
       </div>
 
-      <div className="absolute bottom-4 left-4 z-10">
+      {/* Nere till höger: till vänster låg maskoten över brickans nedersta klistermärken. */}
+      <div className="absolute bottom-4 right-4 z-10">
         <Mascot size={120} mood={selected !== null ? 'think' : 'happy'} />
       </div>
     </div>

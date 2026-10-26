@@ -275,6 +275,18 @@ export default function MapScreen() {
             })}
           </svg>
 
+          {/* Före planeterna i DOM:en och genomtryckbar: där den står i vägen ska planeten synas och gå att välja. */}
+          <motion.div
+            className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
+            initial={false}
+            // Vilar snett ovanför planeten till vänster: under den ligger mätaren och stjärnorna, och
+            // till höger hänger tvillingplaneterna.
+            animate={{ left: `${mascotAt.x - (flying ? 0 : 8)}vw`, top: `${mascotAt.y - (flying ? 14 : 15)}%`, scale: flying ? 0.7 : 1 }}
+            transition={{ duration: 1.4, ease: 'easeInOut' }}
+          >
+            <Mascot size={130} mood={flying ? 'celebrate' : 'idle'} pokeable={false} />
+          </motion.div>
+
           {levels.map((l) => {
             const isDone = completed.includes(l.id)
             // Bästa passbetyget (1–3) på planeten visas under den, i stället för en ensam stjärna vid klar.
@@ -322,16 +334,6 @@ export default function MapScreen() {
             )
           })}
 
-          <motion.div
-            className="absolute z-10 -translate-x-1/2 -translate-y-1/2"
-            initial={false}
-            // Vilar snett ovanför planeten till vänster: under den ligger mätaren och stjärnorna, och
-            // till höger hänger tvillingplaneterna.
-            animate={{ left: `${mascotAt.x - (flying ? 0 : 8)}vw`, top: `${mascotAt.y - (flying ? 14 : 15)}%`, scale: flying ? 0.7 : 1 }}
-            transition={{ duration: 1.4, ease: 'easeInOut' }}
-          >
-            <Mascot size={130} mood={flying ? 'celebrate' : 'idle'} pokeable={!flying} />
-          </motion.div>
         </div>
       </div>
 
