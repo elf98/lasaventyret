@@ -3,7 +3,7 @@
 #   .\deploy.ps1 -SkipBuild bara kopiera
 param([switch]$SkipBuild)
 $ErrorActionPreference = 'Stop'
-$server = 'erik@159.89.22.162'
+$server = 'erik@185.189.50.240'
 $remote = '/var/www/lasaventyret'
 Set-Location $PSScriptRoot
 

@@ -224,7 +224,7 @@ då kan två röster överlappa.
 
 ## Deploy
 
-1. DNS: A-post `lasaventyret.elf98.com` → 159.89.22.162.
+1. DNS: A-post `lasaventyret.elf98.com` → 185.189.50.240.
 2. På servern (PuTTY): kopiera `deploy/apache-lasaventyret.conf` till `~/lasaventyret.conf` och kör
    raderna i `deploy/server-setup.sh` (vhost, `a2ensite`, certbot). Vhosten är IP-baserad enligt
    serverns konvention.
