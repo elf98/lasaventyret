@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { audio } from '../audio/AudioManager'
-import { canRecord, deleteRecording, deleteServerRecording, letterRecordingId, listRecordingIds, listServerRecordingIds, saveRecording, startRecording, uploadRecording, type Recorder } from '../audio/recordings'
+import { canRecord, checkRecordingKey, deleteRecording, deleteServerRecording, letterRecordingId, listRecordingIds, listServerRecordingIds, recordingKey, saveRecording, setRecordingKey, startRecording, uploadRecording, type Recorder } from '../audio/recordings'
 import { autoTrim, cut, decodeBlob, drawWave, encodeWav, playClip, type Clip } from '../audio/wav'
 import { letters } from '../content'
 import { letterSoundId } from '../content/audioIds'
@@ -27,6 +27,20 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
   const [draft, setDraft] = useState<Draft | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
+  /** Har enheten lösenordet sparas inspelningarna för alla; annars bara här. */
+  const [shared, setShared] = useState(() => recordingKey() !== '')
+  const [keyDraft, setKeyDraft] = useState('')
+  const [keyError, setKeyError] = useState(false)
+  const unlock = async () => {
+    const key = keyDraft.trim()
+    if (!key) return
+    if (await checkRecordingKey(key)) {
+      setRecordingKey(key)
+      setShared(true)
+      setKeyDraft('')
+      setKeyError(false)
+    } else setKeyError(true)
+  }
   const recorder = useRef<Recorder | null>(null)
   const timer = useRef<number | null>(null)
   const stopPlay = useRef<(() => void) | null>(null)
@@ -91,6 +105,8 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
     if (status === 'saved') {
       setServer((s) => new Set([...s, current]))
       setNotice(`${current.toUpperCase()} sparad på servern: iPaden använder den vid nästa start.`)
+    } else if (status === 'denied') {
+      setNotice(`${current.toUpperCase()} sparad på den här enheten. Den hörs bara här.`)
     } else {
       setNotice(`${current.toUpperCase()} sparad på den här enheten, men servern tog inte emot den. Kör appen via npm run dev, eller se README om upload-recording.php.`)
     }
@@ -218,6 +234,21 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
           {state === 'saving' && <div className="text-gray-600">Sparar …</div>}
           {notice && <div className="rounded-xl bg-green-100 px-4 py-2 text-green-900">{notice}</div>}
           {error && <div className="text-red-600">{error}</div>}
+          {shared ? (
+            <div className="text-[15px] text-gray-600">
+              Den här enheten sparar inspelningarna för alla.{' '}
+              <button type="button" className="underline" onClick={() => { setRecordingKey(''); setShared(false) }}>
+                Sluta med det
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-wrap items-center gap-2 text-[15px] text-gray-600">
+              <span>Inspelningarna sparas bara på den här enheten. Lösenord för att spara för alla:</span>
+              <input type="password" value={keyDraft} onChange={(e) => setKeyDraft(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') void unlock() }} className="rounded-lg border border-gray-300 px-3 py-1" aria-label="Lösenord" />
+              <button type="button" onClick={() => void unlock()} className="rounded-full bg-gray-200 px-4 py-1 font-bold">Lås upp</button>
+              {keyError && <span className="text-red-600">Fel lösenord.</span>}
+            </div>
+          )}
         </div>
       </div>
     </div>

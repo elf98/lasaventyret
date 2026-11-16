@@ -183,6 +183,9 @@ export/import eller deploy. Prioritet: lokal inspelning > serverinspelning > TTS
 `scripts/recording-upload.ts` emot samma anrop och skriver till `public/recorded/`; `deploy.ps1`
 hämtar serverns `recorded/` före bygget så att inget skrivs över. Servern behöver php-fpm för
 `upload-recording.php` (se `deploy/apache-lasaventyret.conf`) och `recorded/` skrivbar för www-data.
+Uppladdning och radering kräver ett lösenord som skrivs in en gång per enhet i inspelningsvyn (sparas i
+localStorage). Servern har bara dess sha256 i `recording-key.php` i webbroten (`<?php return '<sha256>';`),
+som inte ingår i bygget. Utan lösenord sparas inspelningar bara lokalt på enheten.
 Inspelning kräver https eller localhost.
 
 ## Stjärnor och belöning

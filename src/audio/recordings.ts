@@ -134,13 +134,47 @@ export async function listServerRecordingIds(): Promise<string[]> {
  * Laddar upp en inspelning (WAV) till servern. Samma adress tas emot av Vites dev-server (skriver till
  * public/recorded/) och av upload-recording.php på servern. 'unavailable' = ingen mottagare där appen kör.
  */
-export async function uploadRecording(id: string, blob: Blob): Promise<'saved' | 'unavailable'> {
+const KEY_STORE = 'lasaventyret-recording-key'
+
+/**
+ * Lösenordet som låter den här enheten ändra ljuden för alla. Det ligger bara i enhetens
+ * localStorage, aldrig i koden: annars kan vem som helst med adressen spela över eller radera ljuden.
+ */
+export function recordingKey(): string {
+  try {
+    return localStorage.getItem(KEY_STORE) ?? ''
+  } catch {
+    return ''
+  }
+}
+
+export function setRecordingKey(key: string): void {
+  try {
+    if (key) localStorage.setItem(KEY_STORE, key)
+    else localStorage.removeItem(KEY_STORE)
+  } catch {
+    // Privat läge: nyckeln gäller då bara tills sidan laddas om.
+  }
+}
+
+/** Frågar servern om lösenordet stämmer. */
+export async function checkRecordingKey(key: string): Promise<boolean> {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}upload-recording.php`, { headers: { 'X-Recording-Key': key }, cache: 'no-store' })
+    return res.ok && ((await res.json()) as { ok?: boolean }).ok === true
+  } catch {
+    return false
+  }
+}
+
+export async function uploadRecording(id: string, blob: Blob): Promise<'saved' | 'denied' | 'unavailable'> {
   try {
     const res = await fetch(`${import.meta.env.BASE_URL}upload-recording.php?id=${encodeURIComponent(id)}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'audio/wav', 'X-Recording-Key': 'lasaventyret' },
+      headers: { 'Content-Type': 'audio/wav', 'X-Recording-Key': recordingKey() },
       body: blob,
     })
+    if (res.status === 403) return 'denied'
     if (!res.ok) return 'unavailable'
     const data = (await res.json()) as { ok?: boolean; file?: string; hash?: string }
     if (!data.ok) return 'unavailable'
@@ -153,7 +187,7 @@ export async function uploadRecording(id: string, blob: Blob): Promise<'saved' |
 
 export async function deleteServerRecording(id: string): Promise<boolean> {
   try {
-    const res = await fetch(`${import.meta.env.BASE_URL}upload-recording.php?id=${encodeURIComponent(id)}`, { method: 'DELETE', headers: { 'X-Recording-Key': 'lasaventyret' } })
+    const res = await fetch(`${import.meta.env.BASE_URL}upload-recording.php?id=${encodeURIComponent(id)}`, { method: 'DELETE', headers: { 'X-Recording-Key': recordingKey() } })
     if (res.ok) audio.clearServerRecording(id)
     return res.ok
   } catch {

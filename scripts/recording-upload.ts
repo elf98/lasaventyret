@@ -11,7 +11,6 @@ import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node
 import path from 'node:path'
 import type { Plugin } from 'vite'
 
-const KEY = 'lasaventyret'
 const ID_RE = /^[a-z0-9_.åäö-]{1,80}$/i
 
 interface Index {
@@ -36,7 +35,8 @@ export function recordingUpload(): Plugin {
           res.setHeader('Content-Type', 'application/json')
           res.end(JSON.stringify(body))
         }
-        if (req.headers['x-recording-key'] !== KEY) return reply(403, { ok: false, error: 'nyckel' })
+        // Ingen nyckelkontroll i dev: servern lyssnar bara lokalt. I drift kräver upload-recording.php lösenordet.
+        if (req.method === 'GET') return reply(200, { ok: true })
         if (!ID_RE.test(id)) return reply(400, { ok: false, error: 'id' })
         mkdirSync(dir, { recursive: true })
         const index = readIndex()

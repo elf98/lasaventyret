@@ -5,6 +5,11 @@
  * hör inspelningen utan export/import eller ny deploy.
  *
  *   POST   /upload-recording.php?id=letter.s   (body: audio/wav, header X-Recording-Key)
+ *   GET    /upload-recording.php               (bara nyckelkontroll: 200 eller 403)
+ *
+ * Nyckeln är ett lösenord som bara finns på de enheter som får ändra ljuden för alla (skrivs in en
+ * gång i inspelningsvyn). Servern har bara dess sha256 i recording-key.php, som inte ingår i bygget
+ * och därför aldrig skrivs över av en deploy. Saknas filen tas ingenting emot.
  *   DELETE /upload-recording.php?id=letter.s
  *
  * Kräver att vhosten kör PHP (php-fpm) och att recorded/ är skrivbar för www-data.
@@ -12,9 +17,14 @@
  */
 header('Content-Type: application/json');
 $key = $_SERVER['HTTP_X_RECORDING_KEY'] ?? '';
-if ($key !== 'lasaventyret') {
+$want = is_file(__DIR__ . '/recording-key.php') ? include __DIR__ . '/recording-key.php' : '';
+if (!is_string($want) || strlen($want) !== 64 || $key === '' || !hash_equals($want, hash('sha256', $key))) {
     http_response_code(403);
     echo json_encode(['ok' => false, 'error' => 'nyckel']);
+    exit;
+}
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    echo json_encode(['ok' => true]);
     exit;
 }
 $id = $_GET['id'] ?? '';
