@@ -20,6 +20,8 @@ export interface Letter {
   type: 'consonant' | 'vowel'
   continuous: boolean
   ipa: string
+  /** Bokstaven låter som en annan (c och z som s, q som k, w som v): de får aldrig stå som alternativ mot varandra i en lyssningsuppgift. */
+  sameAs?: string
   example: string
   /** Munhjälp för tvillingparen ("Läpparna ihop"): sägs efter ett fel i Hör du? så att skillnaden får ett kroppsligt fäste. */
   hint?: string

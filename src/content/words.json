@@ -8,7 +8,7 @@
   {"id": "is", "text": "is", "emoji": "🧊", "sounds": ["i", "s"], "decodable": true},
   {"id": "arm", "text": "arm", "emoji": "💪", "sounds": ["a", "r", "m"], "decodable": true},
   {"id": "ram", "text": "ram", "emoji": "🖼️", "sounds": ["r", "a", "m"], "decodable": true},
-  {"id": "mor", "text": "mor", "emoji": "👩", "sounds": ["m", "o", "r"], "decodable": true},
+  {"id": "mor", "text": "mor", "emoji": "🤱", "sounds": ["m", "o", "r"], "decodable": true},
   {"id": "se", "text": "se", "emoji": "", "sounds": ["s", "e"], "decodable": true, "ipa": "seː"},
   {"id": "tomat", "text": "tomat", "emoji": "🍅", "sounds": ["t", "o", "m", "a", "t"], "decodable": true},
   {"id": "pil", "text": "pil", "emoji": "🏹", "sounds": ["p", "i", "l"], "decodable": true},

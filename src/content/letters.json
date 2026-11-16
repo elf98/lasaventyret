@@ -24,8 +24,8 @@
   { "id": "j", "order": 23, "type": "consonant", "continuous": true , "ipa": "jjj", "cut": { "keep": 0.55 }, "example": "jul" },
   { "id": "b", "order": 24, "type": "consonant", "continuous": false, "ipa": "bə", "hint": "Läpparna ihop, och det surrar i halsen. Känn med handen.", "example": "bil" },
   { "id": "x", "order": 25, "type": "consonant", "continuous": false, "ipa": "ks", "example": "sax" },
-  { "id": "c", "order": 26, "type": "consonant", "continuous": true , "ipa": "s", "example": "cykel" },
-  { "id": "z", "order": 27, "type": "consonant", "continuous": true , "ipa": "s", "example": "zebra" },
-  { "id": "q", "order": 28, "type": "consonant", "continuous": false, "ipa": "kə", "example": "quiz" },
-  { "id": "w", "order": 29, "type": "consonant", "continuous": true , "ipa": "v", "example": "wok" }
+  { "id": "c", "sameAs": "s", "order": 26, "type": "consonant", "continuous": true , "ipa": "s", "example": "cykel" },
+  { "id": "z", "sameAs": "s", "order": 27, "type": "consonant", "continuous": true , "ipa": "s", "example": "zebra" },
+  { "id": "q", "sameAs": "k", "order": 28, "type": "consonant", "continuous": false, "ipa": "kə", "example": "quiz" },
+  { "id": "w", "sameAs": "v", "order": 29, "type": "consonant", "continuous": true , "ipa": "v", "example": "wok" }
 ]

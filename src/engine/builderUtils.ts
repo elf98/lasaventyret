@@ -18,6 +18,14 @@ export function blendTier(w: Word): number {
   return (all ? 0 : onset ? 1 : 2) * 10 + Math.min(9, w.sounds.length)
 }
 
+/**
+ * Ljudet bokstaven står för. C och Z låter som S, Q som K och W som V: hör barnet "s" går det inte
+ * att välja mellan S, C och Z, så bokstäver med samma ljud får aldrig vara alternativ mot varandra.
+ */
+export function soundKey(letter: string): string {
+  return letterById.get(letter)?.sameAs ?? letter
+}
+
 /** Bokstavspar som har en egen tvillingplanet (m/n, b/d ...): de svåraste distraktorerna för varandra. */
 const CONTRAST_PAIRS: string[][] = levels.filter((l) => l.kind === 'contrast').map((l) => l.letters)
 
@@ -33,7 +41,8 @@ export function contrastPartner(letter: string): string | undefined {
  */
 export function wordOptions(game: GameId, w: Word, allWords: Word[], knownWords: Word[], letterPool: string[], rng: Rng): string[] {
   if (game === 'build-word') {
-    const extra = shuffle(letterPool.filter((id) => !w.sounds.includes(id)), rng).slice(0, w.sounds.length <= 3 ? 2 : 1)
+    const taken = new Set(w.sounds.map(soundKey))
+    const extra = shuffle(letterPool.filter((id) => !taken.has(soundKey(id))), rng).slice(0, w.sounds.length <= 3 ? 2 : 1)
     return shuffle([...w.sounds, ...extra], rng)
   }
   if (game === 'which-word') {
@@ -90,7 +99,7 @@ export function wordOptions(game: GameId, w: Word, allWords: Word[], knownWords:
  * sedan övriga kända. Rätt svar först, se wordOptions.
  */
 export function letterOptions(target: string, planetLetters: string[], known: string[], rng: Rng): string[] {
-  const others = shuffle(known.filter((id) => id !== target), rng)
+  const others = shuffle(known.filter((id) => soundKey(id) !== soundKey(target)), rng)
   const partner = contrastPartner(target)
   const ordered = [
     ...others.filter((id) => id === partner),

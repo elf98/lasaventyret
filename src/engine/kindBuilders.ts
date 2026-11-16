@@ -1,5 +1,5 @@
 import { templates, type GameId, type Level, type Sentence, type SightWord, type Story, type Word } from '../content'
-import { blendTier, DISTRACTOR_POOL, sentenceOptions, wordOptions } from './builderUtils'
+import { blendTier, DISTRACTOR_POOL, sentenceOptions, soundKey, wordOptions } from './builderUtils'
 import { masteryKey, weakness } from './mastery'
 import { shuffle, type Rng } from './random'
 import type { BuildInput } from './sessionBuilder'
@@ -199,7 +199,7 @@ export function phonologyTasks(input: BuildInput, games: GameId[], rng: Rng, opt
     const w = take((x) => known(at(x)))
     if (!w) return null
     const answer = at(w)
-    const others = [...new Set(pool.map(at))].filter((s) => s !== answer && !w.sounds.includes(s) && known(s))
+    const others = [...new Set(pool.map(at))].filter((s) => !w.sounds.some((x) => soundKey(x) === soundKey(s)) && known(s))
     const picks = shuffle(others, rng).slice(0, DISTRACTOR_POOL)
     if (picks.length < 2) return null
     return { id: `${first ? 'f' : 'l'}${i}-${w.id}`, game: first ? 'first-sound' : 'last-sound', targetId: w.id, kind: 'phoneme', options: [answer, ...picks], answer, isReview: false }

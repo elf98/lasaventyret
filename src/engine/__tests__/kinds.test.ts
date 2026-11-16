@@ -412,3 +412,25 @@ describe('upplåsning', () => {
     expect(unlockedLevels(levels, [], half)).not.toContain('marsverkstan')
   })
 })
+
+describe('bokstäver med samma ljud', () => {
+  it('står aldrig som alternativ mot varandra (c/z/s, q/k, w/v)', () => {
+    const key = (id: string) => letters.find((l) => l.id === id)?.sameAs ?? id
+    const wordById = new Map(words.map((w) => [w.id, w]))
+    for (const levelId of ['robotplaneten', 'dubbelplaneten', 'stjarnfabriken']) {
+      for (let seed = 1; seed <= 40; seed++) {
+        for (const t of build(levelId, { rng: seeded(seed) })) {
+          if (t.game === 'catch-sound') {
+            const same = t.options.filter((o) => key(o) === key(t.targetId))
+            expect(same, `${levelId} ${t.id}`).toEqual([t.targetId])
+          }
+          if (t.game === 'build-word') {
+            const sounds = wordById.get(t.targetId)?.sounds ?? []
+            const extra = t.options.filter((o) => !sounds.includes(o))
+            expect(extra.filter((o) => sounds.some((s) => key(s) === key(o))), `${levelId} ${t.id}`).toEqual([])
+          }
+        }
+      }
+    }
+  })
+})
