@@ -7,7 +7,8 @@ import { starBurst } from '../components/confetti'
 import Mascot from '../components/Mascot'
 import { useCaseClass } from '../components/textCase'
 import { letterById, wordById } from '../content'
-import { letterSoundId, phraseId, wordId } from '../content/audioIds'
+import { phraseId, wordId } from '../content/audioIds'
+import { wordSoundIds } from '../content/sounds'
 import type { Task } from '../engine/types'
 import { useSettings } from '../store/settings'
 
@@ -35,6 +36,8 @@ type Phase = 'slide' | 'pick' | 'done'
 export default function SoundBand({ task, scaffold, eliminated = [], celebrating, brief, onWrong, onSolved }: Props) {
   const word = wordById.get(task.targetId)
   const sounds = word?.sounds ?? []
+  /** Ljuden som de låter i just det här ordet (lång vokal i glas, kort i glass). */
+  const soundIds = wordSoundIds(word)
   const caseClass = useCaseClass()
   const silent = useSettings((s) => s.difficulty) === 'hard'
   const [phase, setPhase] = useState<Phase>('slide')
@@ -62,7 +65,7 @@ export default function SoundBand({ task, scaffold, eliminated = [], celebrating
     // Sätts här, inte bara vid skapandet: i dev kör React effekten två gånger och städningen
     // hade annars lämnat alive=false för gott, så att bandet aldrig gick vidare efter draget.
     alive.current = true
-    audio.preload([...sounds.map(letterSoundId), wordId(task.targetId)])
+    audio.preload([...soundIds, wordId(task.targetId)])
     void audio.speak(phraseId(brief ? 'cue_band' : 'band_intro'))
     return () => {
       alive.current = false
@@ -73,8 +76,8 @@ export default function SoundBand({ task, scaffold, eliminated = [], celebrating
   useEffect(() => {
     if (!scaffold) return
     // Hjälp efter tre fel: ljuden med luft, sedan ordet, både under draget och i bildvalet.
-    if (phase === 'slide') void audio.speakEach([phraseId('band_intro'), ...sounds.map(letterSoundId), wordId(task.targetId)], (i) => setReached(i - 1), 250).then(() => setReached(-1))
-    if (phase === 'pick') void audio.speakEach([...sounds.map(letterSoundId), wordId(task.targetId)], undefined, 250)
+    if (phase === 'slide') void audio.speakEach([phraseId('band_intro'), ...soundIds, wordId(task.targetId)], (i) => setReached(i - 1), 250).then(() => setReached(-1))
+    if (phase === 'pick') void audio.speakEach([...soundIds, wordId(task.targetId)], undefined, 250)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scaffold])
 
@@ -91,7 +94,7 @@ export default function SoundBand({ task, scaffold, eliminated = [], celebrating
   const enter = (i: number, from: number) => {
     // Hoppar fingret över en bokstav spelas även den, snabbt, så att inget ljud saknas i ordet.
     const ids: string[] = []
-    for (let k = from + 1; k <= Math.min(i, sounds.length - 1); k++) ids.push(letterSoundId(sounds[k]))
+    for (let k = from + 1; k <= Math.min(i, sounds.length - 1); k++) ids.push(soundIds[k])
     if (ids.length && !silent) void audio.speakEach(ids, undefined, 0)
     setReached(Math.min(i, sounds.length - 1))
   }
@@ -174,7 +177,7 @@ export default function SoundBand({ task, scaffold, eliminated = [], celebrating
     setWobble(id)
     onWrong()
     // Inte ordet: bara ljuden igen, tätt, så att barnet får smälta ihop dem en gång till.
-    await audio.speakEach([phraseId('not_that_picture'), ...sounds.map(letterSoundId)], undefined, 150)
+    await audio.speakEach([phraseId('not_that_picture'), ...soundIds], undefined, 150)
     setWobble(null)
     busy.current = false
   }

@@ -7,6 +7,7 @@ import LetterCard from '../components/LetterCard'
 import Mascot from '../components/Mascot'
 import { wordById } from '../content'
 import { letterSoundId, phraseId, wordId } from '../content/audioIds'
+import { wordSoundIds } from '../content/sounds'
 import type { Task } from '../engine/types'
 
 interface Props {
@@ -28,6 +29,8 @@ interface Props {
 export default function BuildWord({ task, scaffold, celebrating, brief, onWrong, onSolved }: Props) {
   const word = wordById.get(task.targetId)
   const sounds = word?.sounds ?? []
+  /** Ljuden som de låter i just det här ordet (lång vokal i glas, kort i glass). */
+  const soundIds = wordSoundIds(word)
   const tiles = task.options
   const [placed, setPlaced] = useState<number[]>([]) // brick-index per ruta
   const [wobble, setWobble] = useState<number | null>(null)
@@ -42,15 +45,15 @@ export default function BuildWord({ task, scaffold, celebrating, brief, onWrong,
   const [dragPos, setDragPos] = useState<{ idx: number; dx: number; dy: number } | null>(null)
 
   useEffect(() => {
-    audio.preload([...sounds.map(letterSoundId), wordId(task.targetId)])
+    audio.preload([...soundIds, wordId(task.targetId)])
     // Ord utan bild (har, kan, inte): utan ledtråd är uppgiften omöjlig, så ordet sägs först.
-    const intro = [phraseId(brief ? 'build_first' : 'build_intro'), letterSoundId(sounds[0])]
+    const intro = [phraseId(brief ? 'build_first' : 'build_intro'), soundIds[0]]
     void audio.speak(word && word.emoji === '' ? [phraseId('build_word_is'), wordId(task.targetId), ...intro] : intro)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task.targetId])
 
   useEffect(() => {
-    if (scaffold && !done) void audio.speak([phraseId('build_next'), letterSoundId(sounds[next]), phraseId('tap_it')])
+    if (scaffold && !done) void audio.speak([phraseId('build_next'), soundIds[next], phraseId('tap_it')])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scaffold])
 
@@ -65,7 +68,7 @@ export default function BuildWord({ task, scaffold, celebrating, brief, onWrong,
   // luft, och först då ordet. Så hör barnet ordet stiga fram ur ljuden i stället för att få det serverat.
   const finish = async () => {
     setDone(true)
-    const ids = sounds.map(letterSoundId)
+    const ids = soundIds
     const ok = await audio.speakEach([phraseId('build_blend'), ...ids], (i) => setBlend(i - 1 >= 0 ? i - 1 : -1), 320)
     if (ok) await audio.speakEach([phraseId('blend_faster'), ...ids, wordId(task.targetId)], (i) => {
       setBlend(i - 1 >= 0 && i - 1 < sounds.length ? i - 1 : -1)
@@ -83,7 +86,7 @@ export default function BuildWord({ task, scaffold, celebrating, brief, onWrong,
       const p = [...placed, tileIdx]
       setPlaced(p)
       busy.current = true
-      await audio.speak(letterSoundId(letter))
+      await audio.speak(soundIds[next])
       busy.current = false
       if (p.length === sounds.length) void finish()
       return
@@ -93,7 +96,7 @@ export default function BuildWord({ task, scaffold, celebrating, brief, onWrong,
     sfx.soft()
     setWobble(tileIdx)
     onWrong()
-    await audio.speak([phraseId('almost'), letterSoundId(letter), phraseId('build_next'), letterSoundId(sounds[next])])
+    await audio.speak([phraseId('almost'), letterSoundId(letter), phraseId('build_next'), soundIds[next]])
     setWobble(null)
     busy.current = false
   }
@@ -133,7 +136,7 @@ export default function BuildWord({ task, scaffold, celebrating, brief, onWrong,
   }
 
   // I glappet mellan sista brickan och ihopljudningen finns inget "nästa ljud": spela ordet i stället.
-  const replay = () => void audio.speak(done || next >= sounds.length ? wordId(task.targetId) : letterSoundId(sounds[next]))
+  const replay = () => void audio.speak(done || next >= sounds.length ? wordId(task.targetId) : soundIds[next])
 
   if (!word) return null
   const size = sounds.length > 5 ? 84 : 104

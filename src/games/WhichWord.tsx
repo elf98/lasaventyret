@@ -8,6 +8,7 @@ import Mascot from '../components/Mascot'
 import { useCaseClass } from '../components/textCase'
 import { sightwordById, wordById } from '../content'
 import { letterSoundId, phraseId, sightWordId, wordId } from '../content/audioIds'
+import { wordSoundIds } from '../content/sounds'
 import type { Task } from '../engine/types'
 
 interface Props {
@@ -57,7 +58,7 @@ export default function WhichWord({ task, scaffold, eliminated = [], celebrating
     if (!scaffold || solved) return
     if (readFirst && target) {
       const sounds = target.decodable && !target.noBlend ? target.sounds : []
-      void audio.speakEach([...sounds.map(letterSoundId), wordId(task.targetId)], (i) => setBlend(i < sounds.length ? i : -1)).then(() => setBlend(-1))
+      void audio.speakEach([...wordSoundIds(target).slice(0, sounds.length), wordId(task.targetId)], (i) => setBlend(i < sounds.length ? i : -1)).then(() => setBlend(-1))
       return
     }
     const first = label(task.targetId).charAt(0).toLowerCase()

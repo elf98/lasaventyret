@@ -10,6 +10,27 @@
     <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <title>Läsäventyret</title>
+    <script>
+      // Appen är ritad för en iPad (minst 768 punkter på kortsidan) med fasta mått på bokstäver och
+      // bilder. På en mobil blir allt jättestort, så där låtsas sidan vara lika hög som en iPad och
+      // webbläsaren skalar ner hela bilden. Proportionerna (bredd/höjd) ändras inte av skalningen.
+      ;(function () {
+        var meta = document.querySelector('meta[name=viewport]')
+        var last = 0
+        function fit() {
+          if (Math.min(screen.width, screen.height) >= 700) return
+          var r = window.innerWidth / window.innerHeight
+          var w = r >= 1 ? Math.max(1024, Math.round((768 * r) / 16) * 16) : 768
+          // Mätfel efter skalningen får inte ge en ny bredd varje gång (då hoppar bilden).
+          if (last && Math.abs(w - last) / last < 0.06) return
+          last = w
+          meta.setAttribute('content', 'width=' + w + ', viewport-fit=cover, user-scalable=no')
+        }
+        fit()
+        window.addEventListener('resize', fit)
+        window.addEventListener('orientationchange', function () { setTimeout(fit, 300) })
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

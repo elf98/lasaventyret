@@ -125,6 +125,8 @@
   "calm_down": "Lugn! Lyssna först, tryck sedan.",
   "hint_starts_with": "Ordet börjar på",
   "btn_fullscreen": "Helskärm",
+  "length_intro": "Lyssna på ordet. Är ljudet långt eller kort? Strecket är långt och pricken är kort.",
+  "cue_length": "Långt eller kort?",
   "sort_intro": "Lyssna på ordet och titta på bilden. Hör du",
   "cue_sort": "Hör du",
   "first_sound_intro": "Vilket ljud börjar ordet på? Tryck på bokstaven.",

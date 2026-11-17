@@ -6,7 +6,8 @@ import BigButton from '../components/BigButton'
 import { starBurst } from '../components/confetti'
 import Mascot from '../components/Mascot'
 import { wordById } from '../content'
-import { letterSoundId, phraseId, wordId } from '../content/audioIds'
+import { phraseId, wordId } from '../content/audioIds'
+import { wordSoundIds } from '../content/sounds'
 import { masteryKey } from '../engine/mastery'
 import type { Task } from '../engine/types'
 import { useProgress } from '../store/progress'
@@ -37,7 +38,7 @@ export default function SoundRiddle({ task, scaffold, eliminated = [], celebrati
   const difficulty = useSettings((s) => s.difficulty)
   const streak = useProgress((s) => s.mastery[masteryKey('blend', task.targetId)]?.streak ?? 0)
   const gap = Math.round(GAP[difficulty] * (streak > 0 ? 0.7 : 1))
-  const sounds = (word?.sounds ?? []).map(letterSoundId)
+  const sounds = wordSoundIds(word)
   const [solved, setSolved] = useState(false)
   const [wobble, setWobble] = useState<string | null>(null)
   const [pulse, setPulse] = useState(-1)

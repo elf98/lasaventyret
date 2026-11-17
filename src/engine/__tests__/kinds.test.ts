@@ -7,7 +7,7 @@ import { buildSession, type BuildInput } from '../sessionBuilder'
 import type { MasteryItem } from '../types'
 import { levelProgress, unlockedLevels } from '../unlock'
 
-const ALL: BuildInput['availableGames'] = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'sound-riddle', 'sound-band', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story']
+const ALL: BuildInput['availableGames'] = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'sound-riddle', 'sound-band', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story', 'vowel-length']
 const lvl = (id: string) => levels.find((l) => l.id === id)!
 const lvl0 = lvl
 const build = (levelId: string, over: Partial<BuildInput> = {}) =>
@@ -432,5 +432,71 @@ describe('bokstäver med samma ljud', () => {
         }
       }
     }
+  })
+})
+
+describe('vokallängd', () => {
+  it('lång vokal före en konsonant, kort före två, med undantagen ur words.json', async () => {
+    const { longVowelIndex, wordSoundIds } = await import('../../content/sounds')
+    const w = (id: string) => words.find((x) => x.id === id)!
+    for (const id of ['glas', 'tak', 'sol', 'apa', 'is', 'mat', 'bok', 'sko']) expect(longVowelIndex(w(id)), id).toBeGreaterThanOrEqual(0)
+    for (const id of ['glass', 'tack', 'ost', 'katt', 'sax', 'ram', 'han', 'mun', 'bock']) expect(longVowelIndex(w(id)), id).toBe(-1)
+    expect(wordSoundIds(w('glas'))).toEqual(['letter.g', 'letter.l', 'letter.a.long', 'letter.s'])
+    expect(wordSoundIds(w('glass'))).toEqual(['letter.g', 'letter.l', 'letter.a', 'letter.s', 'letter.s'])
+    expect(wordSoundIds(w('tomat'))[3]).toBe('letter.a.long')
+    // Överstyrningen måste peka på en vokal, och varje minimalt par ska skilja sig i längd.
+    for (const x of words) {
+      const i = longVowelIndex(x)
+      if (i >= 0) expect(letters.find((l) => l.id === x.sounds[i])?.type, x.id).toBe('vowel')
+      if (x.pair) expect(longVowelIndex(x) >= 0, `${x.id}/${x.pair}`).not.toBe(longVowelIndex(w(x.pair)) >= 0)
+    }
+    for (const l of letters) if (l.longExample) expect(longVowelIndex(w(l.longExample)), l.longExample).toBe(w(l.longExample).sounds.indexOf(l.id))
+  })
+
+  it('Dubbelplaneten har Långt eller kort? i varje pass, aldrig båda orden i ett par', () => {
+    for (let seed = 1; seed <= 20; seed++) {
+      const ts = build('dubbelplaneten', { rng: seeded(seed) }).filter((t) => t.game === 'vowel-length')
+      expect(ts.length).toBe(2)
+      const [a, b] = ts.map((t) => words.find((x) => x.id === t.targetId)!)
+      expect(a.pair).not.toBe(b.id)
+      for (const t of ts) expect(['long', 'short']).toContain(t.answer)
+    }
+  })
+})
+
+describe('upplåsning i kedja', () => {
+  it('ord från Dubbelplaneten öppnar inte Småmeningar förbi Stjärnfabriken och Turboverkstan', () => {
+    // Allt till och med Robotplaneten klart, och varje dubbeltecknat/klusterord behärskat: Turboverkstans
+    // mätare är då över hälften fast barnet aldrig varit där.
+    const completed = levels.slice(0, levels.findIndex((l) => l.id === 'dubbelplaneten')).map((l) => l.id)
+    const mastery: Record<string, MasteryItem> = {}
+    for (const id of lvl('dubbelplaneten').words ?? []) {
+      const key = masteryKey('word', id)
+      mastery[key] = { ...newItem(key, 'word', 0), attempts: 3, streak: 3, mastered: true }
+    }
+    for (const w of words.filter((x) => !x.decodable && !x.noBlend)) {
+      const key = masteryKey('word', w.id)
+      mastery[key] = { ...newItem(key, 'word', 0), attempts: 3, streak: 3, mastered: true }
+    }
+    expect(levelProgress(lvl('verkstan'), mastery).partial).toBeGreaterThanOrEqual(0.5)
+    const open = unlockedLevels(levels, completed, mastery)
+    const idx = (id: string) => levels.findIndex((l) => l.id === id)
+    // Inga hål: är en planet i huvudkedjan öppen är alla före den också öppna.
+    const main = levels.filter((l) => l.kind !== 'contrast')
+    const firstClosed = main.findIndex((l) => !open.includes(l.id))
+    if (firstClosed >= 0) for (const l of main.slice(firstClosed)) expect(open, l.id).not.toContain(l.id)
+    expect(idx('smameningar')).toBeGreaterThan(idx('verkstan'))
+  })
+
+  it('en planet öppnar aldrig om planeten den kräver är låst', () => {
+    // Bara Turboverkstans ord behärskade, inget annat spelat: Småmeningar får inte öppna.
+    const mastery: Record<string, MasteryItem> = {}
+    for (const w of words.filter((x) => !x.decodable && !x.noBlend)) {
+      const key = masteryKey('word', w.id)
+      mastery[key] = { ...newItem(key, 'word', 0), attempts: 3, streak: 3, mastered: true }
+    }
+    const open = unlockedLevels(levels, [], mastery)
+    expect(open).not.toContain('smameningar')
+    expect(open).not.toContain('verkstan')
   })
 })

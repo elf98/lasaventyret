@@ -23,6 +23,8 @@ export interface Letter {
   /** Bokstaven låter som en annan (c och z som s, q som k, w som v): de får aldrig stå som alternativ mot varandra i en lyssningsuppgift. */
   sameAs?: string
   example: string
+  /** Vokaler: ord där bokstaven har sitt långa ljud (glas). Ljudet letter.<id>.long finns för dessa. */
+  longExample?: string
   /** Munhjälp för tvillingparen ("Läpparna ihop"): sägs efter ett fel i Hör du? så att skillnaden får ett kroppsligt fäste. */
   hint?: string
   /** Läs detta som vanlig text i stället för IPA (t.ex. "e": bokstavsnamnet lät bäst). */
@@ -54,6 +56,8 @@ export interface Word {
   noBlend?: boolean
   /** Minimalt par i vokallängd (tak/tack): en konsonant = lång vokal, två = kort. */
   pair?: string
+  /** Vilken vokal (index i sounds) som är lång när stavningsregeln ger fel: −1 = ingen (ram, han), 3 = tomat. Se content/sounds.ts. */
+  long?: number
 }
 
 export interface SightWord {
@@ -110,6 +114,7 @@ export type GameId =
   | 'sight-memory'
   | 'silly-sentences'
   | 'story'
+  | 'vowel-length'
 
 export interface Level {
   id: string

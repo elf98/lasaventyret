@@ -7,7 +7,8 @@ import { starBurst } from '../components/confetti'
 import LetterCard from '../components/LetterCard'
 import Mascot from '../components/Mascot'
 import { wordById } from '../content'
-import { letterSoundId, phraseId, wordId } from '../content/audioIds'
+import { phraseId, wordId } from '../content/audioIds'
+import { wordSoundIds } from '../content/sounds'
 import type { Task } from '../engine/types'
 
 interface Props {
@@ -32,6 +33,8 @@ type Phase = 'tap' | 'drive' | 'pick' | 'done'
 export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong, onSolved }: Props) {
   const word = wordById.get(task.targetId)
   const sounds = word?.sounds ?? []
+  /** Ljuden som de låter i just det här ordet (lång vokal i glas, kort i glass). */
+  const soundIds = wordSoundIds(word)
   const [next, setNext] = useState(0)
   const [phase, setPhase] = useState<Phase>('tap')
   const [wobble, setWobble] = useState<number | null>(null)
@@ -39,13 +42,13 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
   const busy = useRef(false)
 
   useEffect(() => {
-    audio.preload([...sounds.map(letterSoundId), wordId(task.targetId)])
+    audio.preload([...soundIds, wordId(task.targetId)])
     void audio.speak(phraseId(brief ? 'cue_train' : 'train_intro'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task.targetId])
 
   useEffect(() => {
-    if (scaffold && phase === 'tap') void audio.speak([phraseId('tap_it'), letterSoundId(sounds[next])])
+    if (scaffold && phase === 'tap') void audio.speak([phraseId('tap_it'), soundIds[next]])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scaffold])
 
@@ -76,7 +79,7 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
       const n = next + 1
       setNext(n)
       busy.current = true
-      await audio.speak(letterSoundId(sounds[i]))
+      await audio.speak(soundIds[i])
       busy.current = false
       if (n >= sounds.length) void drive()
       return
@@ -85,7 +88,7 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
     sfx.soft()
     setWobble(i)
     onWrong()
-    await audio.speak([phraseId(next === 0 ? 'train_start' : 'train_next'), letterSoundId(sounds[next])])
+    await audio.speak([phraseId(next === 0 ? 'train_start' : 'train_next'), soundIds[next]])
     setWobble(null)
     busy.current = false
   }
@@ -112,7 +115,7 @@ export default function SoundTrain({ task, scaffold, celebrating, brief, onWrong
   }
 
   const replay = () => {
-    if (phase === 'tap') void audio.speak(letterSoundId(sounds[next]))
+    if (phase === 'tap') void audio.speak(soundIds[next])
     else void audio.speak(wordId(task.targetId))
   }
 

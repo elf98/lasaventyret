@@ -5,7 +5,8 @@ import { sfx } from '../audio/sfx'
 import { starBurst } from '../components/confetti'
 import Mascot from '../components/Mascot'
 import { wordById } from '../content'
-import { letterSoundId, phraseId, wordId } from '../content/audioIds'
+import { phraseId, wordId } from '../content/audioIds'
+import { wordSoundIds } from '../content/sounds'
 import type { Task } from '../engine/types'
 
 interface Props {
@@ -33,14 +34,14 @@ export default function CountSounds({ task, scaffold, eliminated = [], celebrati
   const busy = useRef(false)
 
   useEffect(() => {
-    audio.preload([wordId(task.targetId), ...(word?.sounds ?? []).map(letterSoundId)])
+    audio.preload([wordId(task.targetId), ...wordSoundIds(word)])
     void audio.speak([phraseId(brief ? 'cue_count' : 'count_intro'), wordId(task.targetId)])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task.targetId])
 
   const sound = async () => {
     if (!word) return
-    await audio.speakEach([...word.sounds.map(letterSoundId), wordId(task.targetId)], (i) => setLit(i < word.sounds.length ? i : -1))
+    await audio.speakEach([...wordSoundIds(word), wordId(task.targetId)], (i) => setLit(i < word.sounds.length ? i : -1))
     setLit(-1)
   }
 

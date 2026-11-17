@@ -112,7 +112,20 @@ export function unlockedLevels(levels: Level[], completed: string[], mastery: Re
     const lvl = byId.get(id)
     return !!lvl && levelProgress(lvl, mastery).partial >= UNLOCK_AT
   }
-  return levels.filter((l) => l.requires.every(open)).map((l) => l.id)
+  // Kedjan måste hålla hela vägen: en planet öppnar bara om den som krävs själv är upplåst. Ord som
+  // behärskats på en tidigare planet räknas även på senare (Dubbelplanetens ord fyller Turboverkstans
+  // mätare), och utan det här kravet öppnade Småmeningar flera steg före sin tur.
+  const unlocked = new Set<string>()
+  let grew = true
+  while (grew) {
+    grew = false
+    for (const l of levels) {
+      if (unlocked.has(l.id) || !l.requires.every((id) => unlocked.has(id) && open(id))) continue
+      unlocked.add(l.id)
+      grew = true
+    }
+  }
+  return levels.filter((l) => unlocked.has(l.id)).map((l) => l.id)
 }
 
 /**

@@ -1,4 +1,5 @@
 import type { GameId, Level, Sentence, SightWord, Story, Word } from '../content'
+import { longVowelIndex } from '../content/sounds'
 import { blendTier, DISTRACTOR_POOL, interleave, letterOptions, spreadOut, wordOptions } from './builderUtils'
 import { buildContrast, buildPhonology, buildSentences, buildSightwords, buildStories, buildTemplates, phonologyTasks, riddleTask } from './kindBuilders'
 import { isDue, masteryKey, weakness } from './mastery'
@@ -181,6 +182,30 @@ function wovenRiddle(input: BuildInput, introduced: Set<string>, rng: Rng): Task
   return t ? [t] : []
 }
 
+/** Så många Långt eller kort? per pass på planeter som har spelet (Dubbelplaneten). */
+const LENGTH_TASKS = 2
+
+/**
+ * Långt eller kort?: lyssna på vokalens längd i orden som bildar minimala par (glas/glass), innan
+ * paren ska läsas. Dubbelteckning går inte att förstå utan att först höra skillnaden. Ohörda och
+ * påbörjade ord först, aldrig båda orden ur samma par i ett pass.
+ */
+function vowelLengthTasks(input: BuildInput, rng: Rng): Task[] {
+  if (!input.level.games.includes('vowel-length') || !input.availableGames.includes('vowel-length')) return []
+  const ids = new Set(input.level.words ?? [])
+  const pool = input.words.filter((w) => ids.has(w.id) && w.pair !== undefined)
+  const tier = (w: Word) => {
+    const m = input.mastery[masteryKey('phoneme', w.id)]
+    return !m || m.attempts === 0 ? 1 : m.mastered ? 2 : 0
+  }
+  const picked: Word[] = []
+  for (const w of shuffle(pool, rng).sort((a, b) => tier(a) - tier(b))) {
+    if (picked.length >= LENGTH_TASKS) break
+    if (!picked.some((p) => p.pair === w.id)) picked.push(w)
+  }
+  return picked.map((w, i) => ({ id: `v${i}-${w.id}`, game: 'vowel-length' as GameId, targetId: w.id, kind: 'phoneme' as const, options: ['long', 'short'], answer: longVowelIndex(w) >= 0 ? 'long' : 'short', isReview: false }))
+}
+
 /** Bokstavsplaneter, ordplaneter (kind words: given lista) och Verkstan: bokstavsuppgifter + ord + repetition. */
 function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   const { level, mastery, now } = input
@@ -205,7 +230,7 @@ function buildLetters(input: BuildInput, games: GameId[], rng: Rng): Task[] {
   }
   if (wordGames.length === 0) wordPool = []
 
-  const phonology = [...wovenPhonology(input, introduced, rng), ...wovenRiddle(input, introduced, rng)]
+  const phonology = [...wovenPhonology(input, introduced, rng), ...wovenRiddle(input, introduced, rng), ...vowelLengthTasks(input, rng)]
   const count = Math.max(1, input.count - phonology.length)
 
   const masteredRatio = poolIds.length === 0 ? 1 : poolIds.filter((id) => mastery[id]?.mastered).length / poolIds.length

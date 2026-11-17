@@ -7,6 +7,7 @@ import LetterCard from '../components/LetterCard'
 import Mascot from '../components/Mascot'
 import { wordById } from '../content'
 import { letterSoundId, phraseId, wordId } from '../content/audioIds'
+import { wordSoundIds } from '../content/sounds'
 import type { Task } from '../engine/types'
 
 interface Props {
@@ -30,6 +31,9 @@ export default function SoundHunt({ task, scaffold, eliminated = [], celebrating
   const first = task.game === 'first-sound'
   const word = wordById.get(task.targetId)
   const answer = task.answer ?? task.options[0]
+  // Ljudet som det låter i ordet: lång vokal i is och apa, inte den korta.
+  const ids = wordSoundIds(word)
+  const answerSound = (first ? ids[0] : ids[ids.length - 1]) ?? letterSoundId(answer)
   const [solved, setSolved] = useState(false)
   const [wobble, setWobble] = useState<string | null>(null)
   const busy = useRef(false)
@@ -43,7 +47,7 @@ export default function SoundHunt({ task, scaffold, eliminated = [], celebrating
   useEffect(() => {
     if (!scaffold || solved) return
     // Hjälpen visar ljudet i sitt sammanhang: ordet, ljudet, ordet igen.
-    void audio.speak([wordId(task.targetId), letterSoundId(answer), wordId(task.targetId), phraseId('tap_it')])
+    void audio.speak([wordId(task.targetId), answerSound, wordId(task.targetId), phraseId('tap_it')])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scaffold])
 
@@ -57,7 +61,7 @@ export default function SoundHunt({ task, scaffold, eliminated = [], celebrating
       sfx.tada()
       starBurst(e.clientX / window.innerWidth, e.clientY / window.innerHeight)
       // Vänta in bekräftelsen: nästa tal (berömmet) avbryter allt som pågår.
-      await audio.speak([letterSoundId(answer), wordId(task.targetId)])
+      await audio.speak([answerSound, wordId(task.targetId)])
       onSolved()
       return
     }

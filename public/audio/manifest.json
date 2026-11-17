@@ -3416,6 +3416,61 @@
       "file": "phrase.sort_comes_back.mp3",
       "hash": "97bf8879e2c7",
       "text": "Det ordet kommer tillbaka om en liten stund."
+    },
+    "letter.o.long": {
+      "file": "letter.o.long.mp3",
+      "hash": "8c8a499a39d5",
+      "text": "[långt ljud o]"
+    },
+    "letter.a.long": {
+      "file": "letter.a.long.mp3",
+      "hash": "f2b6633e14b0",
+      "text": "[långt ljud a]"
+    },
+    "letter.i.long": {
+      "file": "letter.i.long.mp3",
+      "hash": "7148b2b64547",
+      "text": "[långt ljud i]"
+    },
+    "letter.e.long": {
+      "file": "letter.e.long.mp3",
+      "hash": "96e15fd65202",
+      "text": "[långt ljud e]"
+    },
+    "letter.ä.long": {
+      "file": "letter.ae.long.mp3",
+      "hash": "f400f8ee8344",
+      "text": "[långt ljud ä]"
+    },
+    "letter.u.long": {
+      "file": "letter.u.long.mp3",
+      "hash": "6bffff91a455",
+      "text": "[långt ljud u]"
+    },
+    "letter.ö.long": {
+      "file": "letter.oe.long.mp3",
+      "hash": "b2bc8981f9f8",
+      "text": "[långt ljud ö]"
+    },
+    "letter.å.long": {
+      "file": "letter.aa.long.mp3",
+      "hash": "511f6281fbdb",
+      "text": "[långt ljud å]"
+    },
+    "letter.y.long": {
+      "file": "letter.y.long.mp3",
+      "hash": "e62da870eb5d",
+      "text": "[långt ljud y]"
+    },
+    "phrase.length_intro": {
+      "file": "phrase.length_intro.mp3",
+      "hash": "3425cbd3605d",
+      "text": "Lyssna på ordet. Är ljudet långt eller kort? Strecket är långt och pricken är kort."
+    },
+    "phrase.cue_length": {
+      "file": "phrase.cue_length.mp3",
+      "hash": "b582e381625e",
+      "text": "Långt eller kort?"
     }
   }
 }

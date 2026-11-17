@@ -120,6 +120,46 @@ export async function loadServerRecordings(): Promise<string[]> {
   }
 }
 
+/** Serverns inspelningar med innehållets kontrollsumma (de 12 första tecknen av sha1, som upload-recording.php skriver). */
+export async function listServerRecordingHashes(): Promise<Record<string, string>> {
+  try {
+    const res = await fetch(serverIndexUrl(), { cache: 'no-cache' })
+    if (!res.ok) return {}
+    const out: Record<string, string> = {}
+    for (const [id, item] of Object.entries(((await res.json()) as ServerIndex).items ?? {})) out[id] = item.hash
+    return out
+  } catch {
+    return {}
+  }
+}
+
+async function blobHash(blob: Blob): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-1', await blob.arrayBuffer())
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('').slice(0, 12)
+}
+
+/**
+ * Lokala inspelningar som servern inte har, eller har i en annan version. Det är dem man missar när
+ * man spelat in utan lösenordet: de hörs på den här enheten men ingen annanstans.
+ */
+export async function listUnsyncedRecordingIds(): Promise<string[]> {
+  try {
+    const server = await listServerRecordingHashes()
+    const out: string[] = []
+    for (const r of await db.recordings.toArray()) if (server[r.id] === undefined || server[r.id] !== (await blobHash(r.blob))) out.push(r.id)
+    return out
+  } catch {
+    return []
+  }
+}
+
+/** Laddar upp en lokal inspelning i efterhand. Äldre inspelningar som inte är WAV tar servern inte emot. */
+export async function uploadLocalRecording(id: string): Promise<'saved' | 'denied' | 'unavailable'> {
+  const rec = await db.recordings.get(id)
+  if (!rec || !rec.mime.includes('wav')) return 'unavailable'
+  return uploadRecording(id, rec.blob)
+}
+
 export async function listServerRecordingIds(): Promise<string[]> {
   try {
     const res = await fetch(serverIndexUrl(), { cache: 'no-cache' })

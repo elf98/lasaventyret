@@ -6,7 +6,7 @@ import { buildSession } from '../src/engine/sessionBuilder'
 import type { MasteryItem } from '../src/engine/types'
 import { completedLevels, completedZones, isMain, isSidePath, pairConfusions, sidePathLit, unlockedLevels } from '../src/engine/unlock'
 
-const ALL = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'sound-riddle', 'sound-band', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story'] as const
+const ALL = ['catch-sound', 'sound-sort', 'read-word', 'first-sound', 'last-sound', 'count-sounds', 'sound-train', 'sound-riddle', 'sound-band', 'build-word', 'which-word', 'sight-memory', 'rhyme-hunt', 'silly-sentences', 'story', 'vowel-length'] as const
 
 function run(errorRate: number, seed: number) {
   const rng = seeded(seed)

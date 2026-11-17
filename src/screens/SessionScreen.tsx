@@ -11,6 +11,7 @@ import { config, letterById, levelById, levels, outfits, praiseKeys, rhymes, sen
 import { phraseId, wordId } from '../content/audioIds'
 import { optionCount, shownTask } from '../engine/options'
 import { bag, newId, pick, seeded } from '../engine/random'
+import { longVowelIndex } from '../content/sounds'
 import { sessionRating } from '../engine/rating'
 import { buildSession } from '../engine/sessionBuilder'
 import type { Task } from '../engine/types'
@@ -29,6 +30,7 @@ import SoundTrain from '../games/SoundTrain'
 import SoundRiddle from '../games/SoundRiddle'
 import SoundBand from '../games/SoundBand'
 import StoryReader from '../games/StoryReader'
+import VowelLength from '../games/VowelLength'
 import WhichWord from '../games/WhichWord'
 import { useApp } from '../store/app'
 import { selectCompleted, selectUnlocked, useProgress } from '../store/progress'
@@ -40,7 +42,7 @@ const nextPraise = bag(praiseKeys)
 /** Rader som får en egen fras. Ingen fras när raden bryts: en rad är en bonus, aldrig ett straff. */
 const STREAK_PHRASES: Record<number, string> = { 3: 'streak_3', 5: 'streak_5', 8: 'streak_8' }
 
-const GAMES = { 'catch-sound': CatchSound, 'sound-sort': SoundSort, 'read-word': ReadWord, 'first-sound': SoundHunt, 'last-sound': SoundHunt, 'count-sounds': CountSounds, 'sound-train': SoundTrain, 'sound-riddle': SoundRiddle, 'sound-band': SoundBand, 'build-word': BuildWord, 'which-word': WhichWord, 'sight-memory': SightMemory, 'rhyme-hunt': RhymeHunt, 'silly-sentences': SillySentences, story: StoryReader }
+const GAMES = { 'vowel-length': VowelLength, 'catch-sound': CatchSound, 'sound-sort': SoundSort, 'read-word': ReadWord, 'first-sound': SoundHunt, 'last-sound': SoundHunt, 'count-sounds': CountSounds, 'sound-train': SoundTrain, 'sound-riddle': SoundRiddle, 'sound-band': SoundBand, 'build-word': BuildWord, 'which-word': WhichWord, 'sight-memory': SightMemory, 'rhyme-hunt': RhymeHunt, 'silly-sentences': SillySentences, story: StoryReader }
 
 /** Dev-genväg: ?task=<spel>:<mål> ger ett pass med exakt en uppgift. */
 function devTask(): Task[] | null {
@@ -54,6 +56,7 @@ function devTask(): Task[] | null {
   if (game === 'catch-sound') Object.assign(t, { kind: 'letter', options: [targetId, ...all.filter((x) => x !== targetId).slice(0, 4)] })
   else if (game === 'build-word' && word) t.options = [...word.sounds, ...all.filter((x) => !word.sounds.includes(x)).slice(0, 2)].sort(() => Math.random() - 0.5)
   else if ((game === 'sound-train' || game === 'read-word' || game === 'sound-band' || game === 'sound-riddle') && word?.emoji) t.options = [targetId, ...words.filter((w) => w.emoji && w.id !== targetId).slice(0, 4).map((w) => w.id)]
+  else if (game === 'vowel-length' && word) Object.assign(t, { kind: 'phoneme', options: ['long', 'short'], answer: longVowelIndex(word) >= 0 ? 'long' : 'short' })
   else if (game === 'which-word' || game === 'sight-memory') {
     const sight = sightwords.some((s) => s.id === targetId)
     const pool = sight ? sightwords.map((s) => s.id) : words.map((w) => w.id)

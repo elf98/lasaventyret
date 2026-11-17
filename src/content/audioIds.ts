@@ -4,6 +4,8 @@
  * matchar det appen frågar efter.
  */
 export const letterSoundId = (letterId: string) => `letter.${letterId}`
+/** Vokalens långa ljud (a i glas); letterSoundId är det korta (a i glass). */
+export const letterLongSoundId = (letterId: string) => `letter.${letterId}.long`
 export const letterHintId = (letterId: string) => `letter.${letterId}.hint`
 export const wordId = (id: string) => `word.${id}`
 export const phraseId = (key: string) => `phrase.${key}`

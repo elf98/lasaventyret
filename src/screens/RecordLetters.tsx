@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { audio } from '../audio/AudioManager'
-import { canRecord, checkRecordingKey, deleteRecording, deleteServerRecording, letterRecordingId, listRecordingIds, listServerRecordingIds, recordingKey, saveRecording, setRecordingKey, startRecording, uploadRecording, type Recorder } from '../audio/recordings'
+import { canRecord, checkRecordingKey, deleteRecording, deleteServerRecording, letterRecordingId, listRecordingIds, listServerRecordingIds, listUnsyncedRecordingIds, recordingKey, saveRecording, setRecordingKey, startRecording, uploadLocalRecording, uploadRecording, type Recorder } from '../audio/recordings'
 import { autoTrim, cut, decodeBlob, drawWave, encodeWav, playClip, type Clip } from '../audio/wav'
 import { letters } from '../content'
 import { letterSoundId } from '../content/audioIds'
@@ -20,6 +20,8 @@ interface Draft {
  * Egen inspelning går alltid före TTS.
  */
 export default function RecordLetters({ onBack }: { onBack: () => void }) {
+  /** En ruta per ljud: bokstavens id, eller "<id>.long" för vokalens långa ljud (inspelnings-id letter.<ruta>). */
+  const slots = [...letters.map((l) => l.id), ...letters.filter((l) => l.longExample).map((l) => `${l.id}.long`)]
   const [current, setCurrent] = useState(letters[0].id)
   const [local, setLocal] = useState<Set<string>>(new Set())
   const [server, setServer] = useState<Set<string>>(new Set())
@@ -27,6 +29,10 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
   const [draft, setDraft] = useState<Draft | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
+  /** Rutor vars inspelning bara finns på den här enheten (eller är en annan än serverns). */
+  const [unsynced, setUnsynced] = useState<Set<string>>(new Set())
+  const [syncing, setSyncing] = useState(false)
+  const refreshUnsynced = () => listUnsyncedRecordingIds().then((ids) => setUnsynced(new Set(ids.filter((id) => id.startsWith('letter.')).map((id) => id.slice(7)))))
   /** Har enheten lösenordet sparas inspelningarna för alla; annars bara här. */
   const [shared, setShared] = useState(() => recordingKey() !== '')
   const [keyDraft, setKeyDraft] = useState('')
@@ -45,11 +51,14 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
   const timer = useRef<number | null>(null)
   const stopPlay = useRef<(() => void) | null>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
-  const letter = letters.find((l) => l.id === current)!
+  const letter = letters.find((l) => l.id === current.split('.')[0])!
+  const long = current.endsWith('.long')
+  const label = (slot: string) => slot.split('.')[0].toUpperCase() + (slot.endsWith('.long') ? ' lång' : '')
 
   useEffect(() => {
     void listRecordingIds().then((ids) => setLocal(new Set(ids.filter((id) => id.startsWith('letter.')).map((id) => id.slice(7)))))
     void listServerRecordingIds().then((ids) => setServer(new Set(ids.filter((id) => id.startsWith('letter.')).map((id) => id.slice(7)))))
+    void refreshUnsynced()
   }, [])
 
   useEffect(() => {
@@ -104,16 +113,17 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
     const status = await uploadRecording(id, wav)
     if (status === 'saved') {
       setServer((s) => new Set([...s, current]))
-      setNotice(`${current.toUpperCase()} sparad på servern: iPaden använder den vid nästa start.`)
+      setNotice(`${label(current)} sparad på servern: iPaden använder den vid nästa start.`)
     } else if (status === 'denied') {
-      setNotice(`${current.toUpperCase()} sparad på den här enheten. Den hörs bara här.`)
+      setNotice(`${label(current)} sparad på den här enheten. Den hörs bara här.`)
     } else {
-      setNotice(`${current.toUpperCase()} sparad på den här enheten, men servern tog inte emot den. Kör appen via npm run dev, eller se README om upload-recording.php.`)
+      setNotice(`${label(current)} sparad på den här enheten, men servern tog inte emot den. Kör appen via npm run dev, eller se README om upload-recording.php.`)
     }
+    void refreshUnsynced()
     setDraft(null)
     setState('idle')
-    const i = letters.findIndex((l) => l.id === current)
-    if (i + 1 < letters.length) setCurrent(letters[i + 1].id)
+    const i = slots.indexOf(current)
+    if (i + 1 < slots.length) setCurrent(slots[i + 1])
   }
 
   // Ett steg i taget: först den lokala (då hörs serverns), sedan serverns. Annars raderade ett tryck
@@ -141,6 +151,34 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
   const total = draft ? draft.clip.samples.length : 0
   const has = (id: string) => local.has(id) || server.has(id)
 
+  /** Laddar upp allt som bara finns här. Kräver lösenordet; utan det säger servern nej på första. */
+  const uploadAll = async () => {
+    setSyncing(true)
+    let sent = 0
+    let failed = 0
+    let denied = false
+    for (const slot of slots.filter((x) => unsynced.has(x))) {
+      const status = await uploadLocalRecording(letterRecordingId(slot))
+      if (status === 'saved') sent++
+      else if (status === 'denied') {
+        denied = true
+        break
+      } else failed++
+    }
+    void listServerRecordingIds().then((ids) => setServer(new Set(ids.filter((id) => id.startsWith('letter.')).map((id) => id.slice(7)))))
+    await refreshUnsynced()
+    setSyncing(false)
+    if (denied) {
+      setShared(false)
+      setRecordingKey('')
+      setNotice(null)
+      setError('Servern godkände inte lösenordet. Skriv in det igen längst ner.')
+    } else {
+      setError(null)
+      setNotice(`${sent} ${sent === 1 ? 'inspelning uppladdad' : 'inspelningar uppladdade'}${failed ? `, ${failed} gick inte att ladda upp (spela in dem igen)` : ''}.`)
+    }
+  }
+
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6">
       <div className="flex items-center justify-between">
@@ -155,12 +193,12 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
         </p>
       )}
       <p className="text-gray-600">
-        Säg <b>ljudet</b>, inte bokstavens namn: "sss" inte "ess", "mmm" inte "emm". Vokaler sägs som det korta ljudet ("a" som i katt, "o" som i ost). Stopp-ljud (p, t, k, b, d, g) sägs kort och utan vokal efter.
-        Tystnaden före och efter klipps bort automatiskt; dra i reglagen om klippet blev fel. Grön = inspelad, punkt = finns på servern (hörs på alla enheter).
+        Säg <b>ljudet</b>, inte bokstavens namn: "sss" inte "ess", "mmm" inte "emm". Vokaler har två rutor: det korta ljudet ("a" som i katt, "o" som i ost) och det långa i rutorna märkta "lång" ("a" som i glas, "o" som i sol). Stopp-ljud (p, t, k, b, d, g) sägs kort och utan vokal efter.
+        Tystnaden före och efter klipps bort automatiskt; dra i reglagen om klippet blev fel. Grön = finns på servern (hörs på alla enheter). Orange = finns bara på den här enheten. Grå = inte inspelad.
       </p>
 
       <div className="flex flex-wrap gap-2">
-        {letters.map((l) => (
+        {slots.map((slot) => ({ id: slot })).map((l) => (
           <button
             key={l.id}
             type="button"
@@ -171,13 +209,27 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
               setDraft(null)
               setNotice(null)
             }}
-            className={`relative h-14 w-14 rounded-xl text-[24px] font-extrabold ${l.id === current ? 'ring-4 ring-space' : ''} ${has(l.id) ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
+            className={`relative h-14 ${l.id.endsWith('.long') ? 'px-3' : 'w-14'} rounded-xl text-[24px] font-extrabold ${l.id === current ? 'ring-4 ring-space' : ''} ${unsynced.has(l.id) ? 'bg-orange-400 text-white' : has(l.id) ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
           >
-            {l.id.toUpperCase()}{l.id}
-            {server.has(l.id) && <span className="absolute top-1 right-1 h-2.5 w-2.5 rounded-full bg-white" aria-label="på servern" />}
+            {l.id.endsWith('.long') ? `${l.id[0].toUpperCase()}${l.id[0]} lång` : `${l.id.toUpperCase()}${l.id}`}
           </button>
         ))}
       </div>
+
+      {unsynced.size > 0 && (
+        <div className="flex flex-wrap items-center gap-3 rounded-2xl bg-orange-100 px-4 py-3 text-[17px] text-orange-950">
+          <span>
+            <b>{unsynced.size} {unsynced.size === 1 ? 'inspelning finns' : 'inspelningar finns'} bara på den här enheten:</b> {slots.filter((x) => unsynced.has(x)).map(label).join(', ')}.
+          </span>
+          {shared ? (
+            <button type="button" disabled={syncing} onClick={() => void uploadAll()} className="rounded-full bg-orange-500 px-5 py-2 font-bold text-white disabled:opacity-50">
+              {syncing ? 'Laddar upp …' : 'Ladda upp dem till servern'}
+            </button>
+          ) : (
+            <span>Skriv in lösenordet längst ner för att kunna ladda upp dem.</span>
+          )}
+        </div>
+      )}
 
       <div className="flex items-start gap-8 rounded-3xl bg-white p-6 shadow">
         <div className={`letter-card ${letter.type}`} style={{ width: 140, height: 140, fontSize: 70 }}>
@@ -186,8 +238,8 @@ export default function RecordLetters({ onBack }: { onBack: () => void }) {
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-3">
           <div className="text-[24px]">
-            Säg ljudet för <b>{letter.id.toUpperCase()}</b> som i <b>{letter.example}</b>
-            {letter.type === 'vowel' ? ' (kort vokal, som i "' + letter.example + '")' : letter.continuous ? ' (dra ut det: "' + letter.id + letter.id + letter.id + '")' : ' (kort, utan vokal)'}
+            Säg {long ? 'det långa ljudet' : 'ljudet'} för <b>{letter.id.toUpperCase()}</b> som i <b>{long ? letter.longExample : letter.example}</b>
+            {long ? ' (lång vokal, dra ut den: "' + letter.id.repeat(3) + '")' : letter.type === 'vowel' ? ' (kort vokal, som i "' + letter.example + '")' : letter.continuous ? ' (dra ut det: "' + letter.id + letter.id + letter.id + '")' : ' (kort, utan vokal)'}
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <button type="button" onClick={() => void audio.speak(letterSoundId(current))} className="rounded-full bg-gray-200 px-5 py-3 text-[18px] font-bold">

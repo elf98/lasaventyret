@@ -6,7 +6,8 @@ import { starBurst } from '../components/confetti'
 import Mascot from '../components/Mascot'
 import { useCaseClass } from '../components/textCase'
 import { wordById } from '../content'
-import { letterSoundId, phraseId, wordId } from '../content/audioIds'
+import { phraseId, wordId } from '../content/audioIds'
+import { wordSoundIds } from '../content/sounds'
 import type { Task } from '../engine/types'
 
 interface Props {
@@ -35,7 +36,7 @@ export default function ReadWord({ task, scaffold, eliminated = [], celebrating,
   const busy = useRef(false)
 
   useEffect(() => {
-    audio.preload([wordId(task.targetId), ...(word?.sounds ?? []).map(letterSoundId)])
+    audio.preload([wordId(task.targetId), ...wordSoundIds(word)])
     void audio.speak(phraseId(brief ? 'cue_read_word' : 'read_word_intro'))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task.targetId])
@@ -44,7 +45,7 @@ export default function ReadWord({ task, scaffold, eliminated = [], celebrating,
   useEffect(() => {
     if (!scaffold || solved || !word) return
     const sounds = word.decodable && !word.noBlend ? word.sounds : []
-    void audio.speakEach([...sounds.map(letterSoundId), wordId(task.targetId)], (i) => setBlend(i < sounds.length ? i : -1)).then(() => setBlend(-1))
+    void audio.speakEach([...wordSoundIds(word).slice(0, sounds.length), wordId(task.targetId)], (i) => setBlend(i < sounds.length ? i : -1)).then(() => setBlend(-1))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scaffold])
 
